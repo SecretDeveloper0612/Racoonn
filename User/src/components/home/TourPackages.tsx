@@ -34,7 +34,7 @@ const packages = [
     badgeColor: 'text-brand-coral',
     images: [
       'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1596422846543-74c6fc1e4b11?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?q=80&w=800&auto=format&fit=crop'
     ]
   },
@@ -49,7 +49,7 @@ const packages = [
     badgeColor: 'text-blue-500',
     images: [
       'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1626622416171-cb86c6d0edcb?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1625449281218-cbb6183f0aec?q=80&w=800&auto=format&fit=crop'
     ]
   },
@@ -64,8 +64,8 @@ const packages = [
     badgeColor: 'text-green-500',
     images: [
       'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1498863640032-15f1fbc73fc1?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1544498520-21ba246c0d8d?q=80&w=800&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1582610116397-edb318620f90?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=800&auto=format&fit=crop'
     ]
   },
   { 
@@ -93,9 +93,9 @@ const packages = [
     badge: 'Popular',
     badgeColor: 'text-blue-500',
     images: [
-      'https://images.unsplash.com/photo-1623194689269-e70a6d0df2fa?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1574581297576-9d62d2919d36?q=80&w=800&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=800&auto=format&fit=crop'
     ]
   },
   { 
@@ -156,7 +156,7 @@ const filters = [
 function TourCard({ pkg }: { pkg: typeof packages[0] }) {
   return (
     <div 
-      className="w-[85vw] md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] flex-shrink-0 snap-start bg-white rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.06)] border border-gray-100 overflow-hidden group/card hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300 flex flex-col transform-gpu"
+      className="w-full min-w-full md:min-w-0 md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] flex-shrink-0 snap-center md:snap-start bg-white rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.06)] border border-gray-100 overflow-hidden group/card hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300 flex flex-col transform-gpu"
     >
       {/* Image Section */}
       <div className="relative h-48 w-full overflow-hidden group/image">
@@ -303,7 +303,7 @@ export default function TourPackages() {
       <div className="relative group/carousel">
         <div 
           ref={scrollContainerRef}
-          className="flex overflow-x-auto hide-scrollbar gap-6 snap-x snap-mandatory pb-8 -mx-4 px-4 md:mx-0 md:px-0"
+          className="flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 snap-x snap-mandatory pb-8"
         >
           {packages.map((pkg) => (
             <TourCard key={pkg.id} pkg={pkg} />

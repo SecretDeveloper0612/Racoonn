@@ -25,14 +25,14 @@ export default function PopularDestinations() {
 
   return (
     <section className="container mx-auto px-4 pt-4 pb-4 relative">
-      
+
       {/* Header Section */}
       <div className="flex flex-col items-center text-center mb-12">
         <div className="flex items-center gap-2 text-brand-coral font-bold text-sm tracking-widest uppercase mb-4">
           <span>EXPLORE UTTARAKHAND</span>
         </div>
         <h2 className="text-4xl md:text-5xl font-extrabold text-brand-navy font-heading mb-4">
-          Popular destinations in <span className="text-brand-coral">Uttarakhand</span>
+          Popular Destinations in <span className="text-brand-coral">Uttarakhand</span>
         </h2>
         <p className="text-brand-charcoal/70 text-lg max-w-2xl">
           From serene mountains to spiritual towns, explore the best stays and packages in the Devbhoomi.
@@ -41,23 +41,23 @@ export default function PopularDestinations() {
 
       {/* Carousel */}
       <div className="relative mb-4 group/carousel">
-        <div 
+        <div
           ref={scrollContainerRef}
-          className="flex overflow-x-auto hide-scrollbar gap-6 pb-4 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory"
+          className="flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 pb-4 snap-x snap-mandatory"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {destinations.map((dest) => (
-            <div key={dest.id} className="w-[85vw] md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] flex-shrink-0 group/card relative rounded-[24px] overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 snap-start h-[450px]">
-              
+            <div key={dest.id} className="w-full min-w-full md:min-w-0 md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] flex-shrink-0 group/card relative rounded-[24px] overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 snap-center md:snap-start h-[450px]">
+
               <Image
                 src={dest.image}
                 alt={dest.name}
                 fill
                 className="object-cover group-hover/card:scale-110 transition-transform duration-700"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/90" />
-              
+
               {/* Location Tag (Top Left) */}
               <div className="absolute top-4 left-4 bg-white px-4 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
                 <MapPin size={14} className="text-brand-coral" fill="currentColor" />
@@ -77,13 +77,13 @@ export default function PopularDestinations() {
         </div>
 
         {/* Navigation Buttons */}
-        <button 
+        <button
           onClick={() => scroll('left')}
           className="absolute left-0 top-[50%] -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full hidden lg:flex items-center justify-center shadow-[0_4px_25px_rgb(0,0,0,0.15)] text-brand-charcoal hover:text-brand-coral z-10 border border-brand-sky/20 transition-transform hover:scale-105 opacity-0 group-hover/carousel:opacity-100 duration-300"
         >
           <ChevronLeft size={28} />
         </button>
-        <button 
+        <button
           onClick={() => scroll('right')}
           className="absolute right-0 top-[50%] translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full hidden lg:flex items-center justify-center shadow-[0_4px_25px_rgb(0,0,0,0.15)] text-brand-charcoal hover:text-brand-coral z-10 border border-brand-sky/20 transition-transform hover:scale-105 opacity-0 group-hover/carousel:opacity-100 duration-300"
         >

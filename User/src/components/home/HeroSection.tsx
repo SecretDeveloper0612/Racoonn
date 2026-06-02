@@ -67,7 +67,7 @@ export default function HeroSection() {
           <div className="bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] overflow-hidden">
 
             {/* Tabs */}
-            <div className="flex items-center justify-center gap-1 px-6 pt-5 pb-0 overflow-x-auto hide-scrollbar">
+            <div className="flex items-center justify-start md:justify-center gap-1 px-6 pt-5 pb-0 overflow-x-auto hide-scrollbar">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -248,9 +248,9 @@ export default function HeroSection() {
               </div>
 
               {/* Bottom Actions */}
-              <div className="flex flex-col sm:flex-row items-end sm:items-center justify-end gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4 pt-2">
 
-                <button className="bg-brand-coral hover:bg-brand-coral/90 text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center gap-3 transition-all shadow-[0_8px_25px_rgba(232,106,112,0.4)] hover:shadow-[0_12px_35px_rgba(232,106,112,0.5)] hover:-translate-y-0.5 text-[15px]">
+                <button className="bg-brand-coral hover:bg-brand-coral/90 text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all shadow-[0_8px_25px_rgba(232,106,112,0.4)] hover:shadow-[0_12px_35px_rgba(232,106,112,0.5)] hover:-translate-y-0.5 text-[15px] w-full sm:w-auto">
                   Search
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                     <ArrowRight size={16} />

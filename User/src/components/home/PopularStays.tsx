@@ -68,17 +68,18 @@ export default function PopularStays() {
       <div className="relative mb-8 group/carousel">
         <div 
           ref={scrollContainerRef}
-          className="flex overflow-x-auto hide-scrollbar gap-6 pb-4 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory"
+          className="flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 pb-4 snap-x snap-mandatory"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {stays.map((stay) => (
-            <div key={stay.id} className="min-w-[260px] md:min-w-[280px] flex-shrink-0 bg-white rounded-2xl p-3 shadow-[0_2px_15px_rgb(0,0,0,0.05)] border border-brand-sky/30 group/card cursor-pointer transition-transform hover:-translate-y-1 snap-start">
+            <div key={stay.id} className="w-full min-w-full md:w-auto md:min-w-[280px] flex-shrink-0 bg-white rounded-2xl p-3 shadow-[0_2px_15px_rgb(0,0,0,0.05)] border border-brand-sky/30 group/card cursor-pointer transition-transform hover:-translate-y-1 snap-center md:snap-start">
               {/* Image */}
               <div className="relative w-full h-[180px] rounded-xl overflow-hidden mb-4">
                 <Image
                   src={stay.image}
                   alt={stay.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover group-hover/card:scale-105 transition-transform duration-500"
                 />
                 <button className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md text-brand-charcoal hover:text-brand-coral transition-colors">
