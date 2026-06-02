@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
-import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MapPin, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 const destinations = [
   { id: 1, name: 'Nainital', subtitle: 'The lake district surrounded by hills.', price: '₹2,499', image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=800&auto=format&fit=crop' },
@@ -88,6 +88,13 @@ export default function PopularDestinations() {
           className="absolute right-0 top-[50%] translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full hidden lg:flex items-center justify-center shadow-[0_4px_25px_rgb(0,0,0,0.15)] text-brand-charcoal hover:text-brand-coral z-10 border border-brand-sky/20 transition-transform hover:scale-105 opacity-0 group-hover/carousel:opacity-100 duration-300"
         >
           <ChevronRight size={28} />
+        </button>
+      </div>
+
+      {/* View All Button */}
+      <div className="mt-8 flex justify-center">
+        <button className="bg-white border-2 border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white px-8 py-3 rounded-full font-bold transition-colors shadow-sm flex items-center gap-2">
+          View all destinations <ArrowRight size={18} />
         </button>
       </div>
 

@@ -57,19 +57,21 @@ export default function SearchBar() {
                   selected={date}
                   onSelect={setDate}
                   numberOfMonths={2}
+                  fixedWeeks
+                  showOutsideDays
                   className="p-0"
                   classNames={{
-                    months: "flex flex-col md:flex-row gap-10 sm:gap-16",
-                    nav: "absolute top-1 w-full flex justify-between z-10 px-2",
-                    button_previous: "w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 z-20 bg-transparent",
-                    button_next: "w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 z-20 bg-transparent",
-                    weekday: "text-gray-400 font-medium text-[13px] w-12 text-center pb-2",
-                    day: "h-12 w-12 p-0 font-medium text-[15px] aria-selected:opacity-100 hover:bg-gray-100 rounded-full flex items-center justify-center transition-all",
-                    day_selected: "bg-black text-white hover:bg-black hover:text-white focus:bg-black focus:text-white rounded-full",
-                    day_today: "bg-gray-100 text-black",
-                    day_outside: "text-gray-300 opacity-50",
-                    caption: "flex justify-center pt-2 relative items-center mb-6",
-                    caption_label: "text-[16px] font-semibold text-black",
+                    months: "flex flex-col md:flex-row gap-10 sm:gap-12",
+                    nav: "absolute top-2 inset-x-0 flex items-center justify-between z-20 pointer-events-none px-8 sm:px-14",
+                    button_previous: "w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-brand-coral hover:text-white hover:border-brand-coral text-brand-charcoal shadow-sm transition-all pointer-events-auto",
+                    button_next: "w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-brand-coral hover:text-white hover:border-brand-coral text-brand-charcoal shadow-sm transition-all pointer-events-auto",
+                    weekday: "text-gray-400 font-medium text-[13px] w-12 text-center pb-2 uppercase tracking-wider",
+                    day: "h-12 w-12 p-0 font-bold text-[15px] aria-selected:opacity-100 hover:bg-gray-100 rounded-full flex items-center justify-center transition-all text-brand-navy",
+                    day_selected: "bg-brand-navy text-white hover:bg-brand-navy hover:text-white focus:bg-brand-navy focus:text-white rounded-full shadow-md",
+                    day_today: "bg-brand-sky/30 text-brand-navy",
+                    day_outside: "text-gray-300 opacity-50 font-normal",
+                    caption: "flex justify-center pt-4 relative items-center mb-6",
+                    caption_label: "text-[17px] font-extrabold text-brand-navy",
                   }}
                 />
               </div>

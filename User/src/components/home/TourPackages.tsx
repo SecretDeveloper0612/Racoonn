@@ -311,6 +311,13 @@ export default function TourPackages() {
         </div>
       </div>
       
+      {/* View All Button */}
+      <div className="mt-6 flex justify-center">
+        <button className="bg-white border-2 border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white px-8 py-3 rounded-full font-bold transition-colors shadow-sm flex items-center gap-2">
+          View all packages <ArrowRight size={18} />
+        </button>
+      </div>
+      
     </section>
   );
 }

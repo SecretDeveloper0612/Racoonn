@@ -17,67 +17,134 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full pt-4 px-4 bg-transparent pointer-events-none">
-      <div className="container mx-auto px-6 lg:px-8 h-[76px] flex items-center justify-between bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full pointer-events-auto transition-all duration-300">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <Image src={logo} alt="Racoonn Logo" width={180} height={45} className="h-9 w-auto" />
-        </Link>
-
-        {/* Desktop Navigation / SearchBar */}
-        <div className="hidden lg:flex items-center justify-center flex-1 px-8">
-          <SearchBar />
-        </div>
-
-        {/* CTA Button */}
-        <div className="hidden lg:flex items-center gap-6">
-          <Link
-            href="/list-property"
-            className="text-[15px] font-bold text-brand-navy hover:text-brand-coral transition-colors"
-          >
-            List your property
+    <>
+      <header className="sticky top-0 z-50 w-full pt-4 px-4 bg-transparent pointer-events-none">
+        <div className="container mx-auto px-6 lg:px-8 h-[76px] flex items-center justify-between bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full pointer-events-auto transition-all duration-300">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <Image src={logo} alt="Racoonn Logo" width={180} height={45} className="h-9 w-auto" />
           </Link>
-          <Link
-            href="/signin"
-            className="bg-brand-coral hover:bg-opacity-90 text-white px-7 py-2.5 rounded-full font-bold transition-all shadow-md shadow-brand-coral/20 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-coral/30"
+
+          {/* Desktop Navigation / SearchBar */}
+          <div className="hidden lg:flex items-center justify-center flex-1 px-8">
+            <SearchBar />
+          </div>
+
+          {/* CTA Button */}
+          <div className="hidden lg:flex items-center gap-5">
+            <Link
+              href="/list-property"
+              className="text-[15px] font-bold text-brand-navy hover:text-brand-coral transition-colors"
+            >
+              List your property
+            </Link>
+            <Link
+              href="/signin"
+              className="bg-brand-coral hover:bg-opacity-90 text-white px-7 py-2.5 rounded-full font-bold transition-all shadow-md shadow-brand-coral/20 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-coral/30"
+            >
+              Sign in
+            </Link>
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 border border-gray-200 hover:border-brand-coral hover:bg-brand-coral/5 text-brand-navy hover:text-brand-coral transition-all ml-2 shadow-sm hover:shadow-md"
+            >
+              <Menu size={20} />
+            </button>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="lg:hidden p-2 text-brand-navy hover:bg-brand-coral/10 hover:text-brand-coral rounded-full transition-colors pointer-events-auto"
+            onClick={() => setIsSidebarOpen(true)}
           >
-            Sign in
-          </Link>
+            <Menu size={24} />
+          </button>
         </div>
+      </header>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden p-2 text-brand-navy hover:bg-black/5 rounded-full transition-colors"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
+      {/* Hardware Accelerated Sidebar Overlay */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t bg-white overflow-hidden"
-          >
-            <nav className="flex flex-col p-4 gap-4">
-              <Link
-                href="/search"
-                className="bg-brand-coral text-center text-white px-6 py-3 rounded-xl font-medium mt-4"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Search Hotels
-              </Link>
-            </nav>
-          </motion.div>
+        {isSidebarOpen && (
+          <>
+            {/* High Performance Backdrop (No blur to fix lag) */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsSidebarOpen(false)}
+              className="fixed inset-0 bg-brand-navy/60 z-[100]"
+            />
+            
+            {/* Premium Sidebar Panel */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', ease: 'circOut', duration: 0.3 }}
+              className="fixed top-0 right-0 bottom-0 w-[380px] max-w-[85vw] bg-white z-[101] shadow-2xl flex flex-col will-change-transform transform-gpu"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between p-8 pb-4">
+                <Image src={logo} alt="Racoonn Logo" width={140} height={35} className="h-7 w-auto opacity-80" />
+                <button 
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 hover:bg-brand-coral hover:text-white text-brand-charcoal transition-all shadow-sm hover:shadow-md hover:rotate-90 transform-gpu"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="flex-1 overflow-y-auto px-8 py-8 flex flex-col gap-1">
+                <Link 
+                  href="/" 
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="group flex items-center gap-4 py-4 border-b border-gray-50"
+                >
+                  <span className="text-2xl font-extrabold text-brand-navy group-hover:text-brand-coral group-hover:translate-x-2 transition-all duration-300">
+                    Home
+                  </span>
+                </Link>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsSidebarOpen(false)}
+                    className="group flex items-center gap-4 py-4 border-b border-gray-50"
+                  >
+                    <span className="text-2xl font-extrabold text-brand-navy group-hover:text-brand-coral group-hover:translate-x-2 transition-all duration-300">
+                      {link.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Footer Actions */}
+              <div className="p-8 bg-gray-50/50 space-y-4">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest text-center mb-4">Partner with us</p>
+                <Link
+                  href="/list-property"
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="block w-full text-center text-[15px] font-bold text-brand-navy hover:text-brand-coral border-2 border-brand-navy/10 hover:border-brand-coral rounded-xl transition-all py-3.5"
+                >
+                  List your property
+                </Link>
+                <Link
+                  href="/signin"
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="block w-full text-center bg-brand-navy hover:bg-brand-coral text-white px-7 py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform-gpu"
+                >
+                  Sign in to your account
+                </Link>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
