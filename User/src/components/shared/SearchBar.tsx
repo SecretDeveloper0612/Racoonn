@@ -70,7 +70,7 @@ export default function SearchBar() {
                     selected: "bg-brand-navy text-white hover:bg-brand-navy hover:text-white focus:bg-brand-navy focus:text-white rounded-full shadow-md",
                     today: "bg-brand-sky/30 text-brand-navy",
                     outside: "text-gray-300 opacity-50 font-normal",
-                    caption: "flex justify-center pt-4 relative items-center mb-6",
+                    month_caption: "flex justify-center pt-4 relative items-center mb-6",
                     caption_label: "text-[17px] font-extrabold text-brand-navy",
                   }}
                 />
