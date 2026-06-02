@@ -67,9 +67,9 @@ export default function SearchBar() {
                     button_next: "w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-brand-coral hover:text-white hover:border-brand-coral text-brand-charcoal shadow-sm transition-all pointer-events-auto",
                     weekday: "text-gray-400 font-medium text-[13px] w-12 text-center pb-2 uppercase tracking-wider",
                     day: "h-12 w-12 p-0 font-bold text-[15px] aria-selected:opacity-100 hover:bg-gray-100 rounded-full flex items-center justify-center transition-all text-brand-navy",
-                    day_selected: "bg-brand-navy text-white hover:bg-brand-navy hover:text-white focus:bg-brand-navy focus:text-white rounded-full shadow-md",
-                    day_today: "bg-brand-sky/30 text-brand-navy",
-                    day_outside: "text-gray-300 opacity-50 font-normal",
+                    selected: "bg-brand-navy text-white hover:bg-brand-navy hover:text-white focus:bg-brand-navy focus:text-white rounded-full shadow-md",
+                    today: "bg-brand-sky/30 text-brand-navy",
+                    outside: "text-gray-300 opacity-50 font-normal",
                     caption: "flex justify-center pt-4 relative items-center mb-6",
                     caption_label: "text-[17px] font-extrabold text-brand-navy",
                   }}
