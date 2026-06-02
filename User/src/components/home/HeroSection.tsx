@@ -96,11 +96,15 @@ export default function HeroSection() {
             <div className="p-6 space-y-4">
 
               {/* Destination Row */}
-              <div className="flex items-center gap-4 border border-gray-200 rounded-2xl px-5 py-4 hover:border-brand-coral/40 transition-colors cursor-pointer group">
+              <div className="flex items-center gap-4 border border-gray-200 rounded-2xl px-5 py-4 hover:border-brand-coral/40 transition-colors cursor-text group">
                 <MapPin size={22} className="text-brand-charcoal/40 group-hover:text-brand-coral transition-colors shrink-0" />
-                <div>
+                <div className="w-full">
                   <h4 className="font-semibold text-brand-navy text-[15px]">Where are you going?</h4>
-                  <p className="text-sm text-brand-charcoal/50">Search destination or property</p>
+                  <input 
+                    type="text" 
+                    placeholder="Search destination or property"
+                    className="w-full outline-none text-brand-charcoal/70 text-sm font-medium placeholder:text-brand-charcoal/40 bg-transparent mt-0.5 p-0"
+                  />
                 </div>
               </div>
 
