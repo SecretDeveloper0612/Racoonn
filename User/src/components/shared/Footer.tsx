@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import logoImg from '@/assets/Racoonn-Logo-02.png';
+import logoImg from '@/assets/Racoon-icon-White.png';
 
 const SocialIcon = ({ type, size = 18 }: { type: string; size?: number }) => {
   switch (type) {
@@ -36,7 +36,7 @@ export default function Footer() {
                 src={logoImg} 
                 alt="Racoonn Logo" 
                 height={60}
-                className="h-14 w-auto object-contain"
+                className="h-14 w-auto object-contain mix-blend-screen"
                 priority
               />
             </Link>
