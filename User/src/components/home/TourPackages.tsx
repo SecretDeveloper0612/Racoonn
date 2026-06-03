@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { 
   ChevronRight, 
   ChevronLeft, 
@@ -219,9 +220,12 @@ function TourCard({ pkg }: { pkg: typeof packages[0] }) {
             <p className="text-[10px] text-gray-500 font-medium mb-0.5">Starting from</p>
             <p className="font-bold text-brand-coral text-lg">{pkg.price}</p>
           </div>
-          <button className="bg-brand-coral hover:bg-brand-coral/90 text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1">
+          <Link 
+            href={`/packages/${pkg.id}`}
+            className="bg-brand-coral hover:bg-brand-coral/90 text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1"
+          >
             View Details <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
       </div>
       

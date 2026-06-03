@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { format } from 'date-fns';
+import chatbotLogo from '@/assets/Racoonn-Logo-03.png';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -22,10 +24,15 @@ import {
 } from 'lucide-react';
 
 const tabs = [
-  { id: 'activities', label: 'Activities', icon: Ticket },
   { id: 'stays', label: 'Stays', icon: Home },
-  { id: 'cab', label: 'Cab', icon: Bus },
   { id: 'packages', label: 'Packages', icon: Palmtree },
+  { id: 'activities', label: 'Activities', icon: Ticket },
+];
+
+const heroImages = [
+  "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=1920&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=1920&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=1920&auto=format&fit=crop"
 ];
 
 export default function HeroSection() {
@@ -35,65 +42,107 @@ export default function HeroSection() {
   const [adults, setAdults] = useState(0);
   const [children, setChildren] = useState(0);
   const [rooms, setRooms] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isChatMode, setIsChatMode] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="relative w-full -mt-24 pt-32 overflow-hidden rounded-b-[50px]">
 
-      {/* Background Image */}
-      <Image
-        src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=100&w=3840&auto=format&fit=crop"
-        alt="Beautiful tropical destination"
-        fill
-        priority
-        className="object-cover z-0"
-      />
+      {/* Background Image Slideshow */}
+      {heroImages.map((src, index) => (
+        <Image
+          key={src}
+          src={src}
+          alt={`Beautiful tropical destination ${index + 1}`}
+          fill
+          priority={index === 0}
+          className={`object-cover z-0 transition-opacity duration-1000 ease-in-out transform-gpu will-change-opacity ${
+            index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+      ))}
 
 
       {/* Content */}
-
-      {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 pt-2 pb-8">
-
-        {/* Heading */}
-        <h1
-          className="text-center text-2xl md:text-3xl lg:text-4xl font-heading font-extrabold text-white tracking-wider uppercase mb-8"
-          style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5), 0 4px 20px rgba(0,0,0,0.3)' }}
-        >
-          Explore And Create Memories
-        </h1>
+      <div className="container mx-auto px-4 relative z-10 pt-20 pb-8">
 
         {/* Search Card */}
         <div className="max-w-4xl mx-auto transform-gpu">
           <div className="bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] overflow-hidden">
 
-            {/* Tabs */}
-            <div className="flex items-center justify-start md:justify-center gap-1 px-6 pt-5 pb-0 overflow-x-auto hide-scrollbar">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-t-xl whitespace-nowrap text-sm font-medium transition-all relative ${isActive
-                      ? 'text-brand-coral'
-                      : 'text-brand-charcoal/60 hover:text-brand-navy'
-                      }`}
-                  >
-                    <Icon size={16} />
-                    {tab.label}
-                    {isActive && (
-                      <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-brand-coral rounded-full" />
-                    )}
-                  </button>
-                );
-              })}
+            {/* Tabs & Chatbot Container */}
+            <div className="flex items-center justify-between px-6 pt-5 pb-0 overflow-x-auto hide-scrollbar">
+              
+              {/* Left Side: Tabs */}
+              <div className="flex items-center gap-1">
+                {tabs.map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex items-center gap-2 px-4 py-2.5 rounded-t-xl whitespace-nowrap text-sm font-medium transition-all relative ${isActive
+                        ? 'text-brand-coral'
+                        : 'text-brand-charcoal/60 hover:text-brand-navy'
+                        }`}
+                    >
+                      <Icon size={16} />
+                      {tab.label}
+                      {isActive && (
+                        <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-brand-coral rounded-full" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Right Side: Chatbot Button */}
+              <button 
+                onClick={() => setIsChatMode(!isChatMode)}
+                className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-coral/10 hover:bg-brand-coral/20 border border-brand-coral/20 transition-all hover:scale-105 active:scale-95 text-brand-navy font-bold text-sm mb-1.5 whitespace-nowrap shadow-sm"
+              >
+                <div className="w-6 h-6 relative rounded-full overflow-hidden flex-shrink-0 bg-white">
+                  <Image src={chatbotLogo} alt="AI Assistant" fill className="object-contain p-0.5" />
+                </div>
+                {isChatMode ? 'Classic Search' : 'Ask AI'}
+              </button>
             </div>
 
             <div className="h-[1px] bg-gray-100" />
 
-            {/* Search Fields */}
-            <div className="p-6 space-y-4">
+            {/* Search Fields / Chat Mode */}
+            <div className="p-6 space-y-4 min-h-[220px]">
+              {isChatMode ? (
+                <div className="flex flex-col gap-4 animate-in fade-in duration-300">
+                  <div className="flex items-start gap-4 border border-brand-coral/30 rounded-2xl p-5 bg-brand-coral/5 transition-colors focus-within:border-brand-coral/60 focus-within:bg-white shadow-inner">
+                    <div className="w-8 h-8 relative rounded-full overflow-hidden flex-shrink-0 bg-white shadow-sm mt-0.5 border border-gray-100">
+                      <Image src={chatbotLogo} alt="AI Assistant" fill className="object-contain p-1" />
+                    </div>
+                    <textarea 
+                      placeholder="e.g. Find me a beachfront villa in Bali for 2 adults next weekend with a private pool..."
+                      className="w-full min-h-[100px] outline-none text-brand-navy text-[16px] placeholder:text-brand-charcoal/40 bg-transparent resize-none leading-relaxed"
+                      autoFocus
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <button className="bg-gradient-to-r from-brand-coral to-[#e84f57] hover:shadow-[0_8px_20px_rgba(232,106,112,0.3)] text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 text-[15px] sm:w-[220px]">
+                      Ask Racoonn AI
+                      <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                        <ArrowRight size={16} />
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4 animate-in fade-in duration-300">
 
               {/* Destination Row */}
               <div className="flex items-center gap-4 border border-gray-200 rounded-2xl px-5 py-4 hover:border-brand-coral/40 transition-colors cursor-text group">
@@ -252,16 +301,17 @@ export default function HeroSection() {
               </div>
 
               {/* Bottom Actions */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 pt-2">
 
-                <button className="bg-brand-coral hover:bg-brand-coral/90 text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all shadow-[0_8px_25px_rgba(232,106,112,0.4)] hover:shadow-[0_12px_35px_rgba(232,106,112,0.5)] hover:-translate-y-0.5 text-[15px] w-full sm:w-auto">
+                <Link href="/search" className="bg-brand-coral hover:bg-brand-coral/90 text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 text-[15px] w-full sm:w-48">
                   Search
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                     <ArrowRight size={16} />
                   </div>
-                </button>
+                </Link>
               </div>
-
+              </div>
+              )}
             </div>
           </div>
         </div>

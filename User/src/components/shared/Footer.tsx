@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import logoImg from '@/assets/Racoon-icon-White.png';
 
@@ -19,6 +22,11 @@ const SocialIcon = ({ type, size = 18 }: { type: string; size?: number }) => {
 };
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isAuthPage = ['/signin', '/signup', '/forgot-password'].includes(pathname);
+  
+  if (isAuthPage) return null;
+
   return (
     <footer className="bg-brand-navy text-white pt-24 pb-12 relative overflow-hidden">
       {/* Decorative background shapes */}

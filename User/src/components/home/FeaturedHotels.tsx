@@ -57,7 +57,7 @@ export default function FeaturedHotels() {
                 />
                 <div className="absolute top-4 left-4 flex gap-2">
                   {hotel.tags.map(tag => (
-                    <span key={tag} className="bg-white/90 backdrop-blur-sm text-brand-navy text-xs font-semibold px-3 py-1 rounded-full">
+                    <span key={tag} className="bg-white/95 shadow-sm text-brand-navy text-xs font-semibold px-3 py-1 rounded-full">
                       {tag}
                     </span>
                   ))}

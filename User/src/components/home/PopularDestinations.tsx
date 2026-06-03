@@ -67,7 +67,7 @@ export default function PopularDestinations() {
               {/* Bottom Info */}
               <div className="absolute bottom-0 left-0 w-full p-6 text-white flex flex-col gap-4">
                 <p className="text-white/90 font-medium text-[16px] leading-snug">{dest.subtitle}</p>
-                <div className="bg-white/90 backdrop-blur-md px-5 py-2 rounded-full self-start text-brand-navy font-bold text-sm shadow-lg">
+                <div className="bg-white/95 px-5 py-2 rounded-full self-start text-brand-navy font-bold text-sm shadow-lg transform-gpu">
                   Stays from {dest.price}
                 </div>
               </div>

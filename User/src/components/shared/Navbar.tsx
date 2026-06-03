@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, Globe } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import logo from '@/assets/Racoonn-Logo-02.png';
@@ -18,6 +19,10 @@ const navLinks = [
 
 export default function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isAuthPage = ['/signin', '/signup', '/forgot-password'].includes(pathname);
+  if (isAuthPage) return null;
 
   return (
     <>

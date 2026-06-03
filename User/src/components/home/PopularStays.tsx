@@ -72,7 +72,7 @@ export default function PopularStays() {
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {stays.map((stay) => (
-            <div key={stay.id} className="w-full min-w-full md:w-auto md:min-w-[280px] flex-shrink-0 bg-white rounded-2xl p-3 shadow-[0_2px_15px_rgb(0,0,0,0.05)] border border-brand-sky/30 group/card cursor-pointer transition-transform hover:-translate-y-1 snap-center md:snap-start">
+            <Link href={`/property/${stay.id}`} key={stay.id} className="w-full min-w-full md:w-auto md:min-w-[280px] flex-shrink-0 bg-white rounded-2xl p-3 shadow-[0_2px_15px_rgb(0,0,0,0.05)] border border-brand-sky/30 group/card cursor-pointer transition-transform hover:-translate-y-1 snap-center md:snap-start block">
               {/* Image */}
               <div className="relative w-full h-[180px] rounded-xl overflow-hidden mb-4">
                 <Image
@@ -97,7 +97,7 @@ export default function PopularStays() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
