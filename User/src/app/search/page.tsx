@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import PropertyCard, { Property } from '@/components/search/PropertyCard';
 import MapMockup from '@/components/search/MapMockup';
-import { SlidersHorizontal, Map as MapIcon, ChevronDown } from 'lucide-react';
+import { SlidersHorizontal, Map as MapIcon, ChevronDown, List } from 'lucide-react';
 
 const mockProperties: Property[] = [
   {
@@ -86,7 +86,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-92px)] overflow-hidden">
       {/* Top Filter Bar */}
       <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-3 overflow-x-auto hide-scrollbar shrink-0">
         <button className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-2 hover:border-gray-900 transition-colors shrink-0 font-medium text-[14px]">
@@ -111,22 +111,30 @@ export default function SearchPage() {
       </div>
 
       {/* Main Split Layout */}
-      <div className="flex flex-1 overflow-hidden px-6 pb-6 pt-4 gap-6">
+      <div className="flex-1 overflow-y-auto lg:overflow-hidden relative flex flex-col lg:flex-row w-full lg:px-6 lg:pb-6 lg:pt-4 lg:gap-6">
         
+        {/* Right Panel: Map */}
+        <div className="w-full h-[50vh] relative z-0 shrink-0 lg:h-full lg:relative lg:w-[45%] xl:w-[40%] lg:rounded-2xl overflow-hidden shadow-sm lg:border border-gray-200 order-1 lg:order-2">
+          <MapMockup />
+        </div>
+
         {/* Left Panel: Property List */}
-        <div className="w-full lg:w-[55%] xl:w-[60%] flex flex-col h-full bg-white overflow-y-auto relative z-10 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-2xl border border-gray-200">
-          <div className="p-6">
-            <div className="flex justify-between items-end mb-6">
+        <div className="w-full flex flex-col bg-white relative z-40 rounded-t-[32px] -mt-8 pt-4 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] min-h-[100vh] lg:min-h-0 lg:h-full lg:-mt-0 lg:pt-0 lg:shadow-[0_4px_24px_rgba(0,0,0,0.06)] lg:rounded-2xl lg:border border-gray-200 lg:w-[55%] xl:w-[60%] lg:flex lg:overflow-y-auto order-2 lg:order-1">
+          {/* Pull Bar Indicator for Mobile */}
+          <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-6 lg:hidden shrink-0" />
+
+          <div className="px-4 pb-4 lg:p-6 lg:pt-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-6 gap-4">
               <div>
-                <h1 className="text-[28px] font-bold text-gray-900">Over 1,000 homes</h1>
-                <p className="text-[15px] text-gray-600 mt-1">Stays in Delhi NCR</p>
+                <h1 className="text-[24px] lg:text-[28px] font-bold text-gray-900">Over 1,000 homes</h1>
+                <p className="text-[14px] lg:text-[15px] text-gray-600 mt-1">Stays in Delhi NCR</p>
               </div>
-              <div className="flex items-center gap-3 border border-gray-300 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors">
+              <div className="flex items-center justify-between sm:justify-start gap-3 border border-gray-300 rounded-xl px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors">
                 <span className="font-semibold text-[14px] text-gray-900">Display total price</span>
                 <div className="w-10 h-6 bg-gray-200 rounded-full flex items-center p-1">
                   <div className="w-4 h-4 bg-white rounded-full border border-gray-300" />
                 </div>
-                <span className="text-gray-500 text-[14px]">Includes all fees, before taxes</span>
+                <span className="hidden sm:inline text-gray-500 text-[14px]">Includes all fees, before taxes</span>
               </div>
             </div>
 
@@ -142,11 +150,6 @@ export default function SearchPage() {
               </button>
             </div>
           </div>
-        </div>
-
-        {/* Right Panel: Map */}
-        <div className="hidden lg:block lg:w-[45%] xl:w-[40%] h-full relative z-0 rounded-2xl overflow-hidden shadow-sm border border-gray-200">
-          <MapMockup />
         </div>
 
       </div>

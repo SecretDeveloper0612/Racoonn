@@ -23,7 +23,7 @@ const SocialIcon = ({ type, size = 18 }: { type: string; size?: number }) => {
 
 export default function Footer() {
   const pathname = usePathname();
-  const isAuthPage = ['/signin', '/signup', '/forgot-password'].includes(pathname);
+  const isAuthPage = ['/signin', '/signup', '/forgot-password', '/search'].includes(pathname);
   
   if (isAuthPage) return null;
 

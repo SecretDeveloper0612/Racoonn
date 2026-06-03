@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import logo from '@/assets/Racoonn-Logo-02.png';
 import SearchBar from './SearchBar';
+import AuthModal from '@/components/auth/AuthModal';
 
 const navLinks = [
   { name: 'Stays', href: '/search' },
@@ -19,6 +20,8 @@ const navLinks = [
 
 export default function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalView, setAuthModalView] = useState<'signin' | 'signup'>('signin');
   const pathname = usePathname();
 
   const isAuthPage = ['/signin', '/signup', '/forgot-password'].includes(pathname);
@@ -46,12 +49,12 @@ export default function Navbar() {
             >
               List your property
             </Link>
-            <Link
-              href="/signin"
+            <button
+              onClick={() => { setAuthModalView('signin'); setIsAuthModalOpen(true); }}
               className="bg-brand-coral hover:bg-opacity-90 text-white px-7 py-2.5 rounded-full font-bold transition-all shadow-md shadow-brand-coral/20 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-coral/30"
             >
               Sign in
-            </Link>
+            </button>
             <button 
               onClick={() => setIsSidebarOpen(true)}
               className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 border border-gray-200 hover:border-brand-coral hover:bg-brand-coral/5 text-brand-navy hover:text-brand-coral transition-all ml-2 shadow-sm hover:shadow-md"
@@ -138,18 +141,27 @@ export default function Navbar() {
                 >
                   List your property
                 </Link>
-                <Link
-                  href="/signin"
-                  onClick={() => setIsSidebarOpen(false)}
+                <button
+                  onClick={() => {
+                    setIsSidebarOpen(false);
+                    setAuthModalView('signin');
+                    setIsAuthModalOpen(true);
+                  }}
                   className="block w-full text-center bg-brand-navy hover:bg-brand-coral text-white px-7 py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform-gpu"
                 >
                   Sign in to your account
-                </Link>
+                </button>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        initialView={authModalView} 
+      />
     </>
   );
 }
