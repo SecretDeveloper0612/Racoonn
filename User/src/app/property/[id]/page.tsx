@@ -52,21 +52,21 @@ export default async function PropertyDetails({ params }: { params: { id: string
 
         {/* Top Header Section */}
         <div className="mb-6">
-          <h1 className="text-[32px] leading-tight font-semibold mb-2 font-heading tracking-tight text-brand-navy">
+          <h1 className="text-[28px] md:text-[32px] leading-tight font-semibold mb-2 font-heading tracking-tight text-brand-navy">
             {title}
           </h1>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 text-[15px] font-medium text-gray-800">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-2 md:gap-4 text-[14px] md:text-[15px] font-medium text-gray-800">
               <span className="flex items-center gap-1">
                 <Star size={16} className="fill-current" />
                 4.96 · <span className="underline underline-offset-4 font-semibold text-gray-600 cursor-pointer">241 reviews</span>
               </span>
-              <span className="text-gray-300">•</span>
-              <span className="flex items-center gap-1 text-gray-600 underline underline-offset-4 cursor-pointer">
+              <span className="hidden md:inline text-gray-300">•</span>
+              <span className="flex items-center gap-1 text-gray-600 underline underline-offset-4 cursor-pointer mt-1 md:mt-0 w-full md:w-auto">
                 {location}
               </span>
             </div>
-            <div className="flex items-center gap-4 text-[15px] font-medium">
+            <div className="flex items-center gap-4 text-[14px] md:text-[15px] font-medium">
               <button className="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors">
                 <Share size={16} /> <span className="underline underline-offset-4">Share</span>
               </button>
@@ -78,15 +78,15 @@ export default async function PropertyDetails({ params }: { params: { id: string
         </div>
 
         {/* 5-Image Bento Grid */}
-        <div className="relative h-[55vh] min-h-[400px] max-h-[500px] w-full rounded-2xl overflow-hidden mb-10 flex gap-2">
+        <div className="relative h-[35vh] md:h-[55vh] min-h-[300px] md:min-h-[400px] max-h-[500px] w-full rounded-2xl overflow-hidden mb-6 md:mb-10 flex gap-2">
           {/* Main Large Image */}
-          <div className="relative w-1/2 h-full group cursor-pointer overflow-hidden">
+          <div className="relative w-full md:w-1/2 h-full group cursor-pointer overflow-hidden">
             <Image src={images[0]} alt="Property Main" fill className="object-cover transition-transform duration-500 group-hover:scale-105" priority />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
           </div>
 
           {/* 4 Small Images Grid */}
-          <div className="w-1/2 h-full grid grid-cols-2 grid-rows-2 gap-2">
+          <div className="hidden md:grid w-1/2 h-full grid-cols-2 grid-rows-2 gap-2">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="relative w-full h-full group cursor-pointer overflow-hidden">
                 <Image src={images[i]} alt={`Property ${i}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -133,16 +133,16 @@ export default async function PropertyDetails({ params }: { params: { id: string
             </div>
 
             {/* Filter Bar */}
-            <div className="flex flex-col md:flex-row gap-4 mb-8">
-              <div className="flex-1 flex flex-col md:flex-row border border-gray-200 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-[#222] transition-shadow">
-                <div className="flex-1 p-3 border-b md:border-b-0 md:border-r border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-3 relative cursor-pointer">
+            <div className="flex flex-col xl:flex-row gap-4 mb-8">
+              <div className="flex-1 flex flex-col sm:flex-row border border-gray-200 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-[#222] transition-shadow">
+                <div className="flex-1 p-3 border-b sm:border-b-0 sm:border-r border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-3 relative cursor-pointer">
                   <Calendar className="text-gray-400 shrink-0 ml-2" size={20} />
                   <div>
                     <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">Check-in date</label>
                     <input type="date" className="text-[15px] text-brand-navy font-medium bg-transparent outline-none w-full cursor-pointer" defaultValue="2024-05-21" />
                   </div>
                 </div>
-                <div className="flex-1 p-3 border-b md:border-b-0 md:border-r border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-3 relative cursor-pointer">
+                <div className="flex-1 p-3 border-b sm:border-b-0 sm:border-r border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-3 relative cursor-pointer">
                   <Calendar className="text-gray-400 shrink-0 ml-2" size={20} />
                   <div>
                     <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">Check-out date</label>
@@ -160,8 +160,9 @@ export default async function PropertyDetails({ params }: { params: { id: string
                   <ChevronDown className="text-gray-400 mr-2" size={18} />
                 </div>
               </div>
-              <button className="md:w-16 h-16 rounded-2xl bg-brand-navy/5 text-brand-navy flex items-center justify-center hover:bg-brand-navy hover:text-white transition-all">
-                <RefreshCw size={22} />
+              <button className="w-full xl:w-16 h-14 xl:h-auto rounded-2xl bg-brand-navy/5 text-brand-navy flex items-center justify-center hover:bg-brand-navy hover:text-white transition-all font-semibold xl:font-normal">
+                <RefreshCw size={22} className="mr-2 xl:mr-0 hidden xl:block" />
+                <span className="xl:hidden">Update Search</span>
               </button>
             </div>
 
@@ -268,7 +269,7 @@ export default async function PropertyDetails({ params }: { params: { id: string
           {/* Amenities Section */}
           <div id="amenities" className="scroll-mt-24 border-t border-gray-200 pt-12 pb-12">
             <h2 className="text-[24px] font-semibold text-brand-navy mb-8">What this place offers</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-4">
               {[
                 { icon: Wifi, text: 'Fast wifi – 340 Mbps' },
                 { icon: Waves, text: 'Private outdoor pool' },

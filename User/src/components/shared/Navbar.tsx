@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-50 w-full pt-4 px-4 bg-transparent pointer-events-none">
-        <div className="container mx-auto px-6 lg:px-8 h-[76px] flex items-center justify-between bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full pointer-events-auto transition-all duration-300">
+        <div className="container mx-auto px-6 lg:px-8 h-[76px] flex items-center justify-between bg-white lg:bg-white/70 lg:backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full pointer-events-auto transition-all duration-300">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Image src={logo} alt="Racoonn Logo" width={180} height={45} className="h-9 w-auto" />
@@ -110,7 +110,7 @@ export default function Navbar() {
                   onClick={() => setIsSidebarOpen(false)}
                   className="group flex items-center gap-4 py-4 border-b border-gray-50"
                 >
-                  <span className="text-2xl font-extrabold text-brand-navy group-hover:text-brand-coral group-hover:translate-x-2 transition-all duration-300">
+                  <span className="text-2xl font-semibold text-brand-navy group-hover:text-brand-coral group-hover:translate-x-2 transition-all duration-300">
                     Home
                   </span>
                 </Link>
@@ -121,7 +121,7 @@ export default function Navbar() {
                     onClick={() => setIsSidebarOpen(false)}
                     className="group flex items-center gap-4 py-4 border-b border-gray-50"
                   >
-                    <span className="text-2xl font-extrabold text-brand-navy group-hover:text-brand-coral group-hover:translate-x-2 transition-all duration-300">
+                    <span className="text-2xl font-semibold text-brand-navy group-hover:text-brand-coral group-hover:translate-x-2 transition-all duration-300">
                       {link.name}
                     </span>
                   </Link>
