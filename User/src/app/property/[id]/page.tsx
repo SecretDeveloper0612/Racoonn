@@ -216,9 +216,11 @@ export default async function PropertyDetails({ params }: { params: { id: string
                     </div>
                   </div>
                   <p className="text-[13px] text-gray-500 mb-6">per night<br />Includes taxes</p>
-                  <button className="w-full py-3 bg-brand-navy text-white rounded-xl font-bold hover:bg-opacity-90 transition-all">
-                    Reserve
-                  </button>
+                  <Link href={`/checkout?roomName=${encodeURIComponent("Luxury Suite with Lake View")}&price=32000`} className="w-full block">
+                    <button className="w-full py-3 bg-brand-navy text-white rounded-xl font-bold hover:bg-opacity-90 transition-all">
+                      Reserve
+                    </button>
+                  </Link>
                 </div>
               </div>
 
@@ -258,9 +260,11 @@ export default async function PropertyDetails({ params }: { params: { id: string
                     </div>
                   </div>
                   <p className="text-[13px] text-gray-500 mb-6">per night<br />Includes taxes</p>
-                  <button className="w-full py-3 bg-brand-navy text-white rounded-xl font-bold hover:bg-opacity-90 transition-all">
-                    Reserve
-                  </button>
+                  <Link href={`/checkout?roomName=${encodeURIComponent("Premium Garden Villa")}&price=42000`} className="w-full block">
+                    <button className="w-full py-3 bg-brand-navy text-white rounded-xl font-bold hover:bg-opacity-90 transition-all">
+                      Reserve
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

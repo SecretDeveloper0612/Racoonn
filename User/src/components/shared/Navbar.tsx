@@ -25,7 +25,8 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const isAuthPage = ['/signin', '/signup', '/forgot-password'].includes(pathname);
-  if (isAuthPage) return null;
+  const isCheckoutPage = pathname.startsWith('/checkout');
+  if (isAuthPage || isCheckoutPage) return null;
 
   return (
     <>

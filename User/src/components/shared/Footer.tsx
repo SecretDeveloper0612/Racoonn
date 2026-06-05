@@ -24,8 +24,9 @@ const SocialIcon = ({ type, size = 18 }: { type: string; size?: number }) => {
 export default function Footer() {
   const pathname = usePathname();
   const isAuthPage = ['/signin', '/signup', '/forgot-password', '/search'].includes(pathname);
+  const isCheckoutPage = pathname.startsWith('/checkout');
   
-  if (isAuthPage) return null;
+  if (isAuthPage || isCheckoutPage) return null;
 
   return (
     <footer className="bg-brand-navy text-white pt-24 pb-12 relative overflow-hidden">
@@ -135,9 +136,14 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-brand-sky/50 text-sm">
-            &copy; {new Date().getFullYear()} Racoonn. All rights reserved.
-          </p>
+          <div className="flex flex-col items-center md:items-start gap-1">
+            <p className="text-brand-sky/50 text-sm">
+              &copy; {new Date().getFullYear()} Racoonn. All rights reserved.
+            </p>
+            <p className="text-brand-sky/50 text-sm">
+              Design and Developed By <a href="https://preettech.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Preet Tech</a>
+            </p>
+          </div>
           
           <div className="flex gap-4">
             <Link href="/terms" className="text-brand-sky/50 hover:text-white text-sm transition-colors">Terms & Conditions</Link>
