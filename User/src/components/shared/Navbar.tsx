@@ -6,7 +6,7 @@ import { Menu, X, Globe } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import logo from '@/assets/Racoonn-Logo-02.png';
+// Logo loaded from public folder
 import SearchBar from './SearchBar';
 import AuthModal from '@/components/auth/AuthModal';
 
@@ -34,7 +34,7 @@ export default function Navbar() {
         <div className="container mx-auto px-6 lg:px-8 h-[76px] flex items-center justify-between bg-white lg:bg-white/70 lg:backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full pointer-events-auto transition-all duration-300">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Image src={logo} alt="Racoonn Logo" width={180} height={45} className="h-9 w-auto" />
+            <Image src="/Racoonn%20Horizontal%20Logo-White%20BG.png" alt="Racoonn Logo" width={180} height={45} className="h-9 w-auto" />
           </Link>
 
           {/* Desktop Navigation / SearchBar */}
@@ -98,7 +98,7 @@ export default function Navbar() {
             >
               {/* Header */}
               <div className="flex items-center justify-between p-8 pb-4">
-                <Image src={logo} alt="Racoonn Logo" width={140} height={35} className="h-7 w-auto opacity-80" />
+                <Image src="/Racoonn%20Horizontal%20Logo-White%20BG.png" alt="Racoonn Logo" width={140} height={35} className="h-7 w-auto opacity-80" />
                 <button 
                   onClick={() => setIsSidebarOpen(false)}
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 hover:bg-brand-coral hover:text-white text-brand-charcoal transition-all shadow-sm hover:shadow-md hover:rotate-90 transform-gpu"
