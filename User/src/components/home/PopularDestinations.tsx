@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { MapPin, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 const destinations = [
@@ -93,9 +94,9 @@ export default function PopularDestinations() {
 
       {/* View All Button */}
       <div className="mt-8 flex justify-center">
-        <button className="bg-white border-2 border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white px-8 py-3 rounded-full font-bold transition-colors shadow-sm flex items-center gap-2">
+        <Link href="/destinations" className="bg-white border-2 border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white px-8 py-3 rounded-full font-bold transition-colors shadow-sm flex items-center gap-2">
           View all destinations <ArrowRight size={18} />
-        </button>
+        </Link>
       </div>
 
     </section>

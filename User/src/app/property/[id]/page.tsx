@@ -21,6 +21,9 @@ import {
   Sparkles
 } from 'lucide-react';
 import RoomImageSlider from '@/components/property/RoomImageSlider';
+import PropertyPhotoGallery from '@/components/property/PropertyPhotoGallery';
+import PropertyReviews from '@/components/property/PropertyReviews';
+import PropertyAmenities from '@/components/property/PropertyAmenities';
 
 export default async function PropertyDetails({ params }: { params: { id: string } }) {
   const id = params?.id || '1';
@@ -77,29 +80,8 @@ export default async function PropertyDetails({ params }: { params: { id: string
           </div>
         </div>
 
-        {/* 5-Image Bento Grid */}
-        <div className="relative h-[35vh] md:h-[55vh] min-h-[300px] md:min-h-[400px] max-h-[500px] w-full rounded-2xl overflow-hidden mb-6 md:mb-10 flex gap-2">
-          {/* Main Large Image */}
-          <div className="relative w-full md:w-1/2 h-full group cursor-pointer overflow-hidden">
-            <Image src={images[0]} alt="Property Main" fill className="object-cover transition-transform duration-500 group-hover:scale-105" priority />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-          </div>
-
-          {/* 4 Small Images Grid */}
-          <div className="hidden md:grid w-1/2 h-full grid-cols-2 grid-rows-2 gap-2">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="relative w-full h-full group cursor-pointer overflow-hidden">
-                <Image src={images[i]} alt={`Property ${i}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-              </div>
-            ))}
-          </div>
-
-          <button className="absolute bottom-6 right-6 bg-white border border-[#222] px-4 py-1.5 rounded-lg text-sm font-semibold shadow-sm hover:bg-gray-50 flex items-center gap-2 transition-all">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3h3v3H3V3zm7 0h3v3h-3V3zM3 10h3v3H3v-3zm7 0h3v3h-3v-3z" fill="currentColor" /></svg>
-            Show all photos
-          </button>
-        </div>
+        {/* 5-Image Bento Grid & Modal */}
+        <PropertyPhotoGallery images={images} />
 
         {/* Sticky Horizontal Tab Navigation */}
         <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 mb-8 py-2">
@@ -271,30 +253,7 @@ export default async function PropertyDetails({ params }: { params: { id: string
           </div>
 
           {/* Amenities Section */}
-          <div id="amenities" className="scroll-mt-24 border-t border-gray-200 pt-12 pb-12">
-            <h2 className="text-[24px] font-semibold text-brand-navy mb-8">What this place offers</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-4">
-              {[
-                { icon: Wifi, text: 'Fast wifi – 340 Mbps' },
-                { icon: Waves, text: 'Private outdoor pool' },
-                { icon: Wind, text: 'Central air conditioning' },
-                { icon: Coffee, text: 'Espresso machine' },
-                { icon: Tv, text: '75" HDTV with premium cable' },
-                { icon: Car, text: 'Free valet parking on premises' },
-              ].map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <div key={i} className="flex items-center gap-4 text-[15px] text-gray-700">
-                    <Icon size={22} className="text-gray-700" strokeWidth={1.5} />
-                    <span className="font-medium">{item.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-            <button className="mt-8 px-6 py-3 border border-gray-300 rounded-xl font-semibold text-[15px] hover:bg-gray-50 transition-colors">
-              Show all 48 amenities
-            </button>
-          </div>
+          <PropertyAmenities />
 
           {/* About This Hotel Section */}
           <div id="about" className="scroll-mt-24 border-t border-gray-200 pt-12">
@@ -343,45 +302,7 @@ export default async function PropertyDetails({ params }: { params: { id: string
           </div>
 
           {/* Reviews Section */}
-          <div id="reviews" className="scroll-mt-24 border-t border-gray-200 pt-12">
-            <h2 className="text-[24px] font-semibold text-brand-navy mb-6 flex items-center gap-2">
-              Rating and reviews <span className="bg-brand-navy text-white text-sm px-2.5 py-1 rounded-full ml-1">241</span>
-            </h2>
-            <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar mb-8 pb-2">
-              {['View', 'Hospitality', 'Location', 'Cleanliness', 'Amenities', 'Indoor spaces', 'Comfort', 'Getting around', 'Family', 'Condition', 'Food'].map((filter, index) => (
-                <button 
-                  key={index}
-                  className="px-4 py-2 rounded-full border border-gray-300 text-[14px] font-medium text-gray-700 whitespace-nowrap hover:border-gray-900 hover:text-gray-900 transition-colors"
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-              {[
-                { name: 'Sarah', date: 'October 2025', text: 'Absolutely breathtaking experience. The views are exactly as pictured, and the service was impeccable from start to finish. Highly recommend for a relaxing getaway.' },
-                { name: 'Michael', date: 'September 2025', text: 'The attention to detail in this property is unmatched. We loved the private pool and the seamless check-in process. We will definitely be coming back next year.' },
-              ].map((review, i) => (
-                <div key={i} className="bg-gray-50 p-6 rounded-2xl">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden relative">
-                      <img src={`https://i.pravatar.cc/150?img=${i + 10}`} alt={review.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-[#222]">{review.name}</h4>
-                      <p className="text-[13px] text-gray-500">{review.date}</p>
-                    </div>
-                  </div>
-                  <p className="text-[15px] text-gray-700 font-light leading-[1.6]">
-                    {review.text}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <button className="mt-8 px-6 py-3 border border-gray-300 rounded-xl font-semibold text-[15px] hover:bg-gray-50 transition-colors">
-              Read all 241 reviews
-            </button>
-          </div>
+          <PropertyReviews />
 
         </div>
       </div>

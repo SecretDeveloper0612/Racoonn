@@ -148,10 +148,16 @@ export default function HeroSection() {
               <div className="flex items-center gap-4 border border-gray-200 rounded-2xl px-5 py-4 hover:border-brand-coral/40 transition-colors cursor-text group">
                 <MapPin size={22} className="text-brand-charcoal/40 group-hover:text-brand-coral transition-colors shrink-0" />
                 <div className="w-full">
-                  <h4 className="font-semibold text-brand-navy text-[15px]">Where are you going?</h4>
+                  <h4 className="font-semibold text-brand-navy text-[15px]">
+                    {activeTab === 'activities' ? 'What do you want to do?' : 'Where are you going?'}
+                  </h4>
                   <input 
                     type="text" 
-                    placeholder="Search destination or property"
+                    placeholder={
+                      activeTab === 'stays' ? "Search destination or property" :
+                      activeTab === 'packages' ? "Search destination or package name" :
+                      "Search activities, tours, or destinations"
+                    }
                     className="w-full outline-none text-brand-charcoal/70 text-sm font-medium placeholder:text-brand-charcoal/40 bg-transparent mt-0.5 p-0"
                   />
                 </div>
@@ -159,12 +165,14 @@ export default function HeroSection() {
 
               {/* Date + Guests Row */}
               <div className="flex flex-col sm:flex-row gap-4">
-                {/* Check-in */}
+                {/* Check-in / Start Date */}
                 <Popover>
                   <PopoverTrigger className="flex items-center gap-4 border border-gray-200 rounded-2xl px-5 py-4 hover:border-brand-coral/40 transition-colors cursor-pointer group flex-1 text-left focus:outline-none focus:ring-2 focus:ring-brand-coral/30">
                     <CalendarDays size={22} className="text-brand-charcoal/40 group-hover:text-brand-coral transition-colors shrink-0" />
                     <div>
-                      <h4 className="font-semibold text-brand-navy text-[15px]">Check-in</h4>
+                      <h4 className="font-semibold text-brand-navy text-[15px]">
+                        {activeTab === 'stays' ? 'Check-in' : activeTab === 'packages' ? 'Start date' : 'Date'}
+                      </h4>
                       <p className="text-sm text-brand-charcoal/50">
                         {checkIn ? format(checkIn, "PP") : "Add dates"}
                       </p>
@@ -180,39 +188,48 @@ export default function HeroSection() {
                 </Popover>
 
                 {/* Divider */}
-                <div className="hidden sm:block w-[1px] bg-gray-200 self-stretch" />
+                {activeTab !== 'activities' && <div className="hidden sm:block w-[1px] bg-gray-200 self-stretch" />}
 
-                {/* Check-out */}
-                <Popover>
-                  <PopoverTrigger className="flex items-center gap-4 border border-gray-200 rounded-2xl px-5 py-4 hover:border-brand-coral/40 transition-colors cursor-pointer group flex-1 text-left focus:outline-none focus:ring-2 focus:ring-brand-coral/30">
-                    <CalendarDays size={22} className="text-brand-charcoal/40 group-hover:text-brand-coral transition-colors shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-brand-navy text-[15px]">Check-out</h4>
-                      <p className="text-sm text-brand-charcoal/50">
-                        {checkOut ? format(checkOut, "PP") : "Add dates"}
-                      </p>
-                    </div>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={checkOut}
-                      onSelect={setCheckOut}
-                    />
-                  </PopoverContent>
-                </Popover>
+                {/* Check-out / End Date */}
+                {activeTab !== 'activities' && (
+                  <Popover>
+                    <PopoverTrigger className="flex items-center gap-4 border border-gray-200 rounded-2xl px-5 py-4 hover:border-brand-coral/40 transition-colors cursor-pointer group flex-1 text-left focus:outline-none focus:ring-2 focus:ring-brand-coral/30">
+                      <CalendarDays size={22} className="text-brand-charcoal/40 group-hover:text-brand-coral transition-colors shrink-0" />
+                      <div>
+                        <h4 className="font-semibold text-brand-navy text-[15px]">
+                          {activeTab === 'stays' ? 'Check-out' : 'End date'}
+                        </h4>
+                        <p className="text-sm text-brand-charcoal/50">
+                          {checkOut ? format(checkOut, "PP") : "Add dates"}
+                        </p>
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={checkOut}
+                        onSelect={setCheckOut}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
 
                 {/* Divider */}
                 <div className="hidden sm:block w-[1px] bg-gray-200 self-stretch" />
 
-                {/* Guests */}
+                {/* Guests / Participants */}
                 <Popover>
                   <PopoverTrigger className="flex items-center gap-4 border border-gray-200 rounded-2xl px-5 py-4 hover:border-brand-coral/40 transition-colors cursor-pointer group flex-1 text-left focus:outline-none focus:ring-2 focus:ring-brand-coral/30">
                     <Users size={22} className="text-brand-charcoal/40 group-hover:text-brand-coral transition-colors shrink-0" />
                     <div className="flex-1">
-                      <h4 className="font-semibold text-brand-navy text-[15px]">Guests</h4>
-                      <p className="text-sm text-brand-charcoal/50">
-                        {adults + children === 0 && rooms === 0 ? "Add guests" : `${adults + children} guest${adults + children !== 1 ? 's' : ''} · ${rooms} room${rooms !== 1 ? 's' : ''}`}
+                      <h4 className="font-semibold text-brand-navy text-[15px]">
+                        {activeTab === 'activities' ? 'Participants' : 'Guests'}
+                      </h4>
+                      <p className="text-sm text-brand-charcoal/50 truncate">
+                        {adults + children === 0 && rooms === 0 
+                          ? (activeTab === 'activities' ? "Add participants" : "Add guests") 
+                          : `${adults + children} ${activeTab === 'activities' ? 'participant' : 'guest'}${adults + children !== 1 ? 's' : ''}` + (activeTab !== 'activities' ? ` · ${rooms} room${rooms !== 1 ? 's' : ''}` : '')
+                        }
                       </p>
                     </div>
                     <ChevronDown size={18} className="text-brand-charcoal/40" />
@@ -222,7 +239,7 @@ export default function HeroSection() {
                       {/* Adults */}
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-semibold text-brand-navy">Adults</p>
+                          <p className="font-semibold text-brand-navy">{activeTab === 'activities' ? 'Adults' : 'Adults'}</p>
                           <p className="text-sm text-brand-charcoal/60">Ages 13 or above</p>
                         </div>
                         <div className="flex items-center gap-3">
@@ -271,30 +288,32 @@ export default function HeroSection() {
                         </div>
                       </div>
 
-                      {/* Rooms */}
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-semibold text-brand-navy">Rooms</p>
+                      {/* Rooms (Hidden for Activities) */}
+                      {activeTab !== 'activities' && (
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-semibold text-brand-navy">Rooms</p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() => setRooms(Math.max(0, rooms - 1))}
+                              className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-brand-charcoal hover:border-brand-coral hover:text-brand-coral transition-colors disabled:opacity-50 disabled:hover:border-gray-200 disabled:hover:text-brand-charcoal"
+                              disabled={rooms <= 0}
+                            >
+                              <Minus size={14} />
+                            </button>
+                            <span className="w-4 text-center font-medium">{rooms}</span>
+                            <button
+                              type="button"
+                              onClick={() => setRooms(rooms + 1)}
+                              className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-brand-charcoal hover:border-brand-coral hover:text-brand-coral transition-colors"
+                            >
+                              <Plus size={14} />
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={() => setRooms(Math.max(0, rooms - 1))}
-                            className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-brand-charcoal hover:border-brand-coral hover:text-brand-coral transition-colors disabled:opacity-50 disabled:hover:border-gray-200 disabled:hover:text-brand-charcoal"
-                            disabled={rooms <= 0}
-                          >
-                            <Minus size={14} />
-                          </button>
-                          <span className="w-4 text-center font-medium">{rooms}</span>
-                          <button
-                            type="button"
-                            onClick={() => setRooms(rooms + 1)}
-                            className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-brand-charcoal hover:border-brand-coral hover:text-brand-coral transition-colors"
-                          >
-                            <Plus size={14} />
-                          </button>
-                        </div>
-                      </div>
+                      )}
                     </div>
                   </PopoverContent>
                 </Popover>
@@ -303,11 +322,18 @@ export default function HeroSection() {
               {/* Bottom Actions */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 pt-2">
 
-                <Link href="/search" className="bg-brand-coral hover:bg-brand-coral/90 text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 text-[15px] w-full sm:w-48">
-                  Search
-                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                    <ArrowRight size={16} />
-                  </div>
+                <Link 
+                  href={activeTab === 'packages' ? "/packages" : "/search"} 
+                  className="bg-brand-coral hover:bg-brand-coral/90 text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 text-[15px] w-full sm:w-auto min-w-[200px]"
+                >
+                  {activeTab === 'packages' ? 'View all packages' : 'Search'}
+                  {activeTab === 'packages' ? (
+                    <ArrowRight size={18} />
+                  ) : (
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                      <ArrowRight size={16} />
+                    </div>
+                  )}
                 </Link>
               </div>
               </div>
