@@ -11,6 +11,8 @@ const PROPERTY_TYPES = ["Hotel", "Resort", "Villa", "Apartment", "Homestay", "Gu
 
 export function Step4Property({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
   const [selectedType, setSelectedType] = useState("Hotel");
+  const [city, setCity] = useState("Mumbai");
+  const [propertyState, setPropertyState] = useState("Maharashtra");
 
   const slideUp: any = {
     hidden: { opacity: 0, y: 20 },
@@ -26,7 +28,7 @@ export function Step4Property({ onNext, onBack }: { onNext: () => void, onBack: 
       className="flex flex-col h-full max-w-xl mx-auto w-full pt-8"
     >
       <motion.div variants={slideUp} className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',_sans-serif]">Add your property</h1>
+        <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',sans-serif]">Add your property</h1>
         <p className="text-slate-500 font-medium">Let's create your listing profile. Travelers will see these details when searching for places to stay.</p>
       </motion.div>
 
@@ -57,14 +59,23 @@ export function Step4Property({ onNext, onBack }: { onNext: () => void, onBack: 
           </div>
         </div>
 
-        {/* Map Preview Placeholder */}
+        {/* Live Google Map */}
         <div className="space-y-2">
           <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Pin Location on Map</label>
-          <div className="w-full h-48 bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden relative group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80" alt="Map Preview" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-2 font-bold text-sm text-[#1F2E4A]">
-                <MapPin className="w-4 h-4 text-[#E86A70]" /> Select exact location
+          <div className="w-full h-64 bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden relative group">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              frameBorder="0" 
+              scrolling="no" 
+              marginHeight={0} 
+              marginWidth={0} 
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(`${city}, ${propertyState}` || "India")}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+              className="w-full h-full"
+            ></iframe>
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div className="bg-[#1F2E4A]/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-2 font-bold text-sm text-white">
+                <MapPin className="w-4 h-4 text-[#E86A70]" /> Interactive Map Enabled
               </div>
             </div>
           </div>
@@ -73,11 +84,21 @@ export function Step4Property({ onNext, onBack }: { onNext: () => void, onBack: 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">City</label>
-            <Input className="h-12 rounded-xl border-slate-200 bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all font-medium" placeholder="Mumbai" />
+            <Input 
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="h-12 rounded-xl border-slate-200 bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all font-medium" 
+              placeholder="e.g. Mumbai" 
+            />
           </div>
           <div className="space-y-2">
             <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">State</label>
-            <Input className="h-12 rounded-xl border-slate-200 bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all font-medium" placeholder="Maharashtra" />
+            <Input 
+              value={propertyState}
+              onChange={(e) => setPropertyState(e.target.value)}
+              className="h-12 rounded-xl border-slate-200 bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all font-medium" 
+              placeholder="e.g. Maharashtra" 
+            />
           </div>
         </div>
 

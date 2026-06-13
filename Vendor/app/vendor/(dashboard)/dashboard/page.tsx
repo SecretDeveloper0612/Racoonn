@@ -1,7 +1,8 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
-import { Building2, CalendarCheck, DollarSign, Percent, Star, Clock, ArrowUpRight, ArrowDownRight, MoreHorizontal } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Building2, CalendarCheck, DollarSign, Percent, Star, Clock, ArrowUpRight, ArrowDownRight, MoreHorizontal, CalendarIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import {
   AreaChart,
@@ -30,6 +31,8 @@ const stats = [
     icon: Building2,
     trend: "2 added this month",
     trendPositive: true,
+    colorClass: "text-indigo-600",
+    bgClass: "bg-indigo-50",
   },
   {
     title: "Total Bookings",
@@ -37,6 +40,8 @@ const stats = [
     icon: CalendarCheck,
     trend: "12.5% vs last month",
     trendPositive: true,
+    colorClass: "text-emerald-600",
+    bgClass: "bg-emerald-50",
   },
   {
     title: "Monthly Revenue",
@@ -44,6 +49,8 @@ const stats = [
     icon: DollarSign,
     trend: "8.2% vs last month",
     trendPositive: true,
+    colorClass: "text-amber-600",
+    bgClass: "bg-amber-50",
   },
   {
     title: "Occupancy Rate",
@@ -51,6 +58,8 @@ const stats = [
     icon: Percent,
     trend: "2% vs last month",
     trendPositive: false,
+    colorClass: "text-violet-600",
+    bgClass: "bg-violet-50",
   },
   {
     title: "Average Rating",
@@ -58,6 +67,8 @@ const stats = [
     icon: Star,
     trend: "0.1 vs last month",
     trendPositive: true,
+    colorClass: "text-orange-600",
+    bgClass: "bg-orange-50",
   },
   {
     title: "Pending Check-ins",
@@ -65,6 +76,8 @@ const stats = [
     icon: Clock,
     trend: "Scheduled for today",
     trendPositive: true,
+    colorClass: "text-sky-600",
+    bgClass: "bg-sky-50",
   },
 ];
 
@@ -83,9 +96,51 @@ const item = {
   show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 24 } },
 };
 
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100 ring-1 ring-slate-900/5 min-w-[120px]">
+        <p className="text-sm font-bold text-slate-400 mb-1">{label}</p>
+        <p className="text-2xl font-black text-[#E86A70]">
+          ${payload[0].value.toLocaleString()}
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
+const avatarColors = [
+  "bg-indigo-50 text-indigo-600",
+  "bg-emerald-50 text-emerald-600",
+  "bg-amber-50 text-amber-600",
+  "bg-violet-50 text-violet-600",
+  "bg-sky-50 text-sky-600"
+];
+
 export default function DashboardOverview() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      <div className="flex justify-end">
+        <div className="w-44">
+          <Select defaultValue="monthly">
+            <SelectTrigger className="h-10 bg-white border-slate-200 font-semibold text-slate-700 shadow-sm rounded-xl focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70]">
+              <div className="flex items-center gap-2">
+                <CalendarIcon className="w-4 h-4 text-slate-400" />
+                <SelectValue placeholder="Select timeframe" />
+              </div>
+            </SelectTrigger>
+            <SelectContent className="rounded-xl border-slate-200" alignItemWithTrigger={false}>
+              <SelectItem value="today" className="font-medium cursor-pointer rounded-lg">Today</SelectItem>
+              <SelectItem value="weekly" className="font-medium cursor-pointer rounded-lg">This Week</SelectItem>
+              <SelectItem value="monthly" className="font-medium cursor-pointer rounded-lg">This Month</SelectItem>
+              <SelectItem value="yearly" className="font-medium cursor-pointer rounded-lg">This Year</SelectItem>
+              <SelectItem value="all-time" className="font-medium cursor-pointer rounded-lg">All Time</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
       <motion.div
         variants={container}
         initial="hidden"
@@ -94,7 +149,7 @@ export default function DashboardOverview() {
       >
         {stats.map((stat, i) => (
           <motion.div key={stat.title} variants={item}>
-            <Card className="border-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white ring-1 ring-slate-100 rounded-xl overflow-hidden group">
+            <Card className="border-0 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 bg-white ring-1 ring-slate-100 rounded-xl overflow-hidden group cursor-pointer">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div className="space-y-2">
@@ -103,8 +158,8 @@ export default function DashboardOverview() {
                       <h3 className="text-3xl font-heading font-bold text-secondary tracking-tight">{stat.value}</h3>
                     </div>
                   </div>
-                  <div className="h-12 w-12 bg-slate-50 group-hover:bg-primary/10 transition-colors rounded-full flex items-center justify-center">
-                    <stat.icon className="h-6 w-6 text-slate-400 group-hover:text-primary transition-colors" />
+                  <div className={`h-14 w-14 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${stat.bgClass}`}>
+                    <stat.icon className={`h-6 w-6 ${stat.colorClass}`} />
                   </div>
                 </div>
                 <div className="mt-4 flex items-center text-sm">
@@ -164,9 +219,7 @@ export default function DashboardOverview() {
                     width={60}
                   />
                   <Tooltip 
-                    contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)', padding: '12px' }}
-                    itemStyle={{ color: '#E86A70', fontWeight: 'bold' }}
-                    labelStyle={{ color: '#64748b', marginBottom: '4px' }}
+                    content={<CustomTooltip />}
                     cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '4 4' }}
                   />
                   <Area
@@ -188,7 +241,7 @@ export default function DashboardOverview() {
           <CardHeader className="border-b border-slate-100 pb-4 bg-slate-50/50">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-heading font-semibold text-secondary">Recent Bookings</CardTitle>
-              <button className="text-primary hover:text-primary/80 text-sm font-medium transition-colors">
+              <button className="bg-[#E86A70]/10 text-[#E86A70] hover:bg-[#E86A70] hover:text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300">
                 View All
               </button>
             </div>
@@ -202,9 +255,9 @@ export default function DashboardOverview() {
                 { name: "Pam Beesly", room: "Deluxe Double", nights: 2, amount: "$400.00", status: "Completed" },
                 { name: "Jim Halpert", room: "Deluxe Double", nights: 2, amount: "$400.00", status: "Completed" },
               ].map((booking, i) => (
-                <div key={i} className="flex items-center justify-between group">
+                <div key={i} className="flex items-center justify-between group hover:bg-slate-50/80 p-3 -mx-3 rounded-2xl transition-all cursor-pointer">
                   <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center text-secondary font-semibold text-sm shrink-0 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                    <div className={`h-12 w-12 rounded-2xl flex items-center justify-center font-bold text-sm shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${avatarColors[i % avatarColors.length]}`}>
                       {booking.name.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div className="space-y-1">

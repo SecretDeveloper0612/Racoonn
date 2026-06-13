@@ -1,23 +1,33 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Download, Filter } from "lucide-react";
+import { Search, Download, Filter, MessageSquare, FileText, Ban, CheckCircle2, MapPin, CreditCard } from "lucide-react";
 import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const bookings = [
-  { id: "BKG-7829", guest: "Michael Scott", property: "Luxury Oceanfront Resort", dates: "Oct 12 - Oct 15", amount: "$850.00", status: "Confirmed" },
-  { id: "BKG-7830", guest: "Sarah Jenkins", property: "Downtown Boutique Hotel", dates: "Oct 14 - Oct 15", amount: "$150.00", status: "Pending" },
-  { id: "BKG-7831", guest: "Robert California", property: "Mountain View Villa", dates: "Oct 18 - Oct 23", amount: "$4,500.00", status: "Confirmed" },
-  { id: "BKG-7832", guest: "Pam Beesly", property: "Luxury Oceanfront Resort", dates: "Oct 05 - Oct 07", amount: "$400.00", status: "Completed" },
-  { id: "BKG-7833", guest: "Jim Halpert", property: "Luxury Oceanfront Resort", dates: "Oct 05 - Oct 07", amount: "$400.00", status: "Completed" },
-  { id: "BKG-7834", guest: "Dwight Schrute", property: "Mountain View Villa", dates: "Nov 01 - Nov 05", amount: "$2,200.00", status: "Cancelled" },
+  { id: "BKG-7829", guest: "Michael Scott", property: "Luxury Oceanfront Resort", dates: "Oct 12 - Oct 15", amount: "$850.00", status: "Confirmed", email: "michael.s@dundermifflin.com", phone: "+1 (555) 019-8372", nationality: "United States", guests: "2 Adults", specialRequests: "Highest floor possible, please.", paymentMethod: "Visa ending in 4242" },
+  { id: "BKG-7830", guest: "Sarah Jenkins", property: "Downtown Boutique Hotel", dates: "Oct 14 - Oct 15", amount: "$150.00", status: "Pending", email: "sarah.j@example.com", phone: "+44 7700 900077", nationality: "United Kingdom", guests: "1 Adult", specialRequests: "Late check-in around 10 PM.", paymentMethod: "Mastercard ending in 8810" },
+  { id: "BKG-7831", guest: "Robert California", property: "Mountain View Villa", dates: "Oct 18 - Oct 23", amount: "$4,500.00", status: "Confirmed", email: "r.california@sabre.com", phone: "+1 (555) 993-2111", nationality: "United States", guests: "4 Adults, 2 Children", specialRequests: "Require extra pillows and a crib.", paymentMethod: "Amex ending in 1002" },
+  { id: "BKG-7832", guest: "Pam Beesly", property: "Luxury Oceanfront Resort", dates: "Oct 05 - Oct 07", amount: "$400.00", status: "Completed", email: "pam.beesly@dundermifflin.com", phone: "+1 (555) 443-8822", nationality: "United States", guests: "2 Adults", specialRequests: "Anniversary trip.", paymentMethod: "Visa ending in 9091" },
+  { id: "BKG-7833", guest: "Jim Halpert", property: "Luxury Oceanfront Resort", dates: "Oct 05 - Oct 07", amount: "$400.00", status: "Completed", email: "jim.halpert@dundermifflin.com", phone: "+1 (555) 443-8822", nationality: "United States", guests: "2 Adults", specialRequests: "", paymentMethod: "Visa ending in 9091" },
+  { id: "BKG-7834", guest: "Dwight Schrute", property: "Mountain View Villa", dates: "Nov 01 - Nov 05", amount: "$2,200.00", status: "Cancelled", email: "dwight.schrute@schrutefarms.com", phone: "+1 (555) 999-1111", nationality: "United States", guests: "1 Adult", specialRequests: "Need space for a large beet collection.", paymentMethod: "PayPal" },
 ];
 
 export default function BookingsPage() {
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-3xl font-heading font-bold text-secondary">Bookings</h2>
@@ -67,7 +77,8 @@ export default function BookingsPage() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: i * 0.05 }}
                   key={booking.id} 
-                  className="hover:bg-slate-50/80 transition-colors group"
+                  onClick={() => setSelectedBooking(booking)}
+                  className="hover:bg-slate-50/80 transition-colors group cursor-pointer"
                 >
                   <td className="p-4 font-mono font-medium text-slate-600">{booking.id}</td>
                   <td className="p-4 font-semibold text-secondary flex items-center gap-3">
@@ -100,6 +111,142 @@ export default function BookingsPage() {
           </table>
         </CardContent>
       </Card>
+
+      <Dialog open={!!selectedBooking} onOpenChange={(open) => !open && setSelectedBooking(null)}>
+        <DialogContent className="sm:max-w-3xl bg-white p-0 overflow-y-auto max-h-[90vh] shadow-2xl rounded-2xl border-0">
+          {selectedBooking && (
+            <div className="flex flex-col">
+              <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+                <DialogHeader className="mb-6">
+                  <div className="flex items-center justify-between">
+                    <DialogTitle className="text-xl font-black text-secondary">Manage Booking</DialogTitle>
+                    <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                      selectedBooking.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-700' :
+                      selectedBooking.status === 'Pending' ? 'bg-amber-100 text-amber-700' :
+                      selectedBooking.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
+                      'bg-slate-100 text-slate-700'
+                    }`}>
+                      {selectedBooking.status}
+                    </span>
+                  </div>
+                  <DialogDescription className="text-slate-500 font-medium">
+                    {selectedBooking.id}
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="flex items-center gap-4">
+                  <div className="h-16 w-16 rounded-3xl bg-primary/10 text-primary flex items-center justify-center text-2xl font-black shrink-0">
+                    {selectedBooking.guest.split(' ').map((n: string) => n[0]).join('')}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-secondary">{selectedBooking.guest}</h3>
+                    <p className="text-sm text-slate-500 font-medium flex items-center gap-1 mt-1">
+                      <MapPin className="w-3.5 h-3.5" />
+                      {selectedBooking.property}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Left Column */}
+                <div className="space-y-8">
+                  <div>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Guest Details</h4>
+                  <div className="p-5 rounded-2xl bg-slate-50/80 ring-1 ring-slate-100 space-y-4">
+                    <div className="flex flex-col gap-4">
+                      <div>
+                        <p className="text-xs text-slate-500 font-medium mb-1">Email</p>
+                        <p className="font-bold text-secondary text-sm break-all">{selectedBooking.email}</p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs text-slate-500 font-medium mb-1">Phone</p>
+                          <p className="font-bold text-secondary text-sm">{selectedBooking.phone}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500 font-medium mb-1">Guests</p>
+                          <p className="font-bold text-secondary text-sm">{selectedBooking.guests}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-xs text-slate-500 font-medium mb-1">Nationality</p>
+                        <p className="font-bold text-secondary text-sm">{selectedBooking.nationality}</p>
+                      </div>
+                    </div>
+                    {selectedBooking.specialRequests && (
+                      <div className="pt-4 border-t border-slate-200/60">
+                        <p className="text-xs text-slate-500 font-medium mb-2">Special Requests</p>
+                        <p className="text-sm font-semibold text-amber-900 bg-amber-50 p-3 rounded-xl ring-1 ring-amber-200/50">{selectedBooking.specialRequests}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-8">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Reservation Details</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 rounded-2xl bg-slate-50/80 ring-1 ring-slate-100">
+                      <p className="text-xs text-slate-500 font-medium mb-1">Check-in</p>
+                      <p className="font-bold text-secondary">{selectedBooking.dates.split(' - ')[0]}</p>
+                      <p className="text-[10px] text-slate-400 font-medium mt-1">From 2:00 PM</p>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-slate-50/80 ring-1 ring-slate-100">
+                      <p className="text-xs text-slate-500 font-medium mb-1">Check-out</p>
+                      <p className="font-bold text-secondary">{selectedBooking.dates.split(' - ')[1]}</p>
+                      <p className="text-[10px] text-slate-400 font-medium mt-1">Until 11:00 AM</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Payment Summary</h4>
+                  <div className="p-5 rounded-2xl bg-white ring-1 ring-slate-100 shadow-sm space-y-3">
+                    <div className="flex justify-between items-center text-sm font-medium text-slate-600">
+                      <span>Room charges</span>
+                      <span>{selectedBooking.amount}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm font-medium text-slate-600">
+                      <span>Taxes & Fees</span>
+                      <span>$45.00</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm font-medium text-slate-600 pt-1">
+                      <span className="flex items-center gap-1.5"><CreditCard className="w-4 h-4 text-slate-400" /> Payment Method</span>
+                      <span className="text-secondary">{selectedBooking.paymentMethod}</span>
+                    </div>
+                    <div className="h-px bg-slate-100 my-2"></div>
+                    <div className="flex justify-between items-center text-base font-black text-secondary">
+                      <span>Total Paid</span>
+                      <span className="text-[#E86A70]">${(parseFloat(selectedBooking.amount.replace(/[^0-9.-]+/g,"")) + 45).toFixed(2)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3 pt-4 pb-6">
+                  <Button className="w-full bg-[#E86A70] hover:bg-[#E86A70]/90 text-white font-bold h-12 rounded-xl shadow-lg shadow-[#E86A70]/20 gap-2">
+                    <MessageSquare className="w-5 h-5" />
+                    Message Guest
+                  </Button>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button variant="outline" className="font-bold h-12 rounded-xl border-slate-200 text-slate-600 gap-2">
+                      <FileText className="w-4 h-4" />
+                      Invoice
+                    </Button>
+                    <Button variant="outline" className="font-bold h-12 rounded-xl border-red-100 text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 gap-2">
+                      <Ban className="w-4 h-4" />
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

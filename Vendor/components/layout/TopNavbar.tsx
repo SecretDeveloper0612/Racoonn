@@ -1,7 +1,7 @@
 "use client";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Search, Bell, MessageSquare, ChevronDown } from "lucide-react";
+import { Search, Bell, ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,14 +32,38 @@ export function TopNavbar() {
         </div>
         
         <div className="flex items-center gap-1 sm:gap-2 mr-2">
-          <button className="relative p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors">
-            <Bell className="h-5 w-5" />
-            <span className="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-primary ring-2 ring-white"></span>
-          </button>
-          
-          <button className="relative p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors hidden sm:block">
-            <MessageSquare className="h-5 w-5" />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="relative p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors outline-none cursor-pointer">
+              <Bell className="h-5 w-5" />
+              <span className="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-primary ring-2 ring-white"></span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-80 mt-2 rounded-xl p-0 overflow-hidden shadow-lg border-slate-200">
+              <div className="bg-slate-50 border-b border-slate-100 p-4">
+                <h3 className="font-bold text-slate-800 text-sm">Notifications</h3>
+              </div>
+              <div className="max-h-75 overflow-y-auto">
+                <div className="p-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors relative">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+                  <p className="text-sm font-bold text-slate-800 mb-1">New Booking Request</p>
+                  <p className="text-xs text-slate-500 leading-relaxed">Rahul Sharma requested a stay at Deluxe King Room from Oct 12 to Oct 15.</p>
+                  <p className="text-[10px] text-slate-400 mt-2 font-medium">2 hours ago</p>
+                </div>
+                <div className="p-4 border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors">
+                  <p className="text-sm font-bold text-slate-800 mb-1">Payout Processed</p>
+                  <p className="text-xs text-slate-500 leading-relaxed">Your recent payout of ₹12,500 has been successfully processed to your bank account.</p>
+                  <p className="text-[10px] text-slate-400 mt-2 font-medium">Yesterday</p>
+                </div>
+                <div className="p-4 hover:bg-slate-50 cursor-pointer transition-colors">
+                  <p className="text-sm font-bold text-slate-800 mb-1">KYC Verified</p>
+                  <p className="text-xs text-slate-500 leading-relaxed">Your uploaded documents have been verified successfully. Your listing is now active.</p>
+                  <p className="text-[10px] text-slate-400 mt-2 font-medium">2 days ago</p>
+                </div>
+              </div>
+              <div className="p-3 bg-slate-50 text-center border-t border-slate-100 cursor-pointer hover:bg-slate-100 transition-colors">
+                <p className="text-xs font-bold text-primary">Mark all as read</p>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         <div className="h-8 w-px bg-slate-200 hidden sm:block"></div>
@@ -63,7 +87,7 @@ export function TopNavbar() {
               <Link href="/vendor/settings">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="rounded-lg cursor-pointer p-3 font-medium">
-              <Link href="/vendor/support" target="_blank">Support</Link>
+              <Link href="/vendor/support">Support</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

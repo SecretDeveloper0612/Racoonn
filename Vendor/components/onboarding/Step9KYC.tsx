@@ -24,15 +24,27 @@ const DocUploader = ({ title, desc, docKey, isUploaded, toggleDoc }: { title: st
       </div>
     </div>
     {!isUploaded && (
-      <Button onClick={() => toggleDoc(docKey)} variant="outline" className="text-xs font-bold border-slate-200 hover:border-[#E86A70] hover:text-[#E86A70]">
-        Upload
-      </Button>
+      <label className="cursor-pointer">
+        <input 
+          type="file" 
+          className="hidden" 
+          accept=".jpg,.jpeg,.png,.pdf"
+          onChange={(e) => {
+            if (e.target.files && e.target.files.length > 0) {
+              toggleDoc(docKey);
+            }
+          }}
+        />
+        <div className="h-9 px-4 inline-flex items-center justify-center rounded-md text-xs font-bold border border-slate-200 bg-white hover:border-[#E86A70] hover:text-[#E86A70] hover:bg-slate-50 transition-colors shadow-sm">
+          Upload
+        </div>
+      </label>
     )}
   </div>
 );
 
 export function Step9KYC({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
-  const [docs, setDocs] = useState({ pan: true, aadhaar: false, lease: false });
+  const [docs, setDocs] = useState({ pan: false, aadhaar: false, lease: false });
 
   const slideUp: any = {
     hidden: { opacity: 0, y: 20 },
@@ -52,7 +64,7 @@ export function Step9KYC({ onNext, onBack }: { onNext: () => void, onBack: () =>
       className="flex flex-col h-full max-w-xl mx-auto w-full pt-8"
     >
       <motion.div variants={slideUp} className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',_sans-serif]">KYC Verification</h1>
+        <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',sans-serif]">KYC Verification</h1>
         <p className="text-slate-500 font-medium">To comply with government regulations, we need to verify the property owner and business details.</p>
       </motion.div>
 

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Wifi, Dumbbell, Car, Coffee, Wind, Tv } from "lucide-react";
+import { ArrowRight, ArrowLeft, Wifi, Dumbbell, Car, Coffee, Wind, Tv, Snowflake, UtensilsCrossed, PawPrint, Wine, Clock, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +13,12 @@ const AMENITIES = [
   { id: "parking", name: "Free Parking", icon: Car },
   { id: "restaurant", name: "Restaurant", icon: Coffee },
   { id: "tv", name: "Smart TV", icon: Tv },
+  { id: "ac", name: "Air Conditioning", icon: Snowflake },
+  { id: "room_service", name: "Room Service", icon: UtensilsCrossed },
+  { id: "pets", name: "Pet Friendly", icon: PawPrint },
+  { id: "bar", name: "Bar / Lounge", icon: Wine },
+  { id: "front_desk", name: "24/7 Front Desk", icon: Clock },
+  { id: "spa", name: "Spa & Wellness", icon: Sparkles },
 ];
 
 export function Step7Amenities({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
@@ -37,7 +43,7 @@ export function Step7Amenities({ onNext, onBack }: { onNext: () => void, onBack:
       className="flex flex-col h-full max-w-xl mx-auto w-full pt-8"
     >
       <motion.div variants={slideUp} className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',_sans-serif]">Amenities & Policies</h1>
+        <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',sans-serif]">What amenities do you offer?</h1>
         <p className="text-slate-500 font-medium">Select the amenities available at your property and define your house rules.</p>
       </motion.div>
 
@@ -75,18 +81,18 @@ export function Step7Amenities({ onNext, onBack }: { onNext: () => void, onBack:
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500">Check-in Time</label>
-              <select className="w-full h-12 rounded-xl border border-slate-200 bg-white px-4 font-bold text-slate-700 outline-none focus:border-[#E86A70]">
+              <select className="w-full h-12 rounded-xl border border-slate-200 bg-white px-4 font-bold text-slate-700 outline-none focus:border-[#E86A70]" defaultValue="2:00 PM">
                 <option>12:00 PM</option>
                 <option>1:00 PM</option>
-                <option selected>2:00 PM</option>
+                <option>2:00 PM</option>
                 <option>3:00 PM</option>
               </select>
             </div>
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500">Check-out Time</label>
-              <select className="w-full h-12 rounded-xl border border-slate-200 bg-white px-4 font-bold text-slate-700 outline-none focus:border-[#E86A70]">
+              <select className="w-full h-12 rounded-xl border border-slate-200 bg-white px-4 font-bold text-slate-700 outline-none focus:border-[#E86A70]" defaultValue="11:00 AM">
                 <option>10:00 AM</option>
-                <option selected>11:00 AM</option>
+                <option>11:00 AM</option>
                 <option>12:00 PM</option>
               </select>
             </div>

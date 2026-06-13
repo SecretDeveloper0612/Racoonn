@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, ArrowLeft, Plus, Users, Maximize, Edit2, Trash2 } from "lucide-react";
+import { ArrowRight, ArrowLeft, Plus, Users, Maximize, Edit2, Trash2, Image as ImageIcon, UploadCloud } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ export function Step5Rooms({ onNext, onBack }: { onNext: () => void, onBack: () 
     >
       <motion.div variants={slideUp} className="mb-8 flex justify-between items-end">
         <div>
-          <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',_sans-serif]">Add your rooms</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',sans-serif]">Add your rooms</h1>
           <p className="text-slate-500 font-medium">Create room categories, set base prices, and define occupancy.</p>
         </div>
         <Button onClick={addRoom} variant="outline" className="font-bold rounded-full border-[#E86A70] text-[#E86A70] hover:bg-[#E86A70]/10">
@@ -67,6 +67,17 @@ export function Step5Rooms({ onNext, onBack }: { onNext: () => void, onBack: () 
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><Maximize className="w-3 h-3" /> Size (sqft)</label>
                   <Input defaultValue={room.size} type="number" className="h-10 border-slate-200 bg-white font-bold rounded-xl" />
+                </div>
+              </div>
+              <div className="pt-4 border-t border-slate-100">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 block">Room Photos</label>
+                <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-slate-500 hover:bg-slate-50 hover:border-[#E86A70]/50 transition-colors cursor-pointer relative group/upload">
+                  <input type="file" multiple accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                  <div className="w-10 h-10 rounded-full bg-slate-100 group-hover/upload:bg-[#E86A70]/10 flex items-center justify-center mb-3 transition-colors">
+                    <UploadCloud className="w-5 h-5 text-slate-400 group-hover/upload:text-[#E86A70] transition-colors" />
+                  </div>
+                  <span className="text-sm font-bold text-slate-700">Upload Photos</span>
+                  <span className="text-xs text-slate-400 mt-1">Drag & drop or click to browse</span>
                 </div>
               </div>
             </div>
