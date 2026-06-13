@@ -86,12 +86,12 @@ const AuthModal = ({ children }: { children: React.ReactElement }) => {
             </div>
           )}
 
-          <Link href="/vendor/dashboard" className="block mt-2">
+          <Link href={view === 'signup' ? "/vendor/onboarding" : "/vendor/dashboard"} className="block mt-2">
             <button 
               type="button" 
               className="w-full bg-[#222] hover:bg-black text-white py-3.5 rounded-xl font-bold text-[15px] transition-all active:scale-[0.98]"
             >
-              {view === 'signin' ? 'Sign In' : view === 'signup' ? 'Submit Application' : 'Send reset link'}
+              {view === 'signin' ? 'Sign In' : view === 'signup' ? 'Start Onboarding' : 'Send reset link'}
             </button>
           </Link>
         </form>
@@ -154,10 +154,10 @@ export function LandingNavbar() {
   return (
     <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
       <motion.header
-        className={`pointer-events-auto transition-all duration-300 w-full max-w-7xl rounded-full flex items-center justify-between px-4 py-2 sm:px-6 shadow-lg ${
+        className={`pointer-events-auto transition-all duration-300 w-full max-w-7xl rounded-full flex items-center justify-between px-4 sm:px-6 border border-slate-200/60 ${
           isScrolled 
-            ? "bg-[#EAF0F6]/95 backdrop-blur-md shadow-slate-200/50 py-3" 
-            : "bg-[#EAF0F6] shadow-black/5"
+            ? "bg-white/95 backdrop-blur-md shadow-md py-3" 
+            : "bg-white/80 backdrop-blur-md shadow-sm py-4"
         }`}
       >
         {/* Left: Logo */}
@@ -172,14 +172,12 @@ export function LandingNavbar() {
         </Link>
 
         {/* Middle: Links */}
-        <nav className="hidden lg:flex items-center bg-white rounded-full px-2 shadow-sm border border-slate-100">
-          {["Benefits", "Setup", "Protection", "FAQ"].map((item, index) => (
+        <nav className="hidden lg:flex items-center gap-1">
+          {["Benefits", "Setup", "Protection", "FAQ"].map((item) => (
             <Link 
               key={item} 
               href={`#${item.toLowerCase()}`}
-              className={`text-sm font-bold text-secondary hover:text-primary px-6 py-3.5 transition-colors ${
-                index !== 3 ? "border-r border-slate-100" : ""
-              }`}
+              className="text-sm font-semibold text-[#202D42]/80 hover:text-[#EA6A6E] px-5 py-2.5 rounded-full hover:bg-slate-50 transition-colors"
             >
               {item}
             </Link>
@@ -187,18 +185,18 @@ export function LandingNavbar() {
         </nav>
 
         {/* Right: Actions */}
-        <div className="hidden lg:flex items-center gap-4 shrink-0">
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
           <AuthModal>
-            <Button className="bg-[#E86A70] hover:bg-[#E86A70]/90 text-white font-bold rounded-full px-6 shadow-sm">
+            <Button className="bg-[#EA6A6E] hover:bg-[#d65d60] text-white font-bold rounded-full px-6 shadow-sm shadow-[#EA6A6E]/20">
               Sign in
             </Button>
           </AuthModal>
           <Link href="/vendor/dashboard">
-            <Button variant="outline" className="font-bold rounded-full px-6 border-slate-200 text-secondary bg-white hover:bg-slate-50">
+            <Button variant="outline" className="font-bold rounded-full px-6 border-slate-200 text-[#202D42] bg-white hover:bg-slate-50">
               Vendor Portal
             </Button>
           </Link>
-          <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-secondary hover:text-primary transition-colors border border-slate-100">
+          <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-[#202D42] hover:text-[#EA6A6E] transition-colors border border-slate-200 hover:bg-slate-50">
             <Menu className="w-5 h-5" />
           </button>
         </div>

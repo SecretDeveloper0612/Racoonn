@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
 import { Building2, CalendarCheck, DollarSign, Percent, Star, Clock, ArrowUpRight, ArrowDownRight, MoreHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
 import {

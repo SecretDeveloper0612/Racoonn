@@ -3,9 +3,10 @@
 import {
   LayoutDashboard, Building2, CalendarCheck, BedDouble, Calendar,
   Users, Star, LineChart, Tags, MessageSquare, LifeBuoy,
-  User, Settings, LogOut
+  User, Settings, LogOut, MapPin, Info, Image as ImageIcon
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Sidebar,
@@ -22,17 +23,12 @@ import {
 
 const navItems = [
   { title: "Dashboard", url: "/vendor/dashboard", icon: LayoutDashboard },
-  { title: "Properties", url: "/vendor/properties", icon: Building2 },
-  { title: "Bookings", url: "/vendor/bookings", icon: CalendarCheck },
-  { title: "Rooms", url: "/vendor/rooms", icon: BedDouble },
-  { title: "Calendar", url: "/vendor/calendar", icon: Calendar },
-  { title: "Guests", url: "/vendor/guests", icon: Users },
-  { title: "Reviews", url: "/vendor/reviews", icon: Star },
-  { title: "Revenue", url: "/vendor/revenue", icon: LineChart },
-  { title: "Promotions", url: "/vendor/promotions", icon: Tags },
-  { title: "Support", url: "/vendor/support", icon: LifeBuoy },
-  { title: "Profile", url: "/vendor/profile", icon: User },
-  { title: "Settings", url: "/vendor/settings", icon: Settings },
+  { title: "Photos", url: "/vendor/photos", icon: ImageIcon },
+  { title: "Rooms and prices", url: "/vendor/rooms", icon: BedDouble },
+  { title: "Amenities", url: "/vendor/amenities", icon: Star },
+  { title: "About the hotel", url: "/vendor/about", icon: Info },
+  { title: "Location", url: "/vendor/location", icon: MapPin },
+  { title: "Rating and reviews", url: "/vendor/reviews", icon: MessageSquare },
 ];
 
 export function AppSidebar() {
@@ -41,10 +37,20 @@ export function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-200 bg-white">
       <SidebarHeader className="p-4 group-data-[collapsible=icon]:p-0 h-16 flex items-center justify-center">
-        <h2 className="text-2xl font-heading font-black tracking-tight text-primary group-data-[collapsible=icon]:hidden">
-          Racoonn<span className="text-secondary">.</span>
-        </h2>
-        <span className="text-2xl font-heading font-black text-primary hidden group-data-[collapsible=icon]:block">R</span>
+        <Image 
+          src="/racoonn-logo-text.png" 
+          alt="Racoonn Logo" 
+          width={120} 
+          height={32} 
+          className="h-8 w-auto object-contain group-data-[collapsible=icon]:hidden" 
+        />
+        <Image 
+          src="/racoonn-logo-icon.png" 
+          alt="Racoonn Icon" 
+          width={32} 
+          height={32} 
+          className="h-8 w-8 object-contain hidden group-data-[collapsible=icon]:block" 
+        />
       </SidebarHeader>
       <SidebarContent className="px-2 group-data-[collapsible=icon]:px-0">
         <SidebarGroup>

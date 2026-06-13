@@ -10,7 +10,7 @@ import { TestimonialSection } from "@/components/landing/TestimonialSection";
 
 export default function VendorLandingPage() {
   return (
-    <div className="min-h-screen bg-white font-sans selection:bg-[#E86A70] selection:text-white pt-20">
+    <div className="min-h-screen bg-white font-sans selection:bg-[#E86A70] selection:text-white">
       <LandingNavbar />
       
       <main>

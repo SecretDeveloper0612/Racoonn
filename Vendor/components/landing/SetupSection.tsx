@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, HeadphonesIcon, TrendingUp, ArrowRight, Sparkles, BarChart3, MessageSquare } from "lucide-react";
+import { Users, HeadphonesIcon, TrendingUp, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function SetupSection() {
@@ -14,22 +14,19 @@ export function SetupSection() {
       title: "1-on-1 Onboarding",
       description: "Get paired with a dedicated success manager who will walk you through your first listing, optimizing your pricing, and getting your first booking.",
       icon: Users,
-      color: "text-blue-500",
-      bg: "bg-blue-500/10",
-      activeBorder: "border-blue-500",
       visual: (
-        <div className="w-full h-full relative bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 overflow-hidden flex flex-col justify-center">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-          <div className="relative z-10 flex items-center gap-6 bg-white p-6 rounded-2xl shadow-xl shadow-blue-900/5 max-w-sm mx-auto">
-            <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center shrink-0 border-4 border-white shadow-sm">
-              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop" className="w-full h-full object-cover rounded-full" alt="Success Manager" />
+        <div className="w-full h-full relative bg-gradient-to-br from-[#1A2639] to-[#111827] rounded-3xl p-8 overflow-hidden flex flex-col justify-center border border-white/10 shadow-2xl">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#EA6A6E]/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+          <div className="relative z-10 flex items-center gap-6 bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-xl max-w-sm mx-auto">
+            <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border-2 border-[#EA6A6E] shadow-[0_0_15px_rgba(234,106,110,0.5)]">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop" className="w-full h-full object-cover rounded-full p-1" alt="Success Manager" />
             </div>
             <div>
-              <p className="text-sm text-blue-600 font-bold mb-1">Your Success Manager</p>
-              <p className="text-lg font-black text-slate-800">Sarah Jenkins</p>
+              <p className="text-xs text-[#EA6A6E] font-bold mb-1 uppercase tracking-wider">Your Success Manager</p>
+              <p className="text-lg font-black text-white">Sarah Jenkins</p>
               <div className="flex items-center gap-2 mt-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-semibold text-slate-500">Online now</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)] animate-pulse" />
+                <span className="text-xs font-semibold text-slate-300">Online now</span>
               </div>
             </div>
           </div>
@@ -41,21 +38,18 @@ export function SetupSection() {
       title: "Premium Support",
       description: "Skip the generic chatbots. Gain direct, 24/7 access to our specialized support team based globally to handle any guest issues immediately.",
       icon: HeadphonesIcon,
-      color: "text-[#E86A70]",
-      bg: "bg-[#E86A70]/10",
-      activeBorder: "border-[#E86A70]",
       visual: (
-        <div className="w-full h-full relative bg-gradient-to-br from-rose-50 to-orange-50 rounded-3xl p-8 overflow-hidden flex flex-col justify-center">
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#E86A70]/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
+        <div className="w-full h-full relative bg-gradient-to-br from-[#1A2639] to-[#111827] rounded-3xl p-8 overflow-hidden flex flex-col justify-center border border-white/10 shadow-2xl">
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#EA6A6E]/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
           <div className="relative z-10 space-y-4 max-w-sm mx-auto w-full">
-            <div className="bg-white p-4 rounded-2xl shadow-lg shadow-rose-900/5 rounded-tl-none w-[85%] self-start flex gap-3">
-               <div className="w-8 h-8 rounded-full bg-[#E86A70] flex items-center justify-center shrink-0">
+            <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/10 rounded-tl-none w-[85%] self-start flex gap-3">
+               <div className="w-8 h-8 rounded-full bg-[#EA6A6E] flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(234,106,110,0.4)]">
                   <HeadphonesIcon className="w-4 h-4 text-white" />
                </div>
-               <p className="text-sm font-medium text-slate-700">Hi there! I see your guest is having trouble with the lock. I've just dispatched maintenance.</p>
+               <p className="text-sm font-medium text-slate-200">Hi there! I see your guest is having trouble with the lock. I've just dispatched maintenance.</p>
             </div>
-            <div className="bg-slate-800 p-4 rounded-2xl shadow-lg rounded-tr-none w-[75%] ml-auto text-white">
-               <p className="text-sm font-medium">Wow, that was incredibly fast. Thank you!</p>
+            <div className="bg-[#EA6A6E] p-4 rounded-2xl shadow-[0_0_20px_rgba(234,106,110,0.2)] rounded-tr-none w-[75%] ml-auto text-white">
+               <p className="text-sm font-bold">Wow, that was incredibly fast. Thank you!</p>
             </div>
           </div>
         </div>
@@ -66,30 +60,30 @@ export function SetupSection() {
       title: "Revenue Optimization",
       description: "Our proprietary AI doesn't just suggest prices; it actively monitors market demand in your area to maximize your yield dynamically.",
       icon: TrendingUp,
-      color: "text-emerald-500",
-      bg: "bg-emerald-500/10",
-      activeBorder: "border-emerald-500",
       visual: (
-        <div className="w-full h-full relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-8 overflow-hidden flex flex-col justify-end">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl" />
-          <div className="relative z-10 bg-white p-6 rounded-2xl shadow-xl shadow-emerald-900/5 w-full">
+        <div className="w-full h-full relative bg-gradient-to-br from-[#1A2639] to-[#111827] rounded-3xl p-8 overflow-hidden flex flex-col justify-end border border-white/10 shadow-2xl">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#EA6A6E]/15 rounded-full blur-3xl" />
+          <div className="relative z-10 bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-xl w-full">
              <div className="flex justify-between items-center mb-6">
                 <div>
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">AI Pricing Adjustments</p>
-                  <p className="text-2xl font-black text-slate-800">+$1,240 <span className="text-sm font-medium text-emerald-500">This week</span></p>
+                  <p className="text-3xl font-black text-white">+$1,240 <span className="text-sm font-medium text-emerald-400 ml-2">This week</span></p>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-emerald-600" />
+                <div className="w-12 h-12 rounded-full bg-[#EA6A6E]/20 flex items-center justify-center border border-[#EA6A6E]/30">
+                  <Sparkles className="w-6 h-6 text-[#EA6A6E]" />
                 </div>
              </div>
-             <div className="flex items-end gap-2 h-32">
+             <div className="flex items-end gap-3 h-32">
                 {[40, 65, 45, 80, 55, 90, 100].map((h, i) => (
                   <motion.div 
                     key={i}
                     initial={{ height: 0 }}
                     animate={{ height: `${h}%` }}
-                    transition={{ duration: 1, delay: i * 0.1 }}
-                    className="flex-1 bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-sm"
+                    transition={{ duration: 1, delay: i * 0.1, type: "spring" }}
+                    className={cn(
+                      "flex-1 rounded-t-md",
+                      i === 6 ? "bg-gradient-to-t from-[#EA6A6E] to-rose-400 shadow-[0_0_15px_rgba(234,106,110,0.5)]" : "bg-white/20"
+                    )}
                   />
                 ))}
              </div>
@@ -100,7 +94,12 @@ export function SetupSection() {
   ];
 
   return (
-    <section id="setup" className="py-32 bg-white relative overflow-hidden">
+    <section id="setup" className="py-32 bg-[#151E2D] relative overflow-hidden font-['Poppins',_sans-serif]">
+      {/* Background glowing effects */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute -left-[20%] top-[20%] w-[500px] h-[500px] bg-[#EA6A6E]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute -right-[10%] bottom-[10%] w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
+
       <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
         
         <div className="text-center mb-20">
@@ -108,16 +107,16 @@ export function SetupSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-black text-secondary tracking-tight"
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight"
           >
-            The Racoonn <span className="text-[#E86A70]">Advantage</span>
+            The Racoonn <span className="text-[#EA6A6E]">Advantage</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-xl font-medium text-slate-500 mt-6 max-w-2xl mx-auto"
+            className="text-lg md:text-xl font-medium text-slate-400 mt-6 max-w-2xl mx-auto"
           >
             We don't just list your property; we partner with you to build a highly profitable hospitality business.
           </motion.p>
@@ -134,48 +133,56 @@ export function SetupSection() {
                   key={feature.id}
                   onClick={() => setActiveIndex(index)}
                   className={cn(
-                    "text-left p-6 md:p-8 rounded-3xl transition-all duration-300 border-2 relative overflow-hidden group",
+                    "text-left p-6 md:p-8 rounded-3xl transition-all duration-500 border relative overflow-hidden group",
                     isActive 
-                      ? `bg-white shadow-xl shadow-slate-200/50 ${feature.activeBorder}` 
-                      : "bg-slate-50 border-transparent hover:bg-slate-100"
+                      ? "bg-white/10 border-[#EA6A6E]/50 shadow-[0_0_30px_rgba(234,106,110,0.15)]" 
+                      : "bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/10"
                   )}
                 >
-                  <div className="flex items-start gap-6">
+                  <div className="flex items-start gap-6 relative z-10">
                     <div className={cn(
-                      "w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-colors duration-300",
-                      isActive ? feature.bg : "bg-white shadow-sm text-slate-400"
+                      "w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-500",
+                      isActive ? "bg-[#EA6A6E] shadow-[0_0_15px_rgba(234,106,110,0.4)]" : "bg-white/10 text-slate-400 group-hover:bg-white/20"
                     )}>
-                      <feature.icon className={cn("w-7 h-7", isActive ? feature.color : "text-slate-400")} strokeWidth={2} />
+                      <feature.icon className={cn("w-7 h-7", isActive ? "text-white" : "text-slate-300")} strokeWidth={2} />
                     </div>
                     <div>
                       <h3 className={cn(
                         "text-2xl font-bold mb-3 transition-colors duration-300",
-                        isActive ? "text-secondary" : "text-slate-600 group-hover:text-secondary"
+                        isActive ? "text-white" : "text-slate-300 group-hover:text-white"
                       )}>
                         {feature.title}
                       </h3>
                       <p className={cn(
                         "leading-relaxed transition-colors duration-300",
-                        isActive ? "text-slate-600" : "text-slate-500"
+                        isActive ? "text-slate-300" : "text-slate-500 group-hover:text-slate-400"
                       )}>
                         {feature.description}
                       </p>
                     </div>
                   </div>
+                  
+                  {/* Subtle active background glow */}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="activeTabGlow"
+                      className="absolute inset-0 bg-gradient-to-r from-[#EA6A6E]/10 to-transparent opacity-50 pointer-events-none"
+                    />
+                  )}
                 </button>
               );
             })}
           </div>
 
           {/* Right Side: Dynamic Visuals */}
-          <div className="h-[500px] lg:h-[600px] w-full rounded-3xl overflow-hidden relative shadow-2xl shadow-slate-200/50 border border-slate-100">
+          <div className="h-[500px] lg:h-[600px] w-full rounded-3xl overflow-hidden relative shadow-[0_0_50px_rgba(0,0,0,0.3)] border border-white/10 bg-[#0B1120]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.05 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
                 className="absolute inset-0"
               >
                 {features[activeIndex].visual}

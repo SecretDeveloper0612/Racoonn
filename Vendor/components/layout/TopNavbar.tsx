@@ -4,10 +4,17 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Search, Bell, MessageSquare, ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 export function TopNavbar() {
   return (
-    <header className="sticky top-0 z-20 flex h-[72px] w-full items-center justify-between border-b border-slate-200 bg-white/90 backdrop-blur-md px-6 shadow-sm">
+    <header className="sticky top-0 z-20 flex h-18 w-full items-center justify-between border-b border-slate-200 bg-white/90 backdrop-blur-md px-6 shadow-sm">
       <div className="flex items-center gap-4">
         <SidebarTrigger className="text-slate-500 hover:text-slate-900 transition-colors" />
         <div className="h-6 w-px bg-slate-200 hidden sm:block"></div>
@@ -37,17 +44,29 @@ export function TopNavbar() {
 
         <div className="h-8 w-px bg-slate-200 hidden sm:block"></div>
 
-        <div className="flex items-center gap-3 ml-1 cursor-pointer group hover:bg-slate-50 p-1.5 rounded-full pr-3 transition-colors">
-          <Avatar className="h-9 w-9 ring-2 ring-transparent group-hover:ring-primary/20 transition-all">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@vendor" />
-            <AvatarFallback className="bg-primary/10 text-primary font-semibold">VD</AvatarFallback>
-          </Avatar>
-          <div className="hidden lg:block text-left">
-            <p className="text-sm font-semibold text-secondary leading-none">Luxury Resort</p>
-            <p className="text-xs text-slate-500 mt-1">Vendor Account</p>
-          </div>
-          <ChevronDown className="w-4 h-4 text-slate-400 hidden lg:block group-hover:text-slate-600" />
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <div className="flex items-center gap-3 ml-1 cursor-pointer group hover:bg-slate-50 p-1.5 rounded-full pr-3 transition-colors outline-none">
+              <Avatar className="h-9 w-9 ring-2 ring-transparent group-hover:ring-primary/20 transition-all">
+                <AvatarImage src="https://github.com/shadcn.png" alt="@vendor" />
+                <AvatarFallback className="bg-primary/10 text-primary font-semibold">VD</AvatarFallback>
+              </Avatar>
+              <div className="hidden lg:block text-left">
+                <p className="text-sm font-semibold text-secondary leading-none">Luxury Resort</p>
+                <p className="text-xs text-slate-500 mt-1">Vendor Account</p>
+              </div>
+              <ChevronDown className="w-4 h-4 text-slate-400 hidden lg:block group-hover:text-slate-600" />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56 mt-2 rounded-xl p-2">
+            <DropdownMenuItem className="rounded-lg cursor-pointer p-3 font-medium">
+              <Link href="/vendor/settings">Settings</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="rounded-lg cursor-pointer p-3 font-medium">
+              <Link href="/vendor/support" target="_blank">Support</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
