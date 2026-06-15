@@ -190,12 +190,12 @@ export default function AuthPage() {
       {/* Right Column: Visuals */}
       <div className="hidden lg:flex lg:w-[55%] xl:w-[60%] relative bg-[#1F2E4A] overflow-hidden items-center justify-center p-12 lg:p-20">
         {/* Abstract background elements */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] rounded-full bg-linear-to-b from-[#E86A70]/40 to-transparent blur-3xl mix-blend-screen" />
-          <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] rounded-full bg-linear-to-t from-blue-500/30 to-transparent blur-3xl mix-blend-screen" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-125 h-125 bg-white/20 rounded-full blur-[100px]" />
+          <div className="absolute top-[30%] left-[60%] w-100 h-100 bg-black/10 rounded-full blur-[80px]" />
           
           {/* Subtle grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[linear-gradient(to_bottom,black_40%,transparent_100%)]"></div>
         </div>
         
         <div className="relative z-10 w-full max-w-xl">
@@ -219,7 +219,7 @@ export default function AuthPage() {
             
             {/* Bento-style feature cards */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 rounded-3xl hover:bg-white/[0.15] transition-colors shadow-2xl">
+              <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 rounded-3xl hover:bg-white/15 transition-colors shadow-2xl">
                 <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-[#E86A70] to-[#FF8C73] flex items-center justify-center mb-4 shadow-lg shadow-[#E86A70]/30">
                   <Globe2 className="w-6 h-6 text-white" />
                 </div>
@@ -227,7 +227,7 @@ export default function AuthPage() {
                 <p className="text-slate-300/80 text-sm">Connect with luxury travelers worldwide.</p>
               </div>
               
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl hover:bg-white/[0.15] transition-colors mt-8 shadow-2xl">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl hover:bg-white/15 transition-colors shadow-2xl">
                 <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-4 shadow-lg shadow-blue-500/30">
                   <ShieldCheck className="w-6 h-6 text-white" />
                 </div>
