@@ -105,7 +105,7 @@ export function Step4Property({ onNext, onBack }: { onNext: () => void, onBack: 
         <div className="space-y-2">
           <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Property Description</label>
           <textarea 
-            className="w-full p-4 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all font-medium resize-none min-h-[120px] outline-none" 
+            className="w-full p-4 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all font-medium resize-none min-h-30 outline-none" 
             placeholder="Describe what makes your property unique. Highlight nearby attractions, atmosphere, and special features..."
           />
         </div>

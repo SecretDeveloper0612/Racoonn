@@ -40,7 +40,7 @@ export function Step1Account({ onNext }: { onNext: () => void }) {
           <UserPlus className="w-7 h-7 text-rose-500" />
         </div>
         <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 tracking-tight font-heading">
-          Create your <span className="text-transparent bg-clip-text bg-linear-to-r from-rose-500 to-orange-400">partner account</span>
+          Create your <span className="text-[#E86A70]">partner account</span>
         </h1>
         <p className="text-slate-500 font-medium text-lg">First, let's set up your login credentials so you can save your progress and access the dashboard later.</p>
       </motion.div>

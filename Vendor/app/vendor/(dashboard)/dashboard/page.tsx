@@ -99,7 +99,7 @@ const item = {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100 ring-1 ring-slate-900/5 min-w-[120px]">
+      <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100 ring-1 ring-slate-900/5 min-w-30">
         <p className="text-sm font-bold text-slate-400 mb-1">{label}</p>
         <p className="text-2xl font-black text-[#E86A70]">
           ${payload[0].value.toLocaleString()}
@@ -192,7 +192,7 @@ export default function DashboardOverview() {
             </div>
           </CardHeader>
           <CardContent className="pt-6 pl-0 pr-4">
-            <div className="h-[300px] w-full">
+            <div className="h-75 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                   <defs>

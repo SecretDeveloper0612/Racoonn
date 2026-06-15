@@ -4,15 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Download, Filter, MessageSquare, FileText, Ban, CheckCircle2, MapPin, CreditCard } from "lucide-react";
-import { motion } from "framer-motion";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Search, Download, Filter, MessageSquare, FileText, Ban, CheckCircle2, MapPin, CreditCard, ArrowLeft } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const bookings = [
   { id: "BKG-7829", guest: "Michael Scott", property: "Luxury Oceanfront Resort", dates: "Oct 12 - Oct 15", amount: "$850.00", status: "Confirmed", email: "michael.s@dundermifflin.com", phone: "+1 (555) 019-8372", nationality: "United States", guests: "2 Adults", specialRequests: "Highest floor possible, please.", paymentMethod: "Visa ending in 4242" },
@@ -28,18 +21,27 @@ export default function BookingsPage() {
 
   return (
     <div className="space-y-6 relative">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h2 className="text-3xl font-heading font-bold text-secondary">Bookings</h2>
-          <p className="text-slate-500 mt-1">Manage all your upcoming and past reservations.</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="bg-white border-slate-200 text-slate-600 gap-2">
-            <Download className="w-4 h-4" />
-            Export CSV
-          </Button>
-        </div>
-      </div>
+      <AnimatePresence mode="wait">
+        {!selectedBooking ? (
+          <motion.div 
+            key="table"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="space-y-6"
+          >
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <h2 className="text-3xl font-heading font-bold text-secondary">Bookings</h2>
+                <p className="text-slate-500 mt-1">Manage all your upcoming and past reservations.</p>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" className="bg-white border-slate-200 text-slate-600 gap-2">
+                  <Download className="w-4 h-4" />
+                  Export CSV
+                </Button>
+              </div>
+            </div>
 
       <Card className="border-0 shadow-sm ring-1 ring-slate-100 rounded-xl bg-white overflow-hidden">
         <div className="p-4 border-b border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/50">
@@ -111,28 +113,37 @@ export default function BookingsPage() {
           </table>
         </CardContent>
       </Card>
-
-      <Dialog open={!!selectedBooking} onOpenChange={(open) => !open && setSelectedBooking(null)}>
-        <DialogContent className="sm:max-w-3xl bg-white p-0 overflow-y-auto max-h-[90vh] shadow-2xl rounded-2xl border-0">
-          {selectedBooking && (
-            <div className="flex flex-col">
-              <div className="p-6 border-b border-slate-100 bg-slate-50/50">
-                <DialogHeader className="mb-6">
-                  <div className="flex items-center justify-between">
-                    <DialogTitle className="text-xl font-black text-secondary">Manage Booking</DialogTitle>
-                    <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                      selectedBooking.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-700' :
-                      selectedBooking.status === 'Pending' ? 'bg-amber-100 text-amber-700' :
-                      selectedBooking.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
-                      'bg-slate-100 text-slate-700'
-                    }`}>
-                      {selectedBooking.status}
-                    </span>
-                  </div>
-                  <DialogDescription className="text-slate-500 font-medium">
-                    {selectedBooking.id}
-                  </DialogDescription>
-                </DialogHeader>
+      </motion.div>
+      ) : (
+        <motion.div 
+          key="details"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 overflow-hidden"
+        >
+          <div className="flex flex-col">
+            <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+              <div className="mb-6">
+                <Button variant="ghost" onClick={() => setSelectedBooking(null)} className="mb-4 text-slate-500 hover:text-slate-700 -ml-2">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Bookings
+                </Button>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-black text-secondary">Manage Booking</h2>
+                  <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                    selectedBooking.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-700' :
+                    selectedBooking.status === 'Pending' ? 'bg-amber-100 text-amber-700' :
+                    selectedBooking.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
+                    'bg-slate-100 text-slate-700'
+                  }`}>
+                    {selectedBooking.status}
+                  </span>
+                </div>
+                <p className="text-slate-500 font-medium mt-1">
+                  {selectedBooking.id}
+                </p>
+              </div>
 
                 <div className="flex items-center gap-4">
                   <div className="h-16 w-16 rounded-3xl bg-primary/10 text-primary flex items-center justify-center text-2xl font-black shrink-0">
@@ -241,12 +252,12 @@ export default function BookingsPage() {
                     </Button>
                   </div>
                 </div>
-                </div>
               </div>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          </div>
+        </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
