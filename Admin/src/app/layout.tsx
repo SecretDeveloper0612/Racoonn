@@ -27,11 +27,11 @@ export default function RootLayout({
       className={`${poppins.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen font-sans bg-background text-foreground">
+      <body className="min-h-screen font-sans bg-background text-foreground" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          forcedTheme="light"
           disableTransitionOnChange
         >
           <TooltipProvider delay={300}>

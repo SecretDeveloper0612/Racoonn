@@ -5,15 +5,11 @@ import { BadgeDollarSign, Users, Building2, CalendarDays, Ticket, AlertCircle } 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 
 const kpiData = [
-  { title: "Total Revenue", value: "$4.2M", icon: BadgeDollarSign, change: "+12.5%" },
-  { title: "Monthly Revenue", value: "$350K", icon: BadgeDollarSign, change: "+5.2%" },
-  { title: "Commission Earnings", value: "$52K", icon: BadgeDollarSign, change: "+8.1%" },
-  { title: "Total Bookings", value: "12,450", icon: CalendarDays, change: "+15%" },
-  { title: "Active Properties", value: "850", icon: Building2, change: "+3%" },
-  { title: "Total Vendors", value: "320", icon: Users, change: "+1.2%" },
-  { title: "Total Users", value: "45K", icon: Users, change: "+22%" },
-  { title: "Pending Approvals", value: "18", icon: AlertCircle, change: "-5%" },
-  { title: "Open Tickets", value: "42", icon: Ticket, change: "-12%" },
+  { title: "Total Revenue", value: "$4.2M", icon: BadgeDollarSign, change: "+12.5%", color: "text-blue-500", bg: "bg-blue-500/10" },
+  { title: "Monthly Revenue", value: "$350K", icon: BadgeDollarSign, change: "+5.2%", color: "text-emerald-500", bg: "bg-emerald-500/10" },
+  { title: "Commission Earnings", value: "$52K", icon: BadgeDollarSign, change: "+8.1%", color: "text-violet-500", bg: "bg-violet-500/10" },
+  { title: "Total Bookings", value: "12,450", icon: CalendarDays, change: "+15%", color: "text-orange-500", bg: "bg-orange-500/10" },
+  { title: "Active Properties", value: "850", icon: Building2, change: "+3%", color: "text-pink-500", bg: "bg-pink-500/10" },
 ]
 
 const chartData = [
@@ -28,76 +24,88 @@ const chartData = [
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-        <p className="text-muted-foreground mt-1">Overview of your hotel booking platform metrics.</p>
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      {/* Hero Section */}
+      <div className="relative rounded-3xl overflow-hidden bg-primary text-primary-foreground p-8 md:p-12 shadow-md">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
+        <div className="relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Good morning, Super Admin!</h2>
+          <p className="text-primary-foreground/80 max-w-lg text-lg">
+            Here's what's happening with your hotel booking platform today. You have 18 pending approvals and 42 open tickets.
+          </p>
+        </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      {/* KPI Cards */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
         {kpiData.map((kpi, i) => (
-          <Card key={i} className="bg-card/50 backdrop-blur-sm border-muted/50 hover:bg-card/80 transition-colors">
+          <Card key={i} className="group border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 bg-card rounded-2xl overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
                 {kpi.title}
               </CardTitle>
-              <kpi.icon className="h-4 w-4 text-muted-foreground" />
+              <div className={`p-2 rounded-xl ${kpi.bg}`}>
+                <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{kpi.value}</div>
-              <p className={`text-xs mt-1 ${kpi.change.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
-                {kpi.change} from last month
+              <div className="text-3xl font-bold tracking-tight">{kpi.value}</div>
+              <p className={`text-sm mt-2 font-medium ${kpi.change.startsWith('+') ? 'text-emerald-500' : 'text-red-500'}`}>
+                {kpi.change} <span className="text-muted-foreground font-normal">from last month</span>
               </p>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 bg-card/50 backdrop-blur-sm border-muted/50">
-          <CardHeader>
+      {/* Main Content Area */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <Card className="col-span-4 rounded-3xl shadow-sm border-border/50 bg-card overflow-hidden">
+          <CardHeader className="border-b border-border/50 bg-muted/20">
             <CardTitle>Revenue Analytics</CardTitle>
           </CardHeader>
-          <CardContent className="pl-2">
-            <div className="h-75 w-full mt-4">
+          <CardContent className="pt-6">
+            <div className="h-87.5 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#E86A70" stopOpacity={0.4}/>
+                      <stop offset="95%" stopColor="#E86A70" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px', color: '#fff' }}
+                    contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: '1px solid #e2e8f0', borderRadius: '12px', color: '#0f172a', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                   />
-                  <Area type="monotone" dataKey="revenue" stroke="#3b82f6" fillOpacity={1} fill="url(#colorRevenue)" />
+                  <Area type="monotone" dataKey="revenue" stroke="#E86A70" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="col-span-3 bg-card/50 backdrop-blur-sm border-muted/50">
-          <CardHeader>
+        <Card className="col-span-3 rounded-3xl shadow-sm border-border/50 bg-card">
+          <CardHeader className="border-b border-border/50 bg-muted/20">
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-6 mt-4">
+          <CardContent className="pt-6">
+            <div className="space-y-8">
               {[
-                { title: "New property approval request", desc: "Grand Plaza Hotel requested approval.", time: "10 mins ago" },
-                { title: "New vendor registered", desc: "HostelWorld joined the platform.", time: "1 hour ago" },
-                { title: "Large booking confirmed", desc: "Booking #8942 for $3,400 completed.", time: "3 hours ago" },
-                { title: "Payout requested", desc: "Seaside Resort requested $12,500 payout.", time: "5 hours ago" },
+                { title: "New property approval request", desc: "Grand Plaza Hotel requested approval.", time: "10 mins ago", icon: Building2, color: "text-blue-500", bg: "bg-blue-500/10" },
+                { title: "New vendor registered", desc: "HostelWorld joined the platform.", time: "1 hour ago", icon: Users, color: "text-purple-500", bg: "bg-purple-500/10" },
+                { title: "Large booking confirmed", desc: "Booking #8942 for $3,400 completed.", time: "3 hours ago", icon: CalendarDays, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+                { title: "Payout requested", desc: "Seaside Resort requested $12,500 payout.", time: "5 hours ago", icon: BadgeDollarSign, color: "text-orange-500", bg: "bg-orange-500/10" },
               ].map((activity, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className="w-2 h-2 mt-2 rounded-full bg-primary" />
+                  <div className={`p-2 rounded-xl mt-1 shrink-0 ${activity.bg}`}>
+                    <activity.icon className={`h-4 w-4 ${activity.color}`} />
+                  </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none">{activity.title}</p>
+                    <p className="text-sm font-semibold leading-none">{activity.title}</p>
                     <p className="text-sm text-muted-foreground">{activity.desc}</p>
-                    <p className="text-xs text-muted-foreground">{activity.time}</p>
+                    <p className="text-xs text-muted-foreground font-medium">{activity.time}</p>
                   </div>
                 </div>
               ))}

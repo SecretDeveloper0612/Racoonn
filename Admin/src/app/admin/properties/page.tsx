@@ -30,7 +30,7 @@ export default function PropertiesPage() {
 
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -47,7 +47,7 @@ export default function PropertiesPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -64,7 +64,7 @@ export default function PropertiesPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -133,7 +133,7 @@ export default function PropertiesPage() {
                   <div className="flex justify-between items-center pb-3 border-b border-muted-foreground/10">
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase font-semibold tracking-wider">Vendor</span>
-                      <span className="font-medium text-sm text-foreground truncate max-w-[120px]">{property.vendor}</span>
+                      <span className="font-medium text-sm text-foreground truncate max-w-30">{property.vendor}</span>
                     </div>
                     <div className="flex flex-col items-end">
                       <div className="flex items-center bg-yellow-500/10 text-yellow-600 px-2 py-0.5 rounded-full text-xs font-bold">

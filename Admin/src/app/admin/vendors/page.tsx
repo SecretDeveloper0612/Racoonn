@@ -20,7 +20,7 @@ import {
   Filter,
   Plus
 } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const vendors = [
@@ -49,7 +49,7 @@ export default function VendorsPage() {
 
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -66,7 +66,7 @@ export default function VendorsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -83,7 +83,7 @@ export default function VendorsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -100,7 +100,7 @@ export default function VendorsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -210,25 +210,27 @@ export default function VendorsPage() {
                         <span className="sr-only">Open menu</span>
                         <MoreHorizontal className="h-4 w-4" />
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-[160px] rounded-xl border-muted/50">
-                        <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">Actions</DropdownMenuLabel>
-                        <DropdownMenuItem className="cursor-pointer rounded-md">
-                          <Eye className="mr-2 h-4 w-4" /> View Details
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        {vendor.status === 'active' ? (
-                          <DropdownMenuItem className="text-orange-600 focus:text-orange-600 cursor-pointer rounded-md">
-                            <UserX className="mr-2 h-4 w-4" /> Suspend Vendor
+                      <DropdownMenuContent align="end" className="w-40 rounded-xl border-muted/50">
+                        <DropdownMenuGroup>
+                          <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">Actions</DropdownMenuLabel>
+                          <DropdownMenuItem className="cursor-pointer rounded-md">
+                            <Eye className="mr-2 h-4 w-4" /> View Details
                           </DropdownMenuItem>
-                        ) : (
-                          <DropdownMenuItem className="text-emerald-600 focus:text-emerald-600 cursor-pointer rounded-md">
-                            <UserCheck className="mr-2 h-4 w-4" /> Activate Vendor
+                          <DropdownMenuSeparator />
+                          {vendor.status === 'active' ? (
+                            <DropdownMenuItem className="text-orange-600 focus:text-orange-600 cursor-pointer rounded-md">
+                              <UserX className="mr-2 h-4 w-4" /> Suspend Vendor
+                            </DropdownMenuItem>
+                          ) : (
+                            <DropdownMenuItem className="text-emerald-600 focus:text-emerald-600 cursor-pointer rounded-md">
+                              <UserCheck className="mr-2 h-4 w-4" /> Activate Vendor
+                            </DropdownMenuItem>
+                          )}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-red-600 focus:text-red-600 cursor-pointer rounded-md">
+                            <Trash2 className="mr-2 h-4 w-4" /> Delete Vendor
                           </DropdownMenuItem>
-                        )}
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600 focus:text-red-600 cursor-pointer rounded-md">
-                          <Trash2 className="mr-2 h-4 w-4" /> Delete Vendor
-                        </DropdownMenuItem>
+                        </DropdownMenuGroup>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

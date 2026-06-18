@@ -33,7 +33,7 @@ export default function BookingsPage() {
 
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -50,7 +50,7 @@ export default function BookingsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -67,7 +67,7 @@ export default function BookingsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -84,7 +84,7 @@ export default function BookingsPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -158,7 +158,7 @@ export default function BookingsPage() {
                   <TableCell>
                     <div className="flex flex-col gap-1">
                       <span className="font-semibold text-foreground">{booking.customer}</span>
-                      <span className="text-sm text-muted-foreground truncate max-w-[200px]">{booking.property}</span>
+                      <span className="text-sm text-muted-foreground truncate max-w-50">{booking.property}</span>
                     </div>
                   </TableCell>
                   <TableCell>

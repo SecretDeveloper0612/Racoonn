@@ -35,7 +35,7 @@ export default function CustomersPage() {
 
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -52,7 +52,7 @@ export default function CustomersPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -69,7 +69,7 @@ export default function CustomersPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -86,7 +86,7 @@ export default function CustomersPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-card to-card/50 border-muted/50 shadow-sm">
+        <Card className="bg-linear-to-br from-card to-card/50 border-muted/50 shadow-sm">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
@@ -195,7 +195,7 @@ export default function CustomersPage() {
                         <span className="sr-only">Open menu</span>
                         <MoreHorizontal className="h-4 w-4" />
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-[160px] rounded-xl border-muted/50">
+                      <DropdownMenuContent align="end" className="w-40 rounded-xl border-muted/50">
                         <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">Actions</DropdownMenuLabel>
                         <DropdownMenuItem className="cursor-pointer rounded-md">
                           <Mail className="mr-2 h-4 w-4" /> Email Customer
