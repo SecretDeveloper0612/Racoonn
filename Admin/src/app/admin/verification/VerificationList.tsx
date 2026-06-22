@@ -16,7 +16,7 @@ const mockRequests = [
   { id: "VER-1031", vendor: "Seaside Villas", type: "Property Deed", status: "pending", date: "2023-10-26" },
 ]
 
-export default function VerificationList({ type }: { type: string }) {
+export default function VerificationList() {
   const [selectedDoc, setSelectedDoc] = useState<typeof mockRequests[0] | null>(null)
 
   return (
@@ -55,64 +55,64 @@ export default function VerificationList({ type }: { type: string }) {
                 >
                   <ZoomIn className="h-4 w-4" /> Review Document
                 </DialogTrigger>
-                <DialogContent className="max-w-5xl h-[85vh] flex flex-col rounded-2xl p-0 overflow-hidden border-muted/30">
+                <DialogContent className="max-w-6xl w-[95vw] md:w-full h-[85vh] flex flex-col rounded-2xl p-0 overflow-hidden border-muted/30">
                   <DialogHeader className="p-6 border-b bg-card/50 backdrop-blur-md">
                     <div className="flex items-center gap-3">
-                      <Avatar className="h-8 w-8">
+                      <Avatar className="h-10 w-10 border shadow-sm">
                         <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${selectedDoc?.vendor}&backgroundColor=1F2E4A`} />
                         <AvatarFallback>{selectedDoc?.vendor?.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div>
                         <DialogTitle className="text-xl font-bold">Document Review</DialogTitle>
-                        <p className="text-sm text-muted-foreground">{selectedDoc?.vendor} • {selectedDoc?.type}</p>
+                        <p className="text-sm text-muted-foreground font-medium">{selectedDoc?.vendor} • {selectedDoc?.type}</p>
                       </div>
                     </div>
                   </DialogHeader>
-                  <div className="flex flex-1 overflow-hidden bg-muted/10">
+                  <div className="flex flex-col md:flex-row flex-1 overflow-hidden bg-muted/10">
                     {/* Document Viewer */}
-                    <div className="flex-1 bg-background/50 flex items-center justify-center relative border-r">
-                      <div className="absolute top-4 right-4 flex gap-1 bg-card/80 backdrop-blur-md p-1.5 rounded-xl border shadow-sm z-10">
+                    <div className="flex-1 bg-background/50 flex flex-col relative border-b md:border-b-0 md:border-r">
+                      <div className="absolute top-4 right-4 flex gap-1 bg-card/90 backdrop-blur-md p-1.5 rounded-xl border shadow-sm z-10">
                         <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg hover:bg-muted"><ZoomIn className="h-4 w-4"/></Button>
                         <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg hover:bg-muted"><ZoomOut className="h-4 w-4"/></Button>
                         <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg hover:bg-muted"><RotateCw className="h-4 w-4"/></Button>
                         <div className="w-px h-5 bg-border mx-1 self-center"></div>
                         <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg hover:bg-muted"><Download className="h-4 w-4"/></Button>
                       </div>
-                      <div className="text-muted-foreground flex flex-col items-center p-8 text-center max-w-sm">
-                        <div className="h-32 w-32 rounded-full bg-muted/50 flex items-center justify-center mb-6 border-4 border-background shadow-inner">
-                          <FileText className="h-12 w-12 text-muted-foreground/50" />
+                      <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground p-8 text-center">
+                        <div className="h-40 w-40 rounded-full bg-muted/50 flex items-center justify-center mb-6 border-4 border-background shadow-inner">
+                          <FileText className="h-16 w-16 text-muted-foreground/50" />
                         </div>
-                        <h3 className="font-semibold text-foreground mb-2">Document Preview Area</h3>
-                        <p className="text-sm">In a real environment, the securely fetched PDF or image of the {selectedDoc?.type} would render here.</p>
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Document Preview Area</h3>
+                        <p className="text-sm max-w-md">In a real environment, the securely fetched PDF or image of the {selectedDoc?.type} would render here with full viewing controls.</p>
                       </div>
                     </div>
                     
                     {/* Actions Panel */}
-                    <div className="w-[340px] flex flex-col bg-card/50 overflow-y-auto">
-                      <div className="p-6 space-y-6">
+                    <div className="w-full md:w-95 flex flex-col bg-card/50 overflow-y-auto">
+                      <div className="p-6 space-y-8">
                         <div>
-                          <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Document Info</h4>
-                          <div className="space-y-3 bg-background rounded-xl p-4 border shadow-sm">
-                            <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">Type</span> <span className="text-sm font-medium text-foreground">{selectedDoc?.type}</span></div>
-                            <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">Uploaded</span> <span className="text-sm font-medium text-foreground">{selectedDoc?.date}</span></div>
-                            <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">ID</span> <span className="text-sm font-medium text-foreground">{selectedDoc?.id}</span></div>
-                            <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">Size</span> <span className="text-sm font-medium text-foreground">2.4 MB</span></div>
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Document Info</h4>
+                          <div className="space-y-3 bg-background rounded-xl p-5 border shadow-sm">
+                            <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">Type</span> <span className="text-sm font-semibold text-foreground text-right">{selectedDoc?.type}</span></div>
+                            <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">Uploaded</span> <span className="text-sm font-semibold text-foreground text-right">{selectedDoc?.date}</span></div>
+                            <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">ID</span> <span className="text-sm font-semibold text-foreground text-right">{selectedDoc?.id}</span></div>
+                            <div className="flex justify-between items-center"><span className="text-sm text-muted-foreground">Size</span> <span className="text-sm font-semibold text-foreground text-right">2.4 MB</span></div>
                           </div>
                         </div>
                         
                         <div className="space-y-3">
-                          <Label className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Reviewer Notes</Label>
-                          <Textarea placeholder="Add internal notes about this document review..." className="min-h-25 rounded-xl border-muted-foreground/20 resize-none focus-visible:ring-primary" />
+                          <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Reviewer Notes</Label>
+                          <Textarea placeholder="Add internal notes about this document review..." className="min-h-24 rounded-xl border-border bg-background resize-none focus-visible:ring-primary shadow-sm" />
                         </div>
                         
                         <div className="space-y-3 pt-2">
-                          <Button className="w-full h-12 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all">
+                          <Button className="w-full h-12 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all text-sm">
                             <CheckCircle2 className="mr-2 h-5 w-5" /> Approve Document
                           </Button>
-                          <Button variant="destructive" className="w-full h-12 rounded-xl font-bold shadow-sm transition-all">
+                          <Button variant="destructive" className="w-full h-12 rounded-xl font-bold shadow-sm transition-all text-sm">
                             <XCircle className="mr-2 h-5 w-5" /> Reject & Request Reupload
                           </Button>
-                          <Button variant="outline" className="w-full h-12 rounded-xl font-bold border-amber-500/30 text-amber-600 hover:bg-amber-500/10 transition-all">
+                          <Button variant="outline" className="w-full h-12 rounded-xl font-bold border-amber-500/30 text-amber-600 hover:bg-amber-500/10 transition-all text-sm bg-background">
                             <AlertCircleIcon className="mr-2 h-5 w-5" /> Flag as Suspicious
                           </Button>
                         </div>

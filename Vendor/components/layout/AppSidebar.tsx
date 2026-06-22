@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  LayoutDashboard, Building2, CalendarCheck, BedDouble, Calendar,
-  Users, Star, LineChart, Tags, MessageSquare, LifeBuoy,
-  User, Settings, LogOut, MapPin, Info, Image as ImageIcon
+  LayoutDashboard, Building2, BedDouble, CalendarDays,
+  CalendarCheck, Users, Star, Wallet, FileText,
+  LifeBuoy, Settings, LogOut
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -23,13 +23,16 @@ import {
 
 const navItems = [
   { title: "Dashboard", url: "/vendor/dashboard", icon: LayoutDashboard },
+  { title: "Properties", url: "/vendor/properties", icon: Building2 },
+  { title: "Rooms", url: "/vendor/rooms", icon: BedDouble },
+  { title: "Availability", url: "/vendor/availability", icon: CalendarDays },
   { title: "Bookings", url: "/vendor/bookings", icon: CalendarCheck },
-  { title: "Photos", url: "/vendor/photos", icon: ImageIcon },
-  { title: "Rooms and prices", url: "/vendor/rooms", icon: BedDouble },
-  { title: "Amenities", url: "/vendor/amenities", icon: Star },
-  { title: "About the hotel", url: "/vendor/about", icon: Info },
-  { title: "Location", url: "/vendor/location", icon: MapPin },
-  { title: "Rating and reviews", url: "/vendor/reviews", icon: MessageSquare },
+  { title: "Guests", url: "/vendor/guests", icon: Users },
+  { title: "Reviews", url: "/vendor/reviews", icon: Star },
+  { title: "Earnings", url: "/vendor/earnings", icon: Wallet },
+  { title: "Documents", url: "/vendor/documents", icon: FileText },
+  { title: "Support", url: "/vendor/support", icon: LifeBuoy },
+  { title: "Settings", url: "/vendor/settings", icon: Settings },
 ];
 
 export function AppSidebar() {

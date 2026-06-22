@@ -20,7 +20,7 @@ const promotions = [
     id: 2,
     name: "Weekend Getaway",
     code: "WKND100",
-    discount: "$100",
+    discount: "₹100",
     type: "Fixed Amount",
     status: "Active",
     validUntil: "2026-12-31",

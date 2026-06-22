@@ -292,7 +292,7 @@ export default function RoomsPage() {
                       <p className="text-sm text-primary font-medium">{room.property}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-secondary">${room.price}</p>
+                      <p className="text-2xl font-bold text-secondary">₹{room.price}</p>
                       <p className="text-xs text-slate-500 uppercase tracking-wider">Per Night</p>
                     </div>
                   </div>

@@ -3,9 +3,8 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, ArrowLeft, Plus, Users, Maximize, Edit2, Trash2, Image as ImageIcon, UploadCloud } from "lucide-react";
+import { ArrowRight, ArrowLeft, Plus, Users, Maximize, Edit2, Trash2, UploadCloud } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 export function Step5Rooms({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
   const [rooms, setRooms] = useState([{ id: 1, name: "Deluxe King Room", price: "2500", occupancy: "2", size: "350" }]);
@@ -38,7 +37,7 @@ export function Step5Rooms({ onNext, onBack }: { onNext: () => void, onBack: () 
       </motion.div>
 
       <motion.div variants={slideUp} className="space-y-6">
-        {rooms.map((room, index) => (
+        {rooms.map((room) => (
           <div key={room.id} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow relative group">
             
             <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

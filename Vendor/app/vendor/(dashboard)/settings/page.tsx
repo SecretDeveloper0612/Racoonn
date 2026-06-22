@@ -9,7 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Building2, CreditCard, Bell, Shield, User } from "lucide-react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function SettingsPage() {
   const [payoutMethod, setPayoutMethod] = useState<"bank" | "upi">("bank");
@@ -23,19 +24,19 @@ export default function SettingsPage() {
 
       <Tabs defaultValue="general" className="w-full">
         <TabsList className="bg-slate-100/80 p-1.5 rounded-xl w-full justify-start overflow-x-auto h-auto inline-flex gap-1">
-          <TabsTrigger value="general" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-lg py-2.5 px-5 flex items-center gap-2.5 font-medium transition-all">
+          <TabsTrigger value="general" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
             <Building2 className="w-4 h-4" /> General
           </TabsTrigger>
-          <TabsTrigger value="profile" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-lg py-2.5 px-5 flex items-center gap-2.5 font-medium transition-all">
+          <TabsTrigger value="profile" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
             <User className="w-4 h-4" /> Profile
           </TabsTrigger>
-          <TabsTrigger value="billing" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-lg py-2.5 px-5 flex items-center gap-2.5 font-medium transition-all">
+          <TabsTrigger value="billing" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
             <CreditCard className="w-4 h-4" /> Billing & Payouts
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-lg py-2.5 px-5 flex items-center gap-2.5 font-medium transition-all">
+          <TabsTrigger value="notifications" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
             <Bell className="w-4 h-4" /> Notifications
           </TabsTrigger>
-          <TabsTrigger value="security" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-lg py-2.5 px-5 flex items-center gap-2.5 font-medium transition-all">
+          <TabsTrigger value="security" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
             <Shield className="w-4 h-4" /> Security
           </TabsTrigger>
         </TabsList>
@@ -81,7 +82,7 @@ export default function SettingsPage() {
               <CardContent className="space-y-6 p-6 sm:p-8">
                 <div className="flex items-center gap-6 pb-2">
                   <div className="h-20 w-20 rounded-full bg-slate-100 ring-4 ring-slate-50 overflow-hidden flex items-center justify-center relative group cursor-pointer">
-                    <img src="https://github.com/shadcn.png" alt="Profile" className="w-full h-full object-cover" />
+                    <Image src="https://github.com/shadcn.png" alt="Profile" width={80} height={80} className="w-full h-full object-cover" unoptimized />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <span className="text-xs text-white font-medium">Change</span>
                     </div>

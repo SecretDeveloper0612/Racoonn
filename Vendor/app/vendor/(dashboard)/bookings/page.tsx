@@ -4,16 +4,16 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Download, Filter, MessageSquare, FileText, Ban, CheckCircle2, MapPin, CreditCard, ArrowLeft } from "lucide-react";
+import { Search, Download, Filter, MessageSquare, FileText, Ban, MapPin, CreditCard, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const bookings = [
-  { id: "BKG-7829", guest: "Michael Scott", property: "Luxury Oceanfront Resort", dates: "Oct 12 - Oct 15", amount: "$850.00", status: "Confirmed", email: "michael.s@dundermifflin.com", phone: "+1 (555) 019-8372", nationality: "United States", guests: "2 Adults", specialRequests: "Highest floor possible, please.", paymentMethod: "Visa ending in 4242" },
-  { id: "BKG-7830", guest: "Sarah Jenkins", property: "Downtown Boutique Hotel", dates: "Oct 14 - Oct 15", amount: "$150.00", status: "Pending", email: "sarah.j@example.com", phone: "+44 7700 900077", nationality: "United Kingdom", guests: "1 Adult", specialRequests: "Late check-in around 10 PM.", paymentMethod: "Mastercard ending in 8810" },
-  { id: "BKG-7831", guest: "Robert California", property: "Mountain View Villa", dates: "Oct 18 - Oct 23", amount: "$4,500.00", status: "Confirmed", email: "r.california@sabre.com", phone: "+1 (555) 993-2111", nationality: "United States", guests: "4 Adults, 2 Children", specialRequests: "Require extra pillows and a crib.", paymentMethod: "Amex ending in 1002" },
-  { id: "BKG-7832", guest: "Pam Beesly", property: "Luxury Oceanfront Resort", dates: "Oct 05 - Oct 07", amount: "$400.00", status: "Completed", email: "pam.beesly@dundermifflin.com", phone: "+1 (555) 443-8822", nationality: "United States", guests: "2 Adults", specialRequests: "Anniversary trip.", paymentMethod: "Visa ending in 9091" },
-  { id: "BKG-7833", guest: "Jim Halpert", property: "Luxury Oceanfront Resort", dates: "Oct 05 - Oct 07", amount: "$400.00", status: "Completed", email: "jim.halpert@dundermifflin.com", phone: "+1 (555) 443-8822", nationality: "United States", guests: "2 Adults", specialRequests: "", paymentMethod: "Visa ending in 9091" },
-  { id: "BKG-7834", guest: "Dwight Schrute", property: "Mountain View Villa", dates: "Nov 01 - Nov 05", amount: "$2,200.00", status: "Cancelled", email: "dwight.schrute@schrutefarms.com", phone: "+1 (555) 999-1111", nationality: "United States", guests: "1 Adult", specialRequests: "Need space for a large beet collection.", paymentMethod: "PayPal" },
+  { id: "BKG-7829", guest: "Michael Scott", property: "Luxury Oceanfront Resort", dates: "Oct 12 - Oct 15", amount: "₹850.00", status: "Confirmed", email: "michael.s@dundermifflin.com", phone: "+1 (555) 019-8372", nationality: "United States", guests: "2 Adults", specialRequests: "Highest floor possible, please.", paymentMethod: "Visa ending in 4242" },
+  { id: "BKG-7830", guest: "Sarah Jenkins", property: "Downtown Boutique Hotel", dates: "Oct 14 - Oct 15", amount: "₹150.00", status: "Pending", email: "sarah.j@example.com", phone: "+44 7700 900077", nationality: "United Kingdom", guests: "1 Adult", specialRequests: "Late check-in around 10 PM.", paymentMethod: "Mastercard ending in 8810" },
+  { id: "BKG-7831", guest: "Robert California", property: "Mountain View Villa", dates: "Oct 18 - Oct 23", amount: "₹4,500.00", status: "Confirmed", email: "r.california@sabre.com", phone: "+1 (555) 993-2111", nationality: "United States", guests: "4 Adults, 2 Children", specialRequests: "Require extra pillows and a crib.", paymentMethod: "Amex ending in 1002" },
+  { id: "BKG-7832", guest: "Pam Beesly", property: "Luxury Oceanfront Resort", dates: "Oct 05 - Oct 07", amount: "₹400.00", status: "Completed", email: "pam.beesly@dundermifflin.com", phone: "+1 (555) 443-8822", nationality: "United States", guests: "2 Adults", specialRequests: "Anniversary trip.", paymentMethod: "Visa ending in 9091" },
+  { id: "BKG-7833", guest: "Jim Halpert", property: "Luxury Oceanfront Resort", dates: "Oct 05 - Oct 07", amount: "₹400.00", status: "Completed", email: "jim.halpert@dundermifflin.com", phone: "+1 (555) 443-8822", nationality: "United States", guests: "2 Adults", specialRequests: "", paymentMethod: "Visa ending in 9091" },
+  { id: "BKG-7834", guest: "Dwight Schrute", property: "Mountain View Villa", dates: "Nov 01 - Nov 05", amount: "₹2,200.00", status: "Cancelled", email: "dwight.schrute@schrutefarms.com", phone: "+1 (555) 999-1111", nationality: "United States", guests: "1 Adult", specialRequests: "Need space for a large beet collection.", paymentMethod: "PayPal" },
 ];
 
 export default function BookingsPage() {
@@ -222,7 +222,7 @@ export default function BookingsPage() {
                     </div>
                     <div className="flex justify-between items-center text-sm font-medium text-slate-600">
                       <span>Taxes & Fees</span>
-                      <span>$45.00</span>
+                      <span>₹45.00</span>
                     </div>
                     <div className="flex justify-between items-center text-sm font-medium text-slate-600 pt-1">
                       <span className="flex items-center gap-1.5"><CreditCard className="w-4 h-4 text-slate-400" /> Payment Method</span>
@@ -231,7 +231,7 @@ export default function BookingsPage() {
                     <div className="h-px bg-slate-100 my-2"></div>
                     <div className="flex justify-between items-center text-base font-black text-secondary">
                       <span>Total Paid</span>
-                      <span className="text-[#E86A70]">${(parseFloat(selectedBooking.amount.replace(/[^0-9.-]+/g,"")) + 45).toFixed(2)}</span>
+                      <span className="text-[#E86A70]">₹{(parseFloat(selectedBooking.amount.replace(/[^0-9.-]+/g,"")) + 45).toFixed(2)}</span>
                     </div>
                   </div>
                 </div>

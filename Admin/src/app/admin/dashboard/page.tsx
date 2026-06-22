@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BadgeDollarSign, Users, Building2, CalendarDays, Ticket, AlertCircle } from "lucide-react"
+import { BadgeDollarSign, Users, Building2, CalendarDays } from "lucide-react"
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 
 const kpiData = [
@@ -31,7 +31,7 @@ export default function DashboardPage() {
         <div className="relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Good morning, Super Admin!</h2>
           <p className="text-primary-foreground/80 max-w-lg text-lg">
-            Here's what's happening with your hotel booking platform today. You have 18 pending approvals and 42 open tickets.
+            Here&apos;s what&apos;s happening with your hotel booking platform today. You have 18 pending approvals and 42 open tickets.
           </p>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Building2, CalendarCheck, DollarSign, Percent, Star, Clock, ArrowUpRight, ArrowDownRight, MoreHorizontal, CalendarIcon } from "lucide-react";
+import { Building2, CalendarCheck, IndianRupee, Percent, Star, Clock, ArrowUpRight, ArrowDownRight, MoreHorizontal, CalendarIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import {
   AreaChart,
@@ -45,8 +45,8 @@ const stats = [
   },
   {
     title: "Monthly Revenue",
-    value: "$45,231",
-    icon: DollarSign,
+    value: "₹45,231",
+    icon: IndianRupee,
     trend: "8.2% vs last month",
     trendPositive: true,
     colorClass: "text-amber-600",
@@ -102,7 +102,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
       <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100 ring-1 ring-slate-900/5 min-w-30">
         <p className="text-sm font-bold text-slate-400 mb-1">{label}</p>
         <p className="text-2xl font-black text-[#E86A70]">
-          ${payload[0].value.toLocaleString()}
+          ₹{payload[0].value.toLocaleString()}
         </p>
       </div>
     );
@@ -147,7 +147,7 @@ export default function DashboardOverview() {
         animate="show"
         className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
       >
-        {stats.map((stat, i) => (
+        {stats.map((stat) => (
           <motion.div key={stat.title} variants={item}>
             <Card className="border-0 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 bg-white ring-1 ring-slate-100 rounded-xl overflow-hidden group cursor-pointer">
               <CardContent className="p-6">

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, ArrowLeft, Building, ShieldCheck, UploadCloud } from "lucide-react";
+import Image from "next/image";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const INDIAN_BANKS = [
@@ -155,9 +156,10 @@ export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: (
                               {bank.domain === "other" ? (
                                 <Building className="w-4 h-4 text-slate-400" />
                               ) : (
-                                <img 
+                                <Image 
                                   src={`https://www.google.com/s2/favicons?domain=${bank.domain}&sz=64`} 
                                   alt={bank.name}
+                                  width={64} height={64} unoptimized
                                   className="w-full h-full object-contain" 
                                 />
                               )}
