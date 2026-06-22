@@ -109,10 +109,8 @@ export default function DocumentsPage() {
                     {doc.fileName ? (
                       <>
                         <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="outline" size="sm" className="h-9 font-medium text-slate-600 hover:text-primary">
-                              <Eye className="w-4 h-4 mr-2" /> View
-                            </Button>
+                          <DialogTrigger render={<Button variant="outline" size="sm" className="h-9 font-medium text-slate-600 hover:text-primary" />}>
+                            <Eye className="w-4 h-4 mr-2" /> View
                           </DialogTrigger>
                           <DialogContent className="sm:max-w-2xl p-0 overflow-hidden border-slate-100 bg-white rounded-2xl shadow-xl">
                             <DialogHeader className="p-6 border-b border-slate-100 bg-slate-50/50">
