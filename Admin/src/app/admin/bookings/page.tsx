@@ -9,10 +9,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Search, Eye, Filter, CalendarCheck, CalendarX, CalendarClock, DollarSign, Download, Calendar } from "lucide-react"
 
 const bookings = [
-  { id: "BK-9081", customer: "Alice Smith", property: "Oceanview Resort", amount: "$1,350", status: "confirmed", dates: "Oct 12 - Oct 15", bookedAt: "2023-09-20" },
-  { id: "BK-9082", customer: "Bob Johnson", property: "Alpine Ski Lodge", amount: "$850", status: "pending", dates: "Nov 01 - Nov 05", bookedAt: "2023-10-01" },
-  { id: "BK-9083", customer: "Charlie Brown", property: "Sunset Beach Villa", amount: "$2,200", status: "completed", dates: "Sep 10 - Sep 14", bookedAt: "2023-08-15" },
-  { id: "BK-9084", customer: "Diana Prince", property: "Downtown Hotel", amount: "$420", status: "cancelled", dates: "Oct 20 - Oct 22", bookedAt: "2023-10-05" },
+  { id: "BK-9081", customer: "Alice Smith", property: "Oceanview Resort", amount: "₹1,350", status: "confirmed", dates: "Oct 12 - Oct 15", bookedAt: "2023-09-20" },
+  { id: "BK-9082", customer: "Bob Johnson", property: "Alpine Ski Lodge", amount: "₹850", status: "pending", dates: "Nov 01 - Nov 05", bookedAt: "2023-10-01" },
+  { id: "BK-9083", customer: "Charlie Brown", property: "Sunset Beach Villa", amount: "₹2,200", status: "completed", dates: "Sep 10 - Sep 14", bookedAt: "2023-08-15" },
+  { id: "BK-9084", customer: "Diana Prince", property: "Downtown Hotel", amount: "₹420", status: "cancelled", dates: "Oct 20 - Oct 22", bookedAt: "2023-10-05" },
 ]
 
 export default function BookingsPage() {
@@ -38,7 +38,7 @@ export default function BookingsPage() {
             <div className="flex justify-between items-start">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-muted-foreground">Total Revenue</p>
-                <p className="text-3xl font-bold">$124.5k</p>
+                <p className="text-3xl font-bold">₹124.5k</p>
               </div>
               <div className="p-3 bg-emerald-500/10 rounded-xl">
                 <DollarSign className="h-5 w-5 text-emerald-500" />

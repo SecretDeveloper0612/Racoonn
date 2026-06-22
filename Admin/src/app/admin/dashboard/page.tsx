@@ -5,9 +5,9 @@ import { BadgeDollarSign, Users, Building2, CalendarDays } from "lucide-react"
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 
 const kpiData = [
-  { title: "Total Revenue", value: "$4.2M", icon: BadgeDollarSign, change: "+12.5%", color: "text-blue-500", bg: "bg-blue-500/10" },
-  { title: "Monthly Revenue", value: "$350K", icon: BadgeDollarSign, change: "+5.2%", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  { title: "Commission Earnings", value: "$52K", icon: BadgeDollarSign, change: "+8.1%", color: "text-violet-500", bg: "bg-violet-500/10" },
+  { title: "Total Revenue", value: "₹4.2M", icon: BadgeDollarSign, change: "+12.5%", color: "text-blue-500", bg: "bg-blue-500/10" },
+  { title: "Monthly Revenue", value: "₹350K", icon: BadgeDollarSign, change: "+5.2%", color: "text-emerald-500", bg: "bg-emerald-500/10" },
+  { title: "Commission Earnings", value: "₹52K", icon: BadgeDollarSign, change: "+8.1%", color: "text-violet-500", bg: "bg-violet-500/10" },
   { title: "Total Bookings", value: "12,450", icon: CalendarDays, change: "+15%", color: "text-orange-500", bg: "bg-orange-500/10" },
   { title: "Active Properties", value: "850", icon: Building2, change: "+3%", color: "text-pink-500", bg: "bg-pink-500/10" },
 ]
@@ -25,16 +25,6 @@ const chartData = [
 export default function DashboardPage() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {/* Hero Section */}
-      <div className="relative rounded-3xl overflow-hidden bg-primary text-primary-foreground p-8 md:p-12 shadow-md">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
-        <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Good morning, Super Admin!</h2>
-          <p className="text-primary-foreground/80 max-w-lg text-lg">
-            Here&apos;s what&apos;s happening with your hotel booking platform today. You have 18 pending approvals and 42 open tickets.
-          </p>
-        </div>
-      </div>
 
       {/* KPI Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
@@ -65,9 +55,9 @@ export default function DashboardPage() {
             <CardTitle>Revenue Analytics</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
-            <div className="h-87.5 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <div className="min-h-[500px] h-full w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#E86A70" stopOpacity={0.4}/>
@@ -75,7 +65,7 @@ export default function DashboardPage() {
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
+                  <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `₹${value}`} />
                   <Tooltip 
                     contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: '1px solid #e2e8f0', borderRadius: '12px', color: '#0f172a', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                   />
@@ -95,8 +85,11 @@ export default function DashboardPage() {
               {[
                 { title: "New property approval request", desc: "Grand Plaza Hotel requested approval.", time: "10 mins ago", icon: Building2, color: "text-blue-500", bg: "bg-blue-500/10" },
                 { title: "New vendor registered", desc: "HostelWorld joined the platform.", time: "1 hour ago", icon: Users, color: "text-purple-500", bg: "bg-purple-500/10" },
-                { title: "Large booking confirmed", desc: "Booking #8942 for $3,400 completed.", time: "3 hours ago", icon: CalendarDays, color: "text-emerald-500", bg: "bg-emerald-500/10" },
-                { title: "Payout requested", desc: "Seaside Resort requested $12,500 payout.", time: "5 hours ago", icon: BadgeDollarSign, color: "text-orange-500", bg: "bg-orange-500/10" },
+                { title: "Large booking confirmed", desc: "Booking #8942 for ₹3,400 completed.", time: "3 hours ago", icon: CalendarDays, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+                { title: "Payout requested", desc: "Seaside Resort requested ₹12,500 payout.", time: "5 hours ago", icon: BadgeDollarSign, color: "text-orange-500", bg: "bg-orange-500/10" },
+                { title: "Property status updated", desc: "Mountain View Lodge is now live.", time: "6 hours ago", icon: Building2, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+                { title: "New user review", desc: "5-star rating for Downtown Loft.", time: "8 hours ago", icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
+                { title: "System maintenance scheduled", desc: "Server upgrade on Sunday 2AM.", time: "12 hours ago", icon: CalendarDays, color: "text-slate-500", bg: "bg-slate-500/10" },
               ].map((activity, i) => (
                 <div key={i} className="flex items-start gap-4">
                   <div className={`p-2 rounded-xl mt-1 shrink-0 ${activity.bg}`}>

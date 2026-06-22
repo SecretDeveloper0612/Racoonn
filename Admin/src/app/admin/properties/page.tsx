@@ -7,11 +7,11 @@ import { Input } from "@/components/ui/input"
 import { Search, MapPin, BedDouble, Image as ImageIcon, Star, Filter, TrendingUp, Building2, Eye, PenLine } from "lucide-react"
 
 const properties = [
-  { id: "P-101", name: "Oceanview Resort & Spa", vendor: "Oceanview Resort", location: "Maldives", type: "Resort", price: "$450/night", rating: 4.8, status: "active", rooms: 120 },
-  { id: "P-102", name: "Alpine Ski Lodge", vendor: "Alpine Lodges", location: "Swiss Alps", type: "Lodge", price: "$320/night", rating: 4.9, status: "active", rooms: 45 },
-  { id: "P-103", name: "Downtown Business Hotel", vendor: "City Center Hostels", location: "New York", type: "Hotel", price: "$280/night", rating: 4.2, status: "pending", rooms: 200 },
-  { id: "P-104", name: "Sunset Beach Villa", vendor: "Sunset Villas", location: "Bali, Indonesia", type: "Villa", price: "$550/night", rating: 5.0, status: "active", rooms: 4 },
-  { id: "P-105", name: "Desert Oasis Tent", vendor: "Desert Oasis Retreat", location: "Sahara, Morocco", type: "Glamping", price: "$180/night", rating: 4.5, status: "disabled", rooms: 12 },
+  { id: "P-101", name: "Oceanview Resort & Spa", vendor: "Oceanview Resort", location: "Maldives", type: "Resort", price: "₹450/night", rating: 4.8, status: "active", rooms: 120 },
+  { id: "P-102", name: "Alpine Ski Lodge", vendor: "Alpine Lodges", location: "Swiss Alps", type: "Lodge", price: "₹320/night", rating: 4.9, status: "active", rooms: 45 },
+  { id: "P-103", name: "Downtown Business Hotel", vendor: "City Center Hostels", location: "New York", type: "Hotel", price: "₹280/night", rating: 4.2, status: "pending", rooms: 200 },
+  { id: "P-104", name: "Sunset Beach Villa", vendor: "Sunset Villas", location: "Bali, Indonesia", type: "Villa", price: "₹550/night", rating: 5.0, status: "active", rooms: 4 },
+  { id: "P-105", name: "Desert Oasis Tent", vendor: "Desert Oasis Retreat", location: "Sahara, Morocco", type: "Glamping", price: "₹180/night", rating: 4.5, status: "disabled", rooms: 12 },
 ]
 
 export default function PropertiesPage() {

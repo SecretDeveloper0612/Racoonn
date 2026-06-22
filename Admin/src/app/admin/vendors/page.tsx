@@ -24,11 +24,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const vendors = [
-  { id: "V-8492", name: "Oceanview Resort", email: "contact@oceanview.com", properties: 4, revenue: "$145,000", status: "active", joined: "2023-01-15" },
-  { id: "V-8493", name: "Alpine Lodges", email: "hello@alpinelodges.com", properties: 12, revenue: "$450,200", status: "active", joined: "2022-11-04" },
-  { id: "V-8494", name: "City Center Hostels", email: "admin@cityhostels.com", properties: 2, revenue: "$32,100", status: "suspended", joined: "2023-05-22" },
-  { id: "V-8495", name: "Sunset Villas", email: "info@sunsetvillas.com", properties: 8, revenue: "$210,000", status: "pending", joined: "2023-10-10" },
-  { id: "V-8496", name: "Desert Oasis Retreat", email: "bookings@desertoasis.com", properties: 1, revenue: "$18,500", status: "active", joined: "2023-08-30" },
+  { id: "V-8492", name: "Oceanview Resort", email: "contact@oceanview.com", properties: 4, revenue: "₹145,000", status: "active", joined: "2023-01-15" },
+  { id: "V-8493", name: "Alpine Lodges", email: "hello@alpinelodges.com", properties: 12, revenue: "₹450,200", status: "active", joined: "2022-11-04" },
+  { id: "V-8494", name: "City Center Hostels", email: "admin@cityhostels.com", properties: 2, revenue: "₹32,100", status: "suspended", joined: "2023-05-22" },
+  { id: "V-8495", name: "Sunset Villas", email: "info@sunsetvillas.com", properties: 8, revenue: "₹210,000", status: "pending", joined: "2023-10-10" },
+  { id: "V-8496", name: "Desert Oasis Retreat", email: "bookings@desertoasis.com", properties: 1, revenue: "₹18,500", status: "active", joined: "2023-08-30" },
 ]
 
 export default function VendorsPage() {
@@ -88,7 +88,7 @@ export default function VendorsPage() {
             <div className="flex justify-between items-start">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-muted-foreground">Total Payouts (YTD)</p>
-                <p className="text-3xl font-bold">$2.4M</p>
+                <p className="text-3xl font-bold">₹2.4M</p>
               </div>
               <div className="p-3 bg-emerald-500/10 rounded-xl">
                 <DollarSign className="h-5 w-5 text-emerald-500" />

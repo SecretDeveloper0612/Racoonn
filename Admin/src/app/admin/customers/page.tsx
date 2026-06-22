@@ -11,10 +11,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const customers = [
-  { id: "C-1001", name: "Alice Smith", email: "alice@example.com", bookings: 12, totalSpent: "$4,500", status: "active", joined: "2022-01-15" },
-  { id: "C-1002", name: "Bob Johnson", email: "bob@example.com", bookings: 3, totalSpent: "$850", status: "active", joined: "2023-05-11" },
-  { id: "C-1003", name: "Charlie Brown", email: "charlie@example.com", bookings: 1, totalSpent: "$2,200", status: "suspended", joined: "2023-08-20" },
-  { id: "C-1004", name: "Diana Prince", email: "diana@example.com", bookings: 5, totalSpent: "$1,420", status: "active", joined: "2021-11-05" },
+  { id: "C-1001", name: "Alice Smith", email: "alice@example.com", bookings: 12, totalSpent: "₹4,500", status: "active", joined: "2022-01-15" },
+  { id: "C-1002", name: "Bob Johnson", email: "bob@example.com", bookings: 3, totalSpent: "₹850", status: "active", joined: "2023-05-11" },
+  { id: "C-1003", name: "Charlie Brown", email: "charlie@example.com", bookings: 1, totalSpent: "₹2,200", status: "suspended", joined: "2023-08-20" },
+  { id: "C-1004", name: "Diana Prince", email: "diana@example.com", bookings: 5, totalSpent: "₹1,420", status: "active", joined: "2021-11-05" },
 ]
 
 export default function CustomersPage() {
@@ -74,7 +74,7 @@ export default function CustomersPage() {
             <div className="flex justify-between items-start">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-muted-foreground">Average Spend</p>
-                <p className="text-3xl font-bold">$1,240</p>
+                <p className="text-3xl font-bold">₹1,240</p>
               </div>
               <div className="p-3 bg-emerald-500/10 rounded-xl">
                 <CreditCard className="h-5 w-5 text-emerald-500" />

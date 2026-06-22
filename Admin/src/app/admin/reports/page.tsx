@@ -1,29 +1,103 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { Construction } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import { BarChart3, PieChart, TrendingUp, Download } from "lucide-react"
 
 export default function ReportsPage() {
+  const reports = [
+    { id: "RPT-110", name: "Monthly Revenue Summary", type: "Financial", generatedAt: "Oct 1, 2023", format: "PDF/CSV" },
+    { id: "RPT-109", name: "Vendor Performance Metrics", type: "Analytics", generatedAt: "Sep 28, 2023", format: "CSV" },
+    { id: "RPT-108", name: "User Growth Trends", type: "Growth", generatedAt: "Sep 25, 2023", format: "PDF" },
+    { id: "RPT-107", name: "Q3 Board Presentation", type: "Executive", generatedAt: "Sep 15, 2023", format: "PDF" },
+  ]
+
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden bg-primary text-primary-foreground p-8 md:p-12 shadow-md">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
-        <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Reports</h2>
-          <p className="text-primary-foreground/80 max-w-lg text-lg">
-            This module is currently under construction. Check back soon for updates.
-          </p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Reports & Analytics</h2>
+          <p className="text-muted-foreground mt-1">Generate and view system-wide analytical reports and exports.</p>
         </div>
+        <Button>Generate New Report</Button>
       </div>
-      
-      <Card className="rounded-3xl shadow-sm border-border/50 bg-card p-12 flex flex-col items-center justify-center text-center min-h-[400px]">
-        <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-          <Construction className="h-10 w-10 text-primary" />
-        </div>
-        <h3 className="text-2xl font-bold mb-2">Coming Soon</h3>
-        <p className="text-muted-foreground max-w-md">
-          We are working hard to build the Reports feature. It will be available in an upcoming release.
-        </p>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Generated</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">142</div>
+            <p className="text-xs text-muted-foreground">Reports this year</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Scheduled Exports</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">8</div>
+            <p className="text-xs text-muted-foreground">Running automatically</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Data Storage</CardTitle>
+            <PieChart className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">12 GB</div>
+            <p className="text-xs text-muted-foreground">Historical report archives</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Most Accessed</CardTitle>
+            <Download className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">Financial</div>
+            <p className="text-xs text-muted-foreground">Monthly summaries</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Reports</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Report ID</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Generated At</TableHead>
+                <TableHead>Format</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {reports.map((rpt) => (
+                <TableRow key={rpt.id}>
+                  <TableCell className="font-medium">{rpt.id}</TableCell>
+                  <TableCell>{rpt.name}</TableCell>
+                  <TableCell>{rpt.type}</TableCell>
+                  <TableCell>{rpt.generatedAt}</TableCell>
+                  <TableCell>{rpt.format}</TableCell>
+                  <TableCell className="text-right">
+                    <Button variant="ghost" size="sm">Download</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
       </Card>
     </div>
   )

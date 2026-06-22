@@ -16,7 +16,7 @@ const mockRequests = [
   { id: "VER-1031", vendor: "Seaside Villas", type: "Property Deed", status: "pending", date: "2023-10-26" },
 ]
 
-export default function VerificationList({ type }: { type?: string }) {
+export default function VerificationList({}: { type?: string }) {
   const [selectedDoc, setSelectedDoc] = useState<typeof mockRequests[0] | null>(null)
 
   return (

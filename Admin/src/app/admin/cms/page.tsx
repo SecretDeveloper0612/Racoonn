@@ -1,29 +1,108 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { Construction } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { FileText, Image as ImageIcon, Layout, Globe } from "lucide-react"
 
-export default function CmsPage() {
+export default function CMSPage() {
+  const pages = [
+    { id: "PG-01", title: "Homepage", path: "/", status: "Published", lastUpdated: "Today 10:00 AM" },
+    { id: "PG-02", title: "About Us", path: "/about", status: "Published", lastUpdated: "Oct 15, 2023" },
+    { id: "PG-03", title: "Terms of Service", path: "/terms", status: "Draft", lastUpdated: "Oct 20, 2023" },
+    { id: "PG-04", title: "Help Center", path: "/help", status: "Published", lastUpdated: "Oct 12, 2023" },
+  ]
+
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden bg-primary text-primary-foreground p-8 md:p-12 shadow-md">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
-        <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">CMS</h2>
-          <p className="text-primary-foreground/80 max-w-lg text-lg">
-            This module is currently under construction. Check back soon for updates.
-          </p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Content Management</h2>
+          <p className="text-muted-foreground mt-1">Manage static pages, blog posts, FAQs, and media assets.</p>
         </div>
+        <Button>Create Page</Button>
       </div>
-      
-      <Card className="rounded-3xl shadow-sm border-border/50 bg-card p-12 flex flex-col items-center justify-center text-center min-h-[400px]">
-        <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-          <Construction className="h-10 w-10 text-primary" />
-        </div>
-        <h3 className="text-2xl font-bold mb-2">Coming Soon</h3>
-        <p className="text-muted-foreground max-w-md">
-          We are working hard to build the CMS feature. It will be available in an upcoming release.
-        </p>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Published Pages</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">24</div>
+            <p className="text-xs text-muted-foreground">3 in draft</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Media Assets</CardTitle>
+            <ImageIcon className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">1,042</div>
+            <p className="text-xs text-muted-foreground">Using 4.2 GB of storage</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Components</CardTitle>
+            <Layout className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">16</div>
+            <p className="text-xs text-muted-foreground">Dynamic blocks in use</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Global Views</CardTitle>
+            <Globe className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">45.2K</div>
+            <p className="text-xs text-muted-foreground">Content impressions today</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Pages</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Path</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Last Updated</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {pages.map((page) => (
+                <TableRow key={page.id}>
+                  <TableCell className="font-medium">{page.id}</TableCell>
+                  <TableCell>{page.title}</TableCell>
+                  <TableCell className="text-muted-foreground font-mono text-sm">{page.path}</TableCell>
+                  <TableCell>
+                    <Badge variant={page.status === "Published" ? "default" : "secondary"}>
+                      {page.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{page.lastUpdated}</TableCell>
+                  <TableCell className="text-right">
+                    <Button variant="ghost" size="sm">Edit</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
       </Card>
     </div>
   )
