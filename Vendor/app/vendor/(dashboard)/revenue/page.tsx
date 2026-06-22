@@ -2,8 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { IndianRupee, Download, ArrowUpRight, ArrowDownRight, Wallet } from "lucide-react";
-import { motion } from "framer-motion";
+import { IndianRupee, Download, ArrowUpRight, Wallet } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -39,7 +38,7 @@ export default function RevenuePage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <Card className="border-0 shadow-sm ring-1 ring-slate-100 rounded-xl bg-gradient-to-br from-primary to-rose-600 text-white">
+        <Card className="border-0 shadow-sm ring-1 ring-slate-100 rounded-xl bg-linear-to-br from-primary to-rose-600 text-white">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <div>
@@ -75,7 +74,6 @@ export default function RevenuePage() {
           </CardContent>
         </Card>
         
-        <Card className="border-0 shadow-sm ring-1 ring-slate-100 rounded-xl bg-white">
         <Card className="border-0 shadow-sm ring-1 ring-slate-100 rounded-xl bg-white overflow-hidden relative">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">

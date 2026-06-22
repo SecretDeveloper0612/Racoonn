@@ -10,19 +10,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, IndianRupee, BedDouble, Percent, CheckCircle2, AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 
+// Mock calendar data
+const daysInMonth = 31;
+const startDay = 0; // Sunday
+const calendarDays = Array.from({ length: daysInMonth }, (_, i) => ({
+  day: i + 1,
+  available: Math.floor(Math.random() * 5) + 1, // 1 to 5 rooms
+  price: Math.floor(Math.random() * 50) * 10 + 1500, // 1500 to 2000
+  isWeekend: (i + startDay) % 7 === 0 || (i + startDay) % 7 === 6,
+  hasOffer: Math.random() > 0.8
+}));
+
 export default function AvailabilityPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date(2023, 9, 1)); // October 2023
-
-  // Mock calendar data
-  const daysInMonth = 31;
-  const startDay = 0; // Sunday
-  const calendarDays = Array.from({ length: daysInMonth }, (_, i) => ({
-    day: i + 1,
-    available: Math.floor(Math.random() * 5) + 1, // 1 to 5 rooms
-    price: Math.floor(Math.random() * 50) * 10 + 1500, // 1500 to 2000
-    isWeekend: (i + startDay) % 7 === 0 || (i + startDay) % 7 === 6,
-    hasOffer: Math.random() > 0.8
-  }));
 
   const nextMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
@@ -93,7 +93,7 @@ export default function AvailabilityPage() {
                 <div className="grid grid-cols-7">
                   {/* Empty cells for start of month */}
                   {Array.from({ length: startDay }).map((_, i) => (
-                    <div key={`empty-${i}`} className="min-h-[120px] p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
+                    <div key={`empty-${i}`} className="min-h-30 p-2 border-r border-b border-slate-100 bg-slate-50/30"></div>
                   ))}
                   
                   {calendarDays.map(day => (
