@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle2, Star, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Step10Review({ onSubmit, onBack }: { onSubmit: () => void, onBack: () => void }) {
@@ -36,26 +36,6 @@ export function Step10Review({ onSubmit, onBack }: { onSubmit: () => void, onBac
 
       <motion.div variants={slideUp} className="space-y-6">
         
-        {/* Listing Score Card */}
-        <div className="bg-gradient-to-br from-[#1F2E4A] to-[#111827] rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#E86A70]/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-          
-          <div className="flex items-center justify-between relative z-10">
-            <div>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-amber-400" /> Estimated Listing Score
-              </p>
-              <div className="flex items-end gap-2">
-                <h2 className="text-5xl font-black text-white">92<span className="text-2xl text-slate-400">/100</span></h2>
-              </div>
-              <p className="text-sm font-medium text-emerald-400 mt-2">Excellent! Your property is highly bookable.</p>
-            </div>
-            
-            <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center border border-white/20">
-              <Star className="w-10 h-10 text-amber-400 fill-amber-400" />
-            </div>
-          </div>
-        </div>
 
         {/* Review Checklist */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">

@@ -16,7 +16,7 @@ const mockRequests = [
   { id: "VER-1031", vendor: "Seaside Villas", type: "Property Deed", status: "pending", date: "2023-10-26" },
 ]
 
-export default function VerificationList() {
+export default function VerificationList({ type }: { type?: string }) {
   const [selectedDoc, setSelectedDoc] = useState<typeof mockRequests[0] | null>(null)
 
   return (
@@ -55,7 +55,7 @@ export default function VerificationList() {
                 >
                   <ZoomIn className="h-4 w-4" /> Review Document
                 </DialogTrigger>
-                <DialogContent className="max-w-6xl w-[95vw] md:w-full h-[85vh] flex flex-col rounded-2xl p-0 overflow-hidden border-muted/30">
+                <DialogContent className="max-w-6xl sm:max-w-6xl w-[95vw] md:w-full h-[85vh] flex flex-col rounded-2xl p-0 overflow-hidden border-muted/30">
                   <DialogHeader className="p-6 border-b bg-card/50 backdrop-blur-md">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10 border shadow-sm">
@@ -88,7 +88,7 @@ export default function VerificationList() {
                     </div>
                     
                     {/* Actions Panel */}
-                    <div className="w-full md:w-95 flex flex-col bg-card/50 overflow-y-auto">
+                    <div className="w-full md:w-96 flex flex-col bg-card/50 overflow-y-auto shrink-0">
                       <div className="p-6 space-y-8">
                         <div>
                           <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Document Info</h4>
