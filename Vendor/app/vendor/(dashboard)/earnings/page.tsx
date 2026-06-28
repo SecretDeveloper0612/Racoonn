@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IndianRupee, Download, ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, Calendar as CalendarIcon, FileText, CheckCircle2, Clock } from "lucide-react";
+import { IndianRupee, Download, ArrowUpRight, Wallet, TrendingUp, Calendar as CalendarIcon, FileText, CheckCircle2, Clock } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const revenueData = [

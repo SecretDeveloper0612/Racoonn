@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: "Manage your properties and bookings seamlessly.",
 };
 
+import { Toaster } from 'sonner';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,6 +34,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         <TooltipProvider>{children}</TooltipProvider>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

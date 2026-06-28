@@ -4,47 +4,13 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, ChevronRight, ChevronLeft } from 'lucide-react';
-
-const stays = [
-  {
-    id: 1,
-    title: 'Cozy Cabin',
-    location: 'Manali, India',
-    rating: '4.8',
-    image: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=600&auto=format&fit=crop', // placeholder
-  },
-  {
-    id: 2,
-    title: 'Beach House',
-    location: 'Maldives',
-    rating: '4.9',
-    image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=600&auto=format&fit=crop', // placeholder
-  },
-  {
-    id: 3,
-    title: 'Sea View Villa',
-    location: 'Santorini, Greece',
-    rating: '4.9',
-    image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=600&auto=format&fit=crop', // placeholder
-  },
-  {
-    id: 4,
-    title: 'Mountain Retreat',
-    location: 'Swiss Alps',
-    rating: '4.8',
-    image: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=600&auto=format&fit=crop', // placeholder
-  },
-  {
-    id: 5,
-    title: 'Heritage Palace',
-    location: 'Udaipur, India',
-    rating: '4.7',
-    image: 'https://images.unsplash.com/photo-1582610116397-edb318620f90?q=80&w=600&auto=format&fit=crop', // placeholder
-  }
-];
+import { useAuthStore } from '@/store/authStore';
+import { mockHotels } from '@/data/mockHotels';
 
 export default function PopularStays() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { profile, toggleSavedHotel } = useAuthStore();
+  const savedHotelIds = profile?.savedHotels || [];
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -71,25 +37,34 @@ export default function PopularStays() {
           className="flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 pb-4 snap-x snap-mandatory"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {stays.map((stay) => (
-            <Link href={`/property/${stay.id}`} key={stay.id} className="w-full min-w-full md:w-auto md:min-w-[280px] flex-shrink-0 bg-white rounded-2xl p-3 shadow-[0_2px_15px_rgb(0,0,0,0.05)] border border-brand-sky/30 group/card cursor-pointer transition-transform hover:-translate-y-1 snap-center md:snap-start block">
-              {/* Image */}
-              <div className="relative w-full h-[180px] rounded-xl overflow-hidden mb-4">
-                <Image
-                  src={stay.image}
-                  alt={stay.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover group-hover/card:scale-105 transition-transform duration-500"
-                />
-                <button className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md text-brand-charcoal hover:text-brand-coral transition-colors">
-                  <Heart size={16} />
-                </button>
-              </div>
+          {mockHotels.map((stay) => {
+            const isSaved = savedHotelIds.includes(stay.id);
+            return (
+              <Link href={`/property/${stay.id}`} key={stay.id} className="w-full min-w-full md:w-auto md:min-w-70 shrink-0 bg-white rounded-2xl p-3 shadow-[0_2px_15px_rgb(0,0,0,0.05)] border border-brand-sky/30 group/card cursor-pointer transition-transform hover:-translate-y-1 snap-center md:snap-start block">
+                {/* Image */}
+                <div className="relative w-full h-45 rounded-xl overflow-hidden mb-4">
+                  <Image
+                    src={stay.image}
+                    alt={stay.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover group-hover/card:scale-105 transition-transform duration-500"
+                  />
+                  <button 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleSavedHotel(stay.id);
+                    }}
+                    className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md text-brand-charcoal hover:text-brand-coral transition-colors"
+                  >
+                    <Heart size={16} className={isSaved ? "fill-brand-coral text-brand-coral" : ""} />
+                  </button>
+                </div>
 
-              {/* Info */}
-              <div className="px-1 pb-1">
-                <h3 className="font-bold text-brand-navy mb-1">{stay.title}</h3>
+                {/* Info */}
+                <div className="px-1 pb-1">
+                  <h3 className="font-bold text-brand-navy mb-1">{stay.name}</h3>
                 <div className="flex justify-between items-end">
                   <p className="text-sm text-brand-charcoal/60">{stay.location}</p>
                   <div className="flex items-center text-sm font-bold text-brand-coral">
@@ -98,7 +73,8 @@ export default function PopularStays() {
                 </div>
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
 
         {/* Navigation Buttons */}

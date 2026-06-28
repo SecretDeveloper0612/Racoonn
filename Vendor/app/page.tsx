@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +8,9 @@ import { Globe2, ShieldCheck, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
+import { authService } from "@/lib/appwrite/auth";
+import { toast } from "sonner";
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -17,34 +19,54 @@ export default function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { checkAuth, isAuthenticated, profile } = useAuthStore();
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (!profile || profile.status === 'Pending') {
+        router.push("/vendor/onboarding");
+      } else {
+        router.push("/vendor/dashboard");
+      }
+    }
+  }, [isAuthenticated, profile, router]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (isForgotPassword) {
-      setTimeout(() => {
-        setIsLoading(false);
+    try {
+      if (isForgotPassword) {
+        await authService.forgotPassword(email);
         setResetSent(true);
-      }, 1500);
-      return;
-    }
-
-    // Simulate authentication
-    setTimeout(() => {
-      setIsLoading(false);
-      if (isSignIn) {
-        router.push("/vendor/dashboard");
+        toast.success("Password reset email sent!");
+      } else if (isSignIn) {
+        await authService.login(email, password);
+        await checkAuth();
+        // Redirect is handled by the useEffect above
       } else {
-        router.push("/vendor/onboarding");
+        await authService.register(email, password, email.split("@")[0]);
+        await checkAuth();
+        // Redirect is handled by the useEffect above
       }
-    }, 1500);
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred during authentication.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const fadeUpVariants: any = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-    exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: "easeIn" } }
+  const handleGoogleAuth = () => {
+    authService.loginWithGoogle();
   };
+
 
   return (
     <div className="min-h-screen bg-slate-50 flex overflow-hidden selection:bg-[#E86A70] selection:text-white font-sans">
@@ -98,22 +120,15 @@ export default function AuthPage() {
           )}
           
           {/* Form Content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={isForgotPassword ? "forgot" : (isSignIn ? "signin" : "signup")}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={fadeUpVariants}
-            >
-              <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <form onSubmit={handleSubmit} className="space-y-5">
                 {isForgotPassword ? (
                   <>
                     {!resetSent && (
                       <div className="space-y-2">
                         <Label htmlFor="resetEmail" className="text-sm font-bold text-slate-700 ml-1">Email address</Label>
                         <div className="relative">
-                          <Input id="resetEmail" type="email" placeholder="hello@example.com" required className="h-14 pl-4 pr-10 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all shadow-sm" />
+                          <Input id="resetEmail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="hello@example.com" required className="h-14 pl-4 pr-10 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all shadow-sm" />
                         </div>
                         <Button disabled={isLoading} type="submit" className="w-full h-14 text-white rounded-2xl text-[1.05rem] font-bold shadow-lg hover:-translate-y-0.5 transition-all mt-6 bg-[#1F2E4A] hover:bg-[#1F2E4A]/90 shadow-[#1F2E4A]/20">
                           {isLoading ? "Please wait..." : "Send Reset Link"}
@@ -131,7 +146,7 @@ export default function AuthPage() {
                     <div className="space-y-2">
                       <Label htmlFor="email" className="text-sm font-bold text-slate-700 ml-1">Email address</Label>
                       <div className="relative">
-                        <Input id="email" type="email" placeholder="hello@example.com" required className="h-14 pl-4 pr-10 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all shadow-sm" />
+                        <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="hello@example.com" required className="h-14 pl-4 pr-10 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all shadow-sm" />
                       </div>
                     </div>
                     
@@ -143,7 +158,7 @@ export default function AuthPage() {
                         )}
                       </div>
                       <div className="relative">
-                        <Input id="password" type="password" placeholder="••••••••" required className="h-14 pl-4 pr-10 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all shadow-sm" />
+                        <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required className="h-14 pl-4 pr-10 rounded-2xl border-slate-200 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#E86A70]/20 focus:border-[#E86A70] transition-all shadow-sm" />
                       </div>
                     </div>
                     
@@ -153,8 +168,7 @@ export default function AuthPage() {
                   </>
                 )}
               </form>
-            </motion.div>
-          </AnimatePresence>
+          </div>
 
           {!isForgotPassword && (
             <>
@@ -168,7 +182,7 @@ export default function AuthPage() {
               </div>
 
               <div className="flex flex-col w-full">
-                <Button variant="outline" className="w-full h-14 rounded-2xl border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-bold shadow-sm transition-all">
+                <Button type="button" onClick={handleGoogleAuth} variant="outline" className="w-full h-14 rounded-2xl border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-bold shadow-sm transition-all">
                   <svg className="w-5 h-5 mr-2.5" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -198,12 +212,7 @@ export default function AuthPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[linear-gradient(to_bottom,black_40%,transparent_100%)]"></div>
         </div>
         
-        <div className="relative z-10 w-full max-w-xl">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
+        <div className="relative z-10 w-full max-w-xl animate-in fade-in zoom-in-95 duration-1000 delay-200 fill-mode-both">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold text-sm mb-8 shadow-lg">
               <Star className="w-4 h-4 text-amber-400 fill-amber-400" /> #1 Property Management Platform
             </div>
@@ -257,7 +266,6 @@ export default function AuthPage() {
                 </p>
               </div>
             </div>
-          </motion.div>
         </div>
       </div>
     </div>

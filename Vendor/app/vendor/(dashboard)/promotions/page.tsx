@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Tag, Percent, Clock, MoreHorizontal } from "lucide-react";
+import { Plus, Tag, Percent, MoreHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
 
 const promotions = [

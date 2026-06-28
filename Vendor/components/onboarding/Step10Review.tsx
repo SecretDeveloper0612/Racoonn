@@ -30,7 +30,7 @@ export function Step10Review({ onSubmit, onBack }: { onSubmit: () => void, onBac
       className="flex flex-col h-full max-w-xl mx-auto w-full pt-4"
     >
       <motion.div variants={slideUp} className="mb-6">
-        <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',_sans-serif]">Review & Submit</h1>
+        <h1 className="text-3xl md:text-4xl font-black text-[#1F2E4A] mb-3 font-['Poppins',sans-serif]">Review & Submit</h1>
         <p className="text-slate-500 font-medium">You're almost there! Review your application details before submitting for final approval.</p>
       </motion.div>
 
@@ -65,7 +65,7 @@ export function Step10Review({ onSubmit, onBack }: { onSubmit: () => void, onBac
           </div>
         </div>
 
-        <div className="text-center p-4">
+        <div className="text-center py-4">
           <p className="text-xs font-bold text-slate-400">By submitting, you agree to Racoonn's Partner Terms and Conditions.</p>
         </div>
 

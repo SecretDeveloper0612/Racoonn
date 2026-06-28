@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
+import { useAuthStore } from "@/store/authStore";
+import { databases, appwriteConfig } from "@/lib/appwrite/client";
 import { OnboardingLayout } from "@/components/onboarding/OnboardingLayout";
 import { WelcomeScreen } from "@/components/onboarding/WelcomeScreen";
 import { Step1Account } from "@/components/onboarding/Step1Account";
@@ -19,19 +21,33 @@ import { ApprovalPending } from "@/components/onboarding/ApprovalPending";
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const [step, setStep] = useState(0); // 0 = Welcome Screen
+  const { profile, user } = useAuthStore();
+  
+  // Use profile's onboardingStep if available, otherwise default to 0
+  const [step, setStep] = useState(profile?.onboardingStep || 0);
 
-  // Basic auto-save draft simulation
+  // Sync step changes to Appwrite
   useEffect(() => {
-    const savedStep = localStorage.getItem("racoonn_onboarding_step");
-    if (savedStep) {
-      setStep(parseInt(savedStep));
-    }
-  }, []);
-
-  useEffect(() => {
+    // Also save to localStorage as a super fast fallback
     localStorage.setItem("racoonn_onboarding_step", step.toString());
-  }, [step]);
+    
+    // Only update Appwrite if the step is actually changing and we have a user
+    if (user && profile && step !== profile.onboardingStep) {
+      databases.updateDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.vendorCollectionId,
+        user.$id,
+        { onboardingStep: step }
+      ).catch(e => console.error("Failed to sync onboarding step", e));
+    }
+  }, [step, user, profile]);
+
+  // Update local state if profile loads asynchronously after mount
+  useEffect(() => {
+    if (profile?.onboardingStep && profile.onboardingStep > step) {
+      setStep(profile.onboardingStep);
+    }
+  }, [profile?.onboardingStep, step]);
 
   const nextStep = () => setStep((s) => Math.min(s + 1, 12));
   const prevStep = () => setStep((s) => Math.max(s - 1, 0));

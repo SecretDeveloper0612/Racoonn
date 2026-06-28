@@ -24,19 +24,19 @@ export default function SettingsPage() {
 
       <Tabs defaultValue="general" className="w-full">
         <TabsList className="bg-slate-100/80 p-1.5 rounded-xl w-full justify-start overflow-x-auto h-auto inline-flex gap-1">
-          <TabsTrigger value="general" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
+          <TabsTrigger value="general" className="data-active:bg-white data-active:text-primary data-active:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all shrink-0">
             <Building2 className="w-4 h-4" /> General
           </TabsTrigger>
-          <TabsTrigger value="profile" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
+          <TabsTrigger value="profile" className="data-active:bg-white data-active:text-primary data-active:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all shrink-0">
             <User className="w-4 h-4" /> Profile
           </TabsTrigger>
-          <TabsTrigger value="billing" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
+          <TabsTrigger value="billing" className="data-active:bg-white data-active:text-primary data-active:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all shrink-0">
             <CreditCard className="w-4 h-4" /> Billing & Payouts
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
+          <TabsTrigger value="notifications" className="data-active:bg-white data-active:text-primary data-active:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all shrink-0">
             <Bell className="w-4 h-4" /> Notifications
           </TabsTrigger>
-          <TabsTrigger value="security" className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all">
+          <TabsTrigger value="security" className="data-active:bg-white data-active:text-primary data-active:shadow-sm text-slate-500 rounded-full h-auto py-2 px-5 flex items-center gap-2 font-medium transition-all shrink-0">
             <Shield className="w-4 h-4" /> Security
           </TabsTrigger>
         </TabsList>

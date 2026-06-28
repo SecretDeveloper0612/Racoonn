@@ -7,7 +7,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
 import {
   Sidebar,
   SidebarContent,
@@ -37,6 +38,13 @@ const navItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useAuthStore();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/");
+  };
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-200 bg-white">
@@ -84,7 +92,7 @@ export function AppSidebar() {
       <SidebarFooter className="p-2 group-data-[collapsible=icon]:p-0">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="h-10 text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors">
+            <SidebarMenuButton onClick={handleLogout} className="h-10 text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors">
               <LogOut className="text-slate-400 group-hover:text-red-500" />
               <span className="font-medium">Logout</span>
             </SidebarMenuButton>

@@ -55,7 +55,7 @@ const operationsItems = [
   { title: "Reviews", url: "/admin/reviews", icon: MessageSquare },
   { title: "Support", url: "/admin/support", icon: LifeBuoy },
   { title: "Marketing", url: "/admin/marketing", icon: Megaphone },
-  { title: "CMS", url: "/admin/cms", icon: FileText },
+  // { title: "CMS", url: "/cms", icon: FileText },
 ]
 
 const systemItems = [

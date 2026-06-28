@@ -84,10 +84,10 @@ export default function ReviewsPage() {
                   &ldquo;{review.text}&rdquo;
                 </p>
 
-                <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-4 border-t border-slate-100">
                   <Sheet>
                     <SheetTrigger render={
-                      <Button variant={review.replied ? "outline" : "default"} size="sm" className={review.replied ? "text-slate-600" : "bg-primary hover:bg-primary/90 text-white"}>
+                      <Button variant={review.replied ? "outline" : "default"} size="sm" className={`w-full sm:w-auto ${review.replied ? "text-slate-600" : "bg-primary hover:bg-primary/90 text-white"}`}>
                         <MessageSquareReply className="w-4 h-4 mr-2" />
                         {review.replied ? "Edit Reply" : "Reply to Review"}
                       </Button>
@@ -135,7 +135,7 @@ export default function ReviewsPage() {
                     </SheetContent>
                   </Sheet>
                   
-                  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-amber-600">
+                  <Button variant="ghost" size="sm" className="w-full sm:w-auto text-slate-400 hover:text-amber-600">
                     <AlertTriangle className="w-4 h-4 mr-2" />
                     Report
                   </Button>

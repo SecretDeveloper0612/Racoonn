@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { Bell, Search } from "lucide-react"
+import { Bell, Search, FileText } from "lucide-react"
+import Link from "next/link"
 
 import {
   Breadcrumb,
@@ -41,6 +42,12 @@ export function AdminNavbar() {
             className="w-64 rounded-full bg-muted/50 pl-9 md:w-80 border-transparent focus-visible:bg-transparent focus-visible:border-primary/30 focus-visible:ring-primary/20 transition-all"
           />
         </div>
+        <Link href="/cms">
+          <Button variant="outline" size="sm" className="hidden md:flex gap-2">
+            <FileText className="h-4 w-4" />
+            <span>CMS</span>
+          </Button>
+        </Link>
         <Button variant="ghost" size="icon" className="relative rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50">
           <Bell className="h-5 w-5" />
           <span className="absolute top-2 right-2.5 h-2 w-2 rounded-full bg-primary border-2 border-background" />

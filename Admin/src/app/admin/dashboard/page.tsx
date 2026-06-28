@@ -55,7 +55,7 @@ export default function DashboardPage() {
             <CardTitle>Revenue Analytics</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
-            <div className="min-h-[500px] h-full w-full">
+            <div className="min-h-125 h-full w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>

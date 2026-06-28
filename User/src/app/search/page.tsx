@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import PropertyCard, { Property } from '@/components/search/PropertyCard';
 import MapMockup from '@/components/search/MapMockup';
 import { SlidersHorizontal, Map as MapIcon, ChevronDown, List } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const mockProperties: Property[] = [
   {
@@ -76,8 +77,8 @@ const filters = [
 
 export default function SearchPage() {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilter = (filter: string) => {
     if (selectedFilters.includes(filter)) {
@@ -109,17 +110,28 @@ export default function SearchPage() {
       <div className="relative shrink-0">
         <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-3 overflow-x-auto hide-scrollbar">
           <button 
-            className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-2 hover:border-gray-900 transition-colors shrink-0 font-medium text-[14px]"
+            className={`flex items-center gap-2 border rounded-full px-4 py-2 transition-colors shrink-0 font-medium text-sm ${showFilters ? 'border-gray-900 bg-gray-100 text-gray-900' : 'border-gray-300 hover:border-gray-900 text-gray-700'}`}
             onClick={() => {
-              setSelectedFilters([]);
-              setActiveDropdown(null);
+              setShowFilters(!showFilters);
+              if (showFilters) {
+                setActiveDropdown(null);
+              }
             }}
           >
             <SlidersHorizontal size={16} /> Filters
           </button>
-          <div className="h-8 w-[1px] bg-gray-200 shrink-0 mx-2" />
           
-          {filters.map((filter, idx) => {
+          <AnimatePresence>
+            {showFilters && (
+              <motion.div 
+                initial={{ width: 0, opacity: 0, paddingLeft: 0 }}
+                animate={{ width: "auto", opacity: 1, paddingLeft: 8 }}
+                exit={{ width: 0, opacity: 0, paddingLeft: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="flex items-center gap-3 overflow-hidden origin-left shrink-0"
+              >
+                <div className="h-8 w-px bg-gray-200 shrink-0 mr-1" />
+                {filters.map((filter, idx) => {
             const isDropdown = idx < 2; // Price, Type of place
             const isSelected = selectedFilters.includes(filter) || activeDropdown === filter;
 
@@ -149,12 +161,15 @@ export default function SearchPage() {
               </button>
             );
           })}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Dropdown Panels */}
         {activeDropdown && (
-          <div className="absolute top-full left-6 md:left-[140px] mt-2 w-80 bg-white border border-gray-200 shadow-xl rounded-2xl p-5 z-50 animate-in fade-in slide-in-from-top-2">
-            <div className="flex flex-col gap-4">
+          <div className="fixed top-24 left-4 right-4 z-40 bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden md:left-35 md:right-auto md:w-96 lg:left-auto lg:right-6 lg:w-100 xl:w-125 animate-in fade-in slide-in-from-top-2">
+            <div className="flex flex-col gap-4 p-5">
               {activeDropdown === 'Price' ? (
                 <>
                   <div className="font-semibold text-gray-900 mb-1">Price range</div>
@@ -167,7 +182,7 @@ export default function SearchPage() {
                         <input type="number" placeholder="1000" className="w-full outline-none text-sm text-gray-900" />
                       </div>
                     </div>
-                    <div className="w-4 h-[1px] bg-gray-300 mt-6" />
+                    <div className="h-px w-4 bg-gray-300 mt-6" />
                     <div className="flex-1">
                       <label className="text-xs font-medium text-gray-500 uppercase">Maximum</label>
                       <div className="border border-gray-300 rounded-lg px-3 py-2 mt-1 flex items-center focus-within:border-gray-900 focus-within:ring-1 focus-within:ring-gray-900 transition-all">
@@ -233,7 +248,7 @@ export default function SearchPage() {
         </div>
 
         {/* Left Panel: Property List */}
-        <div className="w-full flex flex-col bg-white relative z-40 rounded-t-[32px] -mt-8 pt-4 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] min-h-[100vh] lg:min-h-0 lg:h-full lg:-mt-0 lg:pt-0 lg:shadow-[0_4px_24px_rgba(0,0,0,0.06)] lg:rounded-2xl lg:border border-gray-200 lg:w-[55%] xl:w-[60%] lg:flex lg:overflow-y-auto order-2 lg:order-1">
+        <div className="min-h-screen flex flex-col bg-slate-50 relative pb-20 lg:pb-0 rounded-t-[32px] -mt-8 pt-4 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] lg:min-h-0 lg:h-full lg:mt-0 lg:pt-0 lg:shadow-[0_4px_24px_rgba(0,0,0,0.06)] lg:rounded-2xl lg:border border-gray-200 lg:w-[55%] xl:w-[60%] lg:flex lg:overflow-y-auto order-2 lg:order-1">
           {/* Pull Bar Indicator for Mobile */}
           <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-6 lg:hidden shrink-0" />
 

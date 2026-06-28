@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from 'react';
 import Image from 'next/image';
-import { Heart, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, Star } from 'lucide-react';
 import Link from 'next/link';
+import { useAuthStore } from '@/store/authStore';
 
 export interface Property {
   id: string;
@@ -22,18 +22,20 @@ export interface Property {
 }
 
 export default function PropertyCard({ property }: { property: Property }) {
-  const [isLiked, setIsLiked] = useState(false);
+  const { profile, toggleSavedHotel } = useAuthStore();
+  const savedHotelIds = profile?.savedHotels || [];
+  const isLiked = savedHotelIds.includes(property.id);
 
   const toggleLike = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsLiked(!isLiked);
+    toggleSavedHotel(property.id);
   };
 
   return (
     <Link href={`/property/${property.id}`} className="group flex flex-col gap-3">
       {/* Property Image */}
-      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-200">
+      <div className="relative aspect-4/3 rounded-xl overflow-hidden bg-gray-200">
         <Image 
           src={property.images[0]} 
           alt={property.title} 

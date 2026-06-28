@@ -3,7 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
+import ConditionalFooter from "@/components/shared/ConditionalFooter";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -35,7 +35,7 @@ export default function RootLayout({
         <QueryProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
-          <Footer />
+          <ConditionalFooter />
         </QueryProvider>
       </body>
     </html>

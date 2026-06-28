@@ -1,23 +1,66 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Lock, UserPlus, Mail, Phone, Eye, EyeOff } from "lucide-react";
+import { ArrowRight, UserPlus, Mail, Phone } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { COUNTRIES } from "@/lib/countries";
+import { useAuthStore } from "@/store/authStore";
+import { databases, appwriteConfig } from "@/lib/appwrite/client";
+import { Loader2 } from "lucide-react";
 
 export function Step1Account({ onNext }: { onNext: () => void }) {
   const [phoneCountry, setPhoneCountry] = useState("India");
   const [altPhoneCountry, setAltPhoneCountry] = useState("India");
-  const [showPassword, setShowPassword] = useState(false);
   const [phoneSearch, setPhoneSearch] = useState("");
   const [altPhoneSearch, setAltPhoneSearch] = useState("");
+  const { user, profile } = useAuthStore();
+
+  const [firstName, setFirstName] = useState(profile?.firstName || "");
+  const [lastName, setLastName] = useState(profile?.lastName || "");
+  const [email, setEmail] = useState(profile?.email || user?.email || "");
+  const [phone, setPhone] = useState(profile?.phone?.split(" ")[1] || "");
+  const [altPhone, setAltPhone] = useState(profile?.altPhone?.split(" ")[1] || "");
+  const [phoneError, setPhoneError] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const isFormValid = termsAccepted && firstName.trim() && lastName.trim() && email.trim() && phone.trim() && altPhone.trim();
 
   const selectedPhone = COUNTRIES.find(c => c.name === phoneCountry) || COUNTRIES[0];
   const selectedAltPhone = COUNTRIES.find(c => c.name === altPhoneCountry) || COUNTRIES[0];
+
+  useEffect(() => {
+    if (phone && altPhone && phone === altPhone) {
+      setPhoneError("Alternative number must be different from the primary phone number.");
+    } else {
+      setPhoneError("");
+    }
+  }, [phone, altPhone]);
+
+  // Load saved data on mount
+  useEffect(() => {
+    // Check if we need to load from local storage as fallback
+    const savedData = localStorage.getItem("vendor_step1_data");
+    if (savedData && !profile?.firstName) {
+      try {
+        const parsed = JSON.parse(savedData);
+        if (parsed.firstName) setFirstName(parsed.firstName);
+        if (parsed.lastName) setLastName(parsed.lastName);
+        if (parsed.email && !email) setEmail(parsed.email);
+        if (parsed.phone) setPhone(parsed.phone);
+        if (parsed.altPhone) setAltPhone(parsed.altPhone);
+        if (parsed.phoneCountry) setPhoneCountry(parsed.phoneCountry);
+        if (parsed.altPhoneCountry) setAltPhoneCountry(parsed.altPhoneCountry);
+        if (parsed.termsAccepted) setTermsAccepted(parsed.termsAccepted);
+      } catch (e) {
+        console.error("Failed to parse saved step 1 data", e);
+      }
+    }
+  }, [profile, email]);
 
   const slideUpVariants: any = {
     hidden: { opacity: 0, y: 20 },
@@ -26,6 +69,46 @@ export function Step1Account({ onNext }: { onNext: () => void }) {
       y: 0, 
       transition: { duration: 0.5, delay: i * 0.05, ease: [0.25, 0.4, 0.1, 1] }
     })
+  };
+
+  const handleNext = async () => {
+    if (phone && altPhone && phone === altPhone) {
+      setPhoneError("Alternative number must be different from the primary phone number.");
+      return;
+    }
+    if (phoneError) return;
+    
+    setIsLoading(true);
+    
+    try {
+      if (user) {
+        await databases.updateDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.vendorCollectionId,
+          user.$id,
+          {
+            firstName,
+            lastName,
+            phone: `${selectedPhone.code} ${phone}`,
+            altPhone: `${selectedAltPhone.code} ${altPhone}`,
+          }
+        );
+      }
+      
+      // Save locally as backup for UI speed
+      localStorage.setItem("vendor_step1_data", JSON.stringify({
+        firstName, lastName, email, phone, altPhone, phoneCountry, altPhoneCountry, termsAccepted
+      }));
+      localStorage.setItem("vendor_phone", `${selectedPhone.code} ${phone}`);
+      
+      onNext();
+    } catch (error) {
+      console.error("Failed to save vendor details to Appwrite", error);
+      // Fallback: Proceed anyway if Appwrite throws
+      onNext();
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -49,19 +132,19 @@ export function Step1Account({ onNext }: { onNext: () => void }) {
         <motion.div custom={1} variants={slideUpVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2.5">
             <Label className="text-sm font-semibold text-slate-700">First Name</Label>
-            <Input className="h-12 rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm" placeholder="Jane" />
+            <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="h-12 rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm" placeholder="Jane" />
           </div>
           <div className="space-y-2.5">
             <Label className="text-sm font-semibold text-slate-700">Last Name</Label>
-            <Input className="h-12 rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm" placeholder="Doe" />
+            <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="h-12 rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm" placeholder="Doe" />
           </div>
         </motion.div>
 
         <motion.div custom={2} variants={slideUpVariants} className="space-y-2.5">
-          <Label className="text-sm font-semibold text-slate-700">Business Email</Label>
+          <Label className="text-sm font-semibold text-slate-700">Email ID</Label>
           <div className="relative">
             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input type="email" className="h-12 pl-11 rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm" placeholder="jane@luxuryresort.com" />
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="h-12 pl-11 rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm" placeholder="example@gmail.com" />
           </div>
         </motion.div>
 
@@ -104,13 +187,19 @@ export function Step1Account({ onNext }: { onNext: () => void }) {
             </Select>
             <div className="relative flex-1">
               <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <Input type="tel" className="h-12 pl-11 w-full rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm" placeholder="9876543210" />
+              <Input 
+                type="tel" 
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className={`h-12 pl-11 w-full rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm ${phoneError ? 'border-red-500 focus-visible:ring-red-500/20 focus-visible:border-red-500' : ''}`} 
+                placeholder="9876543210" 
+              />
             </div>
           </div>
         </motion.div>
 
         <motion.div custom={4} variants={slideUpVariants} className="space-y-2.5">
-          <Label className="text-sm font-semibold text-slate-700">Alternative Number <span className="text-slate-400 font-normal">(Optional)</span></Label>
+          <Label className="text-sm font-semibold text-slate-700">Alternative Number</Label>
           <div className="flex gap-3">
             <Select value={altPhoneCountry} onValueChange={(val) => val && setAltPhoneCountry(val)}>
               <SelectTrigger className="h-12! w-25 shrink-0 rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all shadow-sm font-medium">
@@ -148,33 +237,29 @@ export function Step1Account({ onNext }: { onNext: () => void }) {
             </Select>
             <div className="relative flex-1">
               <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <Input type="tel" className="h-12 pl-11 w-full rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm" placeholder="9876543211" />
+              <Input 
+                type="tel" 
+                value={altPhone}
+                onChange={(e) => setAltPhone(e.target.value)}
+                className={`h-12 pl-11 w-full rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium shadow-sm ${phoneError ? 'border-red-500 focus-visible:ring-red-500/20 focus-visible:border-red-500' : ''}`} 
+                placeholder="9876543211" 
+              />
             </div>
           </div>
+          {phoneError && (
+            <p className="text-sm font-medium text-red-500 mt-2 ml-1">{phoneError}</p>
+          )}
         </motion.div>
 
-        <motion.div custom={5} variants={slideUpVariants} className="space-y-2.5">
-          <Label className="text-sm font-semibold text-slate-700">Password</Label>
-          <div className="relative">
-            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input 
-              type={showPassword ? "text" : "password"} 
-              className="h-12 pl-11 pr-12 rounded-xl border-slate-200 bg-slate-50/50 hover:bg-slate-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-slate-900/10 focus-visible:border-slate-900 transition-all font-medium tracking-widest shadow-sm" 
-              placeholder="••••••••" 
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500/20"
-            >
-              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
-          </div>
-          <p className="text-xs text-slate-500 font-medium mt-1.5 ml-1">Must be at least 8 characters long.</p>
-        </motion.div>
 
         <motion.div custom={6} variants={slideUpVariants} className="flex items-start gap-3.5 mt-8 p-5 rounded-2xl bg-rose-50/50 border border-rose-100/50 shadow-sm">
-          <input type="checkbox" id="terms" className="mt-1 shrink-0 w-4 h-4 rounded border-slate-300 text-rose-500 focus:ring-rose-500 cursor-pointer" />
+          <input 
+            type="checkbox" 
+            id="terms" 
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}
+            className="mt-1 shrink-0 w-4 h-4 rounded border-slate-300 text-rose-500 focus:ring-rose-500 cursor-pointer" 
+          />
           <label htmlFor="terms" className="text-sm text-slate-600 font-medium leading-relaxed cursor-pointer block">
             I agree to Racoonn's{" "}
             <a href="#" className="text-rose-600 hover:text-rose-700 font-semibold hover:underline">Terms of Service</a>
@@ -189,7 +274,12 @@ export function Step1Account({ onNext }: { onNext: () => void }) {
 
       <motion.div custom={7} variants={slideUpVariants} className="mt-12 pt-6 border-t border-slate-100 flex items-center justify-between">
         <p className="text-sm text-slate-500 font-semibold bg-slate-100 px-3 py-1 rounded-full">Step 1 of 10</p>
-        <Button onClick={onNext} className="bg-slate-900 hover:bg-slate-800 text-white rounded-xl px-8 h-12 font-semibold shadow-lg shadow-slate-900/10 hover:scale-[1.02] transition-all duration-300">
+        <Button 
+          onClick={handleNext} 
+          disabled={!isFormValid || isLoading}
+          className={`bg-slate-900 hover:bg-slate-800 text-white rounded-xl px-8 h-12 font-semibold shadow-lg shadow-slate-900/10 transition-all duration-300 ${isFormValid ? 'hover:scale-[1.02]' : 'opacity-50 cursor-not-allowed'}`}
+        >
+          {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
           Continue to Verification <ArrowRight className="ml-2 w-4 h-4" />
         </Button>
       </motion.div>

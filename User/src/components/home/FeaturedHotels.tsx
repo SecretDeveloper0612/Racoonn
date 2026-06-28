@@ -47,7 +47,7 @@ export default function FeaturedHotels() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {hotels.map((hotel) => (
             <div key={hotel.id} className="bg-white border border-brand-sky/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group">
-              <div className="relative aspect-[4/3] overflow-hidden">
+              <div className="relative aspect-4/3 overflow-hidden">
                 <Image
                   src={hotel.image}
                   alt={hotel.name}

@@ -1,8 +1,101 @@
-export default function Page() {
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuthStore, type UserProfile } from '@/store/authStore';
+import { useRouter } from 'next/navigation';
+import PersonalInformationForm from '@/components/profile/sections/PersonalInformationForm';
+import BookingsSection from '@/components/profile/sections/BookingsSection';
+import SavedHotelsGrid from '@/components/profile/sections/SavedHotelsGrid';
+import PaymentMethods from '@/components/profile/sections/PaymentMethods';
+
+export default function ProfilePage() {
+  const { isAuthenticated, isLoading, profile, user, checkAuth } = useAuthStore();
+  const router = useRouter();
+  const [activeSection, setActiveSection] = useState('personal');
+  const [mounted, setMounted] = useState(false);
+
+  const userData = profile || user;
+
+  useEffect(() => {
+    checkAuth();
+    setTimeout(() => setMounted(true), 0);
+  }, [checkAuth]);
+
+  if (!mounted) {
+    return null;
+  }
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-brand-coral border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  // Only redirect if we are SURE they aren't authenticated (finished loading and still not authenticated)
+  if (!isAuthenticated) {
+    router.push('/');
+    return null;
+  }
+
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold capitalize">Profile Page</h1>
-      <p className="mt-4 text-muted-foreground">This page is under construction.</p>
+    <div className="min-h-screen bg-[#f8f9fa] text-brand-navy selection:bg-brand-coral selection:text-white pb-24 -mt-25 pt-25">
+      <main className="container mx-auto px-4 lg:px-8 mt-12 max-w-7xl">
+        {/* Mobile Header Card */}
+        <div className="lg:hidden mb-8 bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center gap-4">
+           <div className="w-16 h-16 rounded-full bg-brand-coral/10 text-brand-coral flex items-center justify-center font-bold text-xl">
+             {userData?.name?.charAt(0).toUpperCase() || 'U'}
+           </div>
+           <div>
+             <h1 className="font-heading font-bold text-2xl">{userData?.name}</h1>
+             <p className="text-gray-500 text-sm">{userData?.email}</p>
+           </div>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 relative">
+          
+          {/* Left Sidebar Navigation */}
+          <aside className="lg:w-1/4 w-full sticky top-32 self-start hidden lg:block">
+            <nav className="space-y-1 bg-white p-4 rounded-3xl shadow-sm border border-gray-100">
+              {['personal', 'bookings', 'saved', 'payments'].map((section) => (
+                <button
+                  key={section}
+                  onClick={() => setActiveSection(section)}
+                  className={`w-full text-left px-5 py-3.5 rounded-2xl font-semibold transition-all capitalize ${
+                    activeSection === section 
+                      ? 'bg-brand-coral/10 text-brand-coral' 
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-brand-navy'
+                  }`}
+                >
+                  {section}
+                </button>
+              ))}
+            </nav>
+          </aside>
+
+          {/* Right Content Area */}
+          <section className="flex-1 w-full relative min-h-[60vh]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSection}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                {activeSection === 'personal' && <PersonalInformationForm profile={userData as unknown as UserProfile | null} />}
+                {activeSection === 'bookings' && <BookingsSection />}
+                {activeSection === 'saved' && <SavedHotelsGrid />}
+                {activeSection === 'payments' && <PaymentMethods />}
+              </motion.div>
+            </AnimatePresence>
+          </section>
+
+        </div>
+      </main>
     </div>
   );
 }

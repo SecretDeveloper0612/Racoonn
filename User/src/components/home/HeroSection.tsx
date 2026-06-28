@@ -7,13 +7,11 @@ import { format } from 'date-fns';
 import chatbotLogo from '@/assets/Racoonn-Logo-03.png';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { motion } from 'framer-motion';
 import {
   Home,
-  Plane,
-  Building2,
   Palmtree,
   Ticket,
-  Bus,
   MapPin,
   CalendarDays,
   Users,
@@ -97,7 +95,10 @@ export default function HeroSection() {
                       <Icon size={16} />
                       {tab.label}
                       {isActive && (
-                        <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-brand-coral rounded-full" />
+                        <motion.div 
+                          layoutId="activeTabIndicator"
+                          className="absolute bottom-0 left-2 right-2 h-0.5 bg-brand-coral rounded-full" 
+                        />
                       )}
                     </button>
                   );
@@ -109,31 +110,31 @@ export default function HeroSection() {
                 onClick={() => setIsChatMode(!isChatMode)}
                 className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-coral/10 hover:bg-brand-coral/20 border border-brand-coral/20 transition-all hover:scale-105 active:scale-95 text-brand-navy font-bold text-sm mb-1.5 whitespace-nowrap shadow-sm"
               >
-                <div className="w-6 h-6 relative rounded-full overflow-hidden flex-shrink-0 bg-white">
+                <div className="w-6 h-6 relative rounded-full overflow-hidden shrink-0 bg-white">
                   <Image src={chatbotLogo} alt="AI Assistant" fill className="object-contain p-0.5" />
                 </div>
                 {isChatMode ? 'Classic Search' : 'Ask AI'}
               </button>
             </div>
 
-            <div className="h-[1px] bg-gray-100" />
+            <div className="h-px bg-gray-100" />
 
             {/* Search Fields / Chat Mode */}
-            <div className="p-6 space-y-4 min-h-[220px]">
+            <div className="p-6 space-y-4 min-h-55">
               {isChatMode ? (
                 <div className="flex flex-col gap-4 animate-in fade-in duration-300">
                   <div className="flex items-start gap-4 border border-brand-coral/30 rounded-2xl p-5 bg-brand-coral/5 transition-colors focus-within:border-brand-coral/60 focus-within:bg-white shadow-inner">
-                    <div className="w-8 h-8 relative rounded-full overflow-hidden flex-shrink-0 bg-white shadow-sm mt-0.5 border border-gray-100">
+                    <div className="w-8 h-8 relative rounded-full overflow-hidden shrink-0 bg-white shadow-sm mt-0.5 border border-gray-100">
                       <Image src={chatbotLogo} alt="AI Assistant" fill className="object-contain p-1" />
                     </div>
                     <textarea 
                       placeholder="e.g. Find me a beachfront villa in Bali for 2 adults next weekend with a private pool..."
-                      className="w-full min-h-[100px] outline-none text-brand-navy text-[16px] placeholder:text-brand-charcoal/40 bg-transparent resize-none leading-relaxed"
+                      className="w-full min-h-25 outline-none text-brand-navy text-[16px] placeholder:text-brand-charcoal/40 bg-transparent resize-none leading-relaxed"
                       autoFocus
                     />
                   </div>
                   <div className="flex justify-end">
-                    <button className="bg-gradient-to-r from-brand-coral to-[#e84f57] hover:shadow-[0_8px_20px_rgba(232,106,112,0.3)] text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 text-[15px] sm:w-[220px]">
+                    <button className="bg-linear-to-r from-brand-coral to-[#e84f57] hover:shadow-[0_8px_20px_rgba(232,106,112,0.3)] text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 text-[15px] sm:w-55">
                       Ask Racoonn AI
                       <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                         <ArrowRight size={16} />
@@ -188,7 +189,7 @@ export default function HeroSection() {
                 </Popover>
 
                 {/* Divider */}
-                {activeTab !== 'activities' && <div className="hidden sm:block w-[1px] bg-gray-200 self-stretch" />}
+                {activeTab !== 'activities' && <div className="hidden sm:block w-px bg-gray-200 self-stretch" />}
 
                 {/* Check-out / End Date */}
                 {activeTab !== 'activities' && (
@@ -215,7 +216,7 @@ export default function HeroSection() {
                 )}
 
                 {/* Divider */}
-                <div className="hidden sm:block w-[1px] bg-gray-200 self-stretch" />
+                <div className="hidden sm:block w-px bg-gray-200 self-stretch" />
 
                 {/* Guests / Participants */}
                 <Popover>
@@ -324,7 +325,7 @@ export default function HeroSection() {
 
                 <Link 
                   href={activeTab === 'packages' ? "/packages" : "/search"} 
-                  className="bg-brand-coral hover:bg-brand-coral/90 text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 text-[15px] w-full sm:w-auto min-w-[200px]"
+                  className="bg-brand-coral hover:bg-brand-coral/90 text-white pl-7 pr-5 py-3.5 rounded-full font-bold flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 text-[15px] w-full sm:w-auto min-w-50"
                 >
                   {activeTab === 'packages' ? 'View all packages' : 'Search'}
                   {activeTab === 'packages' ? (
