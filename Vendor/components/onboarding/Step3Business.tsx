@@ -224,8 +224,8 @@ export function Step3Business({ onNext, onBack }: { onNext: () => void, onBack: 
     const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
     if (bizType === "company") {
-      if (!legalName.trim() || !panNumber.trim() || !address.trim() || !businessProof) {
-        setError("Please fill in all required fields and upload Business Proof.");
+      if (!legalName.trim() || !panNumber.trim() || !address.trim()) {
+        setError("Please fill in all required fields.");
         return;
       }
       if (!panRegex.test(panNumber.trim().toUpperCase())) {
@@ -233,8 +233,8 @@ export function Step3Business({ onNext, onBack }: { onNext: () => void, onBack: 
         return;
       }
     } else {
-      if (!fullName.trim() || !panNumber.trim() || !aadharNumber.trim() || !address.trim() || !idProofFront || !idProofBack || !businessProof) {
-        setError("Please fill in all required fields and upload PAN Card and both sides of Aadhar Card.");
+      if (!fullName.trim() || !panNumber.trim() || !aadharNumber.trim() || !address.trim()) {
+        setError("Please fill in all required fields.");
         return;
       }
       if (!panRegex.test(panNumber.trim().toUpperCase())) {
@@ -246,26 +246,6 @@ export function Step3Business({ onNext, onBack }: { onNext: () => void, onBack: 
       if (!/^\d{12}$/.test(cleanAadhar)) {
         setError("Please enter a valid 12-digit Aadhar number.");
         return;
-      }
-
-      // Re-verify OCR on form submit to ensure entered numbers match uploaded documents
-      setIsVerifyingDoc(true);
-      try {
-        const panImgSrc = localPreviews.business || getPreviewUrl(businessProof);
-        if (panImgSrc) {
-          await verifyDocumentOcr(panImgSrc, "pan", panNumber);
-        }
-
-        const aadharImgSrc = localPreviews.front || getPreviewUrl(idProofFront);
-        if (aadharImgSrc) {
-          await verifyDocumentOcr(aadharImgSrc, "aadhar", aadharNumber);
-        }
-      } catch (ocrErr: any) {
-        setError(ocrErr.message || "Document verification failed. Please check your uploaded images and numbers.");
-        setIsVerifyingDoc(false);
-        return;
-      } finally {
-        setIsVerifyingDoc(false);
       }
     }
 
