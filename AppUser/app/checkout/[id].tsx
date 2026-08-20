@@ -27,7 +27,7 @@ import {
   ShieldCheck,
   CreditCard,
   Tag,
-  Sparkles,
+  Zap,
   Calendar,
   Users,
   BedDouble,
@@ -601,7 +601,7 @@ export default function CheckoutScreen() {
         <View style={styles.sectionCard} onLayout={(e) => { addonsSectionY.current = e.nativeEvent.layout.y; }}>
           <View style={styles.sectionHeaderRow}>
             <View style={styles.sectionIconBg}>
-              <Sparkles color={Colors.brand.coral} size={18} />
+              <Zap color={Colors.brand.coral} size={18} />
             </View>
             <View>
               <Text style={styles.sectionTitle}>Curated Add-on Experiences</Text>

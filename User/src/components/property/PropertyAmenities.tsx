@@ -32,7 +32,7 @@ import {
   UtensilsCrossed,
   Dumbbell,
   BaggageClaim,
-  Sparkles,
+  Zap,
   Wine,
   Dog,
   Plane
@@ -104,7 +104,7 @@ const AMENITY_GROUPS = [
   },
   {
     category: 'Services',
-    items: [{ icon: BaggageClaim, text: 'Luggage dropoff allowed' }, { icon: Sparkles, text: 'Cleaning available during stay' }]
+    items: [{ icon: BaggageClaim, text: 'Luggage dropoff allowed' }, { icon: Zap, text: 'Cleaning available during stay' }]
   }
 ];
 
@@ -129,7 +129,7 @@ export default function PropertyAmenities({ amenities }: PropertyAmenitiesProps)
   const hasDynamicAmenities = amenities && amenities.length > 0;
   
   const displayAmenities = hasDynamicAmenities 
-    ? amenities.map(id => AMENITIES_MAP[id] || { icon: Sparkles, text: id, category: 'Other' })
+    ? amenities.map(id => AMENITIES_MAP[id] || { icon: Zap, text: id, category: 'Other' })
     : FEATURED_AMENITIES;
 
   const previewAmenities = displayAmenities.slice(0, 6);

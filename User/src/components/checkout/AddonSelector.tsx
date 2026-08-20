@@ -1,5 +1,5 @@
 "use client";
-import { Plus, Check, Sparkles, Car, Plane, Coffee, Shield, Clock, Wine, Utensils } from "lucide-react";
+import { Plus, Check, Zap, Car, Plane, Coffee, Shield, Clock, Wine, Utensils } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCheckoutStore } from "@/store/checkoutStore";
 
@@ -28,11 +28,11 @@ function getIconForTitle(title: string) {
   if (t.includes('cab') || t.includes('car') || t.includes('taxi') || t.includes('ride') || t.includes('transport')) return Car;
   if (t.includes('airport') || t.includes('flight') || t.includes('plane') || t.includes('transfer')) return Plane;
   if (t.includes('food') || t.includes('breakfast') || t.includes('lunch') || t.includes('dinner') || t.includes('meal')) return Coffee;
-  if (t.includes('spa') || t.includes('massage') || t.includes('wellness') || t.includes('relax')) return Sparkles;
+  if (t.includes('spa') || t.includes('massage') || t.includes('wellness') || t.includes('relax')) return Zap;
   if (t.includes('insur') || t.includes('protect') || t.includes('shield')) return Shield;
   if (t.includes('early') || t.includes('late') || t.includes('time') || t.includes('check') || t.includes('hour')) return Clock;
   if (t.includes('wine') || t.includes('drink') || t.includes('champagne') || t.includes('bottle')) return Wine;
-  return Sparkles; // Default fallback icon
+  return Zap; // Default fallback icon
 }
 
 export function AddonSelector({ addons }: AddonSelectorProps) {

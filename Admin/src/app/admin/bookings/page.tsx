@@ -30,7 +30,7 @@ import {
   Building2,
   Receipt,
   Printer,
-  Sparkles,
+  Zap,
   CreditCard,
   CheckCircle2
 } from "lucide-react"
@@ -279,14 +279,14 @@ export default function BookingsPage() {
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredBookings.map((booking) => {
+                filteredBookings.map((booking, index) => {
                   const checkInDate = new Date(booking.checkIn);
                   const checkOutDate = new Date(booking.checkOut);
                   const datesStr = `${checkInDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric'})} - ${checkOutDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric'})}`;
                   
                   return (
                     <TableRow 
-                      key={booking.id} 
+                      key={`${booking.id}-${index}`} 
                       onClick={() => handleOpenDetails(booking)}
                       className="group cursor-pointer hover:bg-muted/30 transition-colors"
                     >
@@ -510,7 +510,7 @@ export default function BookingsPage() {
                       {cleanRequests && (
                         <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20 text-xs text-amber-900">
                           <span className="font-bold mb-1 flex items-center gap-1.5">
-                            <Sparkles className="w-3.5 h-3.5 text-amber-600" /> Guest Special Instructions
+                            <Zap className="w-3.5 h-3.5 text-amber-600" /> Guest Special Instructions
                           </span>
                           <p className="leading-relaxed text-amber-800">{cleanRequests}</p>
                         </div>

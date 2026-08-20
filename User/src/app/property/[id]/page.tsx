@@ -11,7 +11,7 @@ import {
   Info,
   ShieldCheck,
   BedDouble,
-  Sparkles
+  Zap
 } from 'lucide-react';
 import RoomImageSlider from '@/components/property/RoomImageSlider';
 import PropertyDescription from '@/components/property/PropertyDescription';
@@ -22,6 +22,7 @@ import PropertyAmenities from '@/components/property/PropertyAmenities';
 import PropertyHeaderActions from '@/components/property/PropertyHeaderActions';
 import ReserveButton from '@/components/property/ReserveButton';
 import RoomListWithAvailability from '@/components/property/RoomListWithAvailability';
+import VendorPromoPopup from '@/components/property/VendorPromoPopup';
 import { notFound } from 'next/navigation';
 import { allProperties } from '@/data/properties';
 import { mockHotels } from '@/data/mockHotels';
@@ -265,6 +266,7 @@ export default async function PropertyDetails({ params }: { params: Promise<{ id
 
         </div>
       </div>
+      <VendorPromoPopup propertyId={id} vendorId={vendorId} />
     </div>
   );
 }

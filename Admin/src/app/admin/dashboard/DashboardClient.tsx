@@ -13,6 +13,7 @@ export interface KPIData {
   color: string;
   bg: string;
   iconName: "BadgeDollarSign" | "Users" | "Building2" | "CalendarDays" | "RotateCcw";
+  subtitle?: string;
 }
 
 export interface ChartData {
@@ -87,9 +88,13 @@ export default function DashboardClient({ kpiData, chartData, recentActivity }: 
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold tracking-tight">{kpi.value}</div>
-                <p className={`text-sm mt-2 font-medium ${kpi.change.startsWith('+') ? 'text-emerald-500' : kpi.change === '0%' ? 'text-muted-foreground' : 'text-red-500'}`}>
-                  {kpi.change} <span className="text-muted-foreground font-normal">from previous period</span>
-                </p>
+                {kpi.subtitle ? (
+                  <p className="text-sm mt-2 text-muted-foreground font-medium">{kpi.subtitle}</p>
+                ) : (
+                  <p className={`text-sm mt-2 font-medium ${kpi.change.startsWith('+') ? 'text-emerald-500' : kpi.change === '0%' ? 'text-muted-foreground' : 'text-red-500'}`}>
+                    {kpi.change} <span className="text-muted-foreground font-normal">from previous period</span>
+                  </p>
+                )}
               </CardContent>
             </Card>
           )

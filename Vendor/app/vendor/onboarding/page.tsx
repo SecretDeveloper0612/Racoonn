@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+
 import { AnimatePresence } from "framer-motion";
 import { useAuthStore } from "@/store/authStore";
 import { databases, appwriteConfig } from "@/lib/appwrite/client";
@@ -18,7 +18,7 @@ import { Step8Banking } from "@/components/onboarding/Step8Banking";
 import { Step10Review } from "@/components/onboarding/Step10Review";
 
 export default function OnboardingPage() {
-  const router = useRouter();
+
   const { profile, user, checkAuth } = useAuthStore();
   
   // Use profile's onboardingStep if available, otherwise default to 0

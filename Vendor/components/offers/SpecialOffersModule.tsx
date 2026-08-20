@@ -77,7 +77,7 @@ const OFFER_TYPE_CONFIG: Record<OfferType, { label: string; icon: any; color: st
   stay_x_pay_y: { label: "Stay X Pay Y", icon: Gift, color: "text-sky-500", bg: "bg-sky-500/10", badgeBg: "bg-sky-50 text-sky-700 border-sky-200" },
   weekly: { label: "Weekly Stay Offer", icon: Calendar, color: "text-blue-500", bg: "bg-blue-500/10", badgeBg: "bg-blue-50 text-blue-700 border-blue-200" },
   monthly: { label: "Long Stay Monthly", icon: Sun, color: "text-indigo-500", bg: "bg-indigo-500/10", badgeBg: "bg-indigo-50 text-indigo-700 border-indigo-200" },
-  seasonal: { label: "Seasonal Special", icon: Sparkles, color: "text-pink-500", bg: "bg-pink-500/10", badgeBg: "bg-pink-50 text-pink-700 border-pink-200" },
+  seasonal: { label: "Seasonal Special", icon: Zap, color: "text-pink-500", bg: "bg-pink-500/10", badgeBg: "bg-pink-50 text-pink-700 border-pink-200" },
   festival: { label: "Festival Promotion", icon: Award, color: "text-purple-500", bg: "bg-purple-500/10", badgeBg: "bg-purple-50 text-purple-700 border-purple-200" },
 };
 
@@ -150,13 +150,13 @@ export function SpecialOffersModule({ rooms = [], properties = [] }: SpecialOffe
       console.warn("Could not sync global vendor coupons:", err);
     }
 
-    // Set cross-port cookies for every offer code
+    // Set cross-port cookies for every offer
     try {
       if (typeof document !== 'undefined') {
         evaluatedOffers.forEach(offer => {
-          if (offer.code) {
-            const cleanCode = offer.code.trim().toUpperCase();
+            const cleanCode = offer.code ? offer.code.trim().toUpperCase() : "";
             const cookieData = {
+              id: offer.id,
               code: cleanCode,
               discountType: offer.discountType,
               discountValue: offer.discountValue,
@@ -166,10 +166,15 @@ export function SpecialOffersModule({ rooms = [], properties = [] }: SpecialOffe
               propertyId: offer.propertyId,
               propertyName: offer.propertyName,
               roomId: offer.roomId,
-              roomName: offer.roomName
+              roomName: offer.roomName,
+              vendorId: user?.$id
             };
-            document.cookie = `racoonn_coupon_${cleanCode}=${encodeURIComponent(JSON.stringify(cookieData))}; path=/; max-age=31536000; SameSite=Lax`;
-          }
+            document.cookie = `racoonn_vendor_offer_${offer.id}=${encodeURIComponent(JSON.stringify(cookieData))}; path=/; max-age=31536000; SameSite=Lax`;
+            
+            // Backwards compatibility
+            if (cleanCode) {
+              document.cookie = `racoonn_coupon_${cleanCode}=${encodeURIComponent(JSON.stringify(cookieData))}; path=/; max-age=31536000; SameSite=Lax`;
+            }
         });
       }
     } catch (cookieErr) {
@@ -464,7 +469,7 @@ export function SpecialOffersModule({ rooms = [], properties = [] }: SpecialOffe
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="border-0 shadow-sm ring-1 ring-slate-100 rounded-2xl bg-white p-5 flex items-center gap-4">
           <div className="h-12 w-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-500">
-            <Sparkles className="w-6 h-6" />
+            <Zap className="w-6 h-6" />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Active Offers</p>
@@ -899,7 +904,7 @@ export function SpecialOffersModule({ rooms = [], properties = [] }: SpecialOffe
         <DialogContent className="sm:max-w-2xl rounded-3xl p-6 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-heading font-black text-2xl text-secondary flex items-center gap-2">
-              <Sparkles className="w-6 h-6 text-[#E86A70]" />
+              <Zap className="w-6 h-6 text-[#E86A70]" />
               {editingOffer ? "Edit Special Offer" : "Create Special Offer"}
             </DialogTitle>
             <DialogDescription className="text-slate-500 text-sm">

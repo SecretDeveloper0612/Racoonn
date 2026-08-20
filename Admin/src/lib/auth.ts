@@ -15,9 +15,11 @@ export async function loginAdmin(formData: FormData) {
   }
 
   const cleanEmail = email.trim().toLowerCase();
-  const isRootAdmin = cleanEmail === "admin@racoonn.com" || cleanEmail === "admin" || cleanEmail.includes("admin");
-  
-  const validAdminPasswords = ["Racoonn@123", "admin123", "admin", "racoonn123"];
+  const rootAdminEmail = (process.env.ROOT_ADMIN_EMAIL || "").toLowerCase();
+  const rootAdminPassword = process.env.ROOT_ADMIN_PASSWORD || "";
+
+  const isRootAdmin = rootAdminEmail !== "" && cleanEmail === rootAdminEmail;
+  const validAdminPasswords = [rootAdminPassword];
 
   if (isRootAdmin && !validAdminPasswords.includes(password)) {
     return { success: false, error: "Invalid admin password" };
@@ -31,16 +33,17 @@ export async function loginAdmin(formData: FormData) {
     const { staffMembers } = await getRolesAndStaffData();
     staffUser = staffMembers.find(s => s.email.toLowerCase() === cleanEmail);
 
-    if (staffUser) {
-      if (staffUser.password && staffUser.password !== password && password !== "admin123") {
-        return { success: false, error: "Invalid password for employee account" };
-      }
-      allowedTabs = staffUser.allowedTabs || ["Dashboard"];
-      // Mark employee account as ACTIVE upon successful email verification login!
-      await markStaffActive(cleanEmail);
-    } else if (password !== "admin123" && password.length < 4) {
+    if (!staffUser) {
       return { success: false, error: "Invalid email or password" };
     }
+
+    if (staffUser.password !== password) {
+      return { success: false, error: "Invalid email or password" };
+    }
+
+    allowedTabs = staffUser.allowedTabs || ["Dashboard"];
+    // Mark employee account as ACTIVE upon successful email verification login!
+    await markStaffActive(cleanEmail);
   }
 
   const sessionData = {

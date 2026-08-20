@@ -10,7 +10,7 @@ export function OnboardingLayout({ children, currentStep }: { children: React.Re
   const progressPercent = Math.min((currentStep / 9) * 100, 100);
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FDFBF7] font-['Inter',_sans-serif]">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FDFBF7] font-['Inter',sans-serif]">
       
       {/* Mobile Header & Progress (Visible only on mobile/tablet) */}
       <div className="lg:hidden sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 p-4 flex flex-col gap-3">
@@ -31,15 +31,15 @@ export function OnboardingLayout({ children, currentStep }: { children: React.Re
       </div>
 
       {/* Desktop Sidebar (30%) */}
-      <div className="hidden lg:block w-[30%] min-w-[320px] max-w-[400px] border-r border-slate-200 bg-white shadow-[10px_0_30px_rgba(0,0,0,0.02)] z-10 sticky top-0 h-screen">
+      <div className="hidden lg:block w-[30%] min-w-[320px] max-w-100 border-r border-slate-200 bg-white shadow-[10px_0_30px_rgba(0,0,0,0.02)] z-10 sticky top-0 h-screen">
         <ProgressSidebar currentStep={currentStep} />
       </div>
 
       {/* Main Content Area (70%) */}
       <div className="flex-1 w-full lg:w-[70%] min-h-screen flex flex-col relative overflow-hidden">
         {/* Subtle background gradients for premium feel */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50/50 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-rose-50/50 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3" />
+        <div className="absolute top-0 right-0 w-200 h-200 bg-blue-50/50 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-150 h-150 bg-rose-50/50 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3" />
         
         <main className="flex-1 w-full max-w-3xl mx-auto px-4 py-8 lg:px-12 lg:py-16 relative z-10 flex flex-col">
           {children}

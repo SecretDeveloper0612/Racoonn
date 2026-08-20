@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { CalendarDays, IndianRupee, BedDouble, Percent, CheckCircle2, RefreshCw, ChevronLeft, ChevronRight, Loader2, Sparkles, Trash2, Edit2, RotateCcw } from "lucide-react";
+import { CalendarDays, IndianRupee, BedDouble, Percent, CheckCircle2, RefreshCw, ChevronLeft, ChevronRight, Loader2, Zap, Trash2, Edit2, RotateCcw } from "lucide-react";
 import { databases, appwriteConfig } from "@/lib/appwrite/client";
 import { Query } from "appwrite";
 import { useAuthStore } from "@/store/authStore";
@@ -844,7 +844,7 @@ export default function AvailabilityPage() {
         <DialogContent className="sm:max-w-md rounded-3xl p-6">
           <DialogHeader>
             <DialogTitle className="font-heading font-black text-xl text-secondary flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-[#E86A70]" />
+              <Zap className="w-5 h-5 text-[#E86A70]" />
               Create Special Offer
             </DialogTitle>
             <DialogDescription className="text-slate-500 text-sm">

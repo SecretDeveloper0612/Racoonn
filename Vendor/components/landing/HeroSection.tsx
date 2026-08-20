@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { motion } from "framer-motion";
-import { Sparkles, BarChart3, ShieldCheck, Settings, ArrowRight, Headset, Wallet, Megaphone, Star, CalendarDays, PieChart, MessageSquare } from "lucide-react";
+import { Zap, BarChart3, ShieldCheck, Settings, ArrowRight, Headset, Wallet, Megaphone, Star, CalendarDays, PieChart, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const containerVariants: any = {
@@ -81,7 +81,7 @@ export function HeroSection() {
             >
               {/* Tagline */}
               <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 bg-white shadow-sm">
-                <Sparkles className="w-4 h-4 text-[#202D42]" />
+                <Zap className="w-4 h-4 text-[#202D42]" />
                 <span className="text-[10px] sm:text-xs font-bold tracking-widest text-slate-500 uppercase">
                   The all-in-one platform for hotel partners
                 </span>

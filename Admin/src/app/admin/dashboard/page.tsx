@@ -269,9 +269,10 @@ export default async function DashboardPage({ searchParams }: { searchParams?: P
       },
       { 
         title: "Active Properties", 
-        value: isLifetime ? activeProperties.toString() : currentPeriodProps.toString(), 
+        value: activeProperties.toString(), 
         iconName: "Building2", 
-        change: getChange(currentPeriodProps, previousPeriodProps), 
+        change: "", 
+        subtitle: "Total active properties all-time",
         color: "text-pink-500", 
         bg: "bg-pink-500/10" 
       },

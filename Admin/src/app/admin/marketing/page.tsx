@@ -18,7 +18,7 @@ import {
   Copy,
   Check,
   Trash2,
-  Sparkles
+  Zap
 } from "lucide-react";
 import {
   getCampaignsData,
@@ -122,7 +122,7 @@ export default function MarketingPage() {
           <CardContent>
             <div className="text-2xl font-bold">{data.activeCount}</div>
             <p className="text-xs text-emerald-500 font-medium flex items-center gap-1 mt-1">
-              <Sparkles className="w-3 h-3" /> Running currently
+              <Zap className="w-3 h-3" /> Running currently
             </p>
           </CardContent>
         </Card>

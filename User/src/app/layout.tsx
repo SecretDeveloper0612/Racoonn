@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 import Navbar from "@/components/shared/Navbar";
 import ConditionalFooter from "@/components/shared/ConditionalFooter";
+import PromoPopup from "@/components/shared/PromoPopup";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,6 +38,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <ConditionalFooter />
+          <PromoPopup />
         </QueryProvider>
       </body>
     </html>

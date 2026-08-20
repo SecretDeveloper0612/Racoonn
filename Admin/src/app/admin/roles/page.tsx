@@ -23,7 +23,7 @@ import {
   User,
   CheckCircle2,
   Lock,
-  Sparkles,
+  Zap,
   Eye,
   EyeOff,
   CheckSquare,
@@ -717,7 +717,7 @@ export default function RolesPage() {
                 disabled={isSubmitting}
                 className="rounded-xl px-6 h-11 bg-[#E86A70] hover:bg-[#d5585e] text-white font-bold shadow-md"
               >
-                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Sparkles className="w-4 h-4 mr-2" />}
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Zap className="w-4 h-4 mr-2" />}
                 Create System Role
               </Button>
             </div>

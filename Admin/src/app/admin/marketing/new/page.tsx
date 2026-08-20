@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { client, appwriteConfig, storage } from '@/lib/appwrite/client';
 import { Databases, ID } from 'appwrite';
-import { Loader2, ArrowLeft, Upload, Sparkles } from 'lucide-react';
+import { Loader2, ArrowLeft, Upload, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -118,7 +118,7 @@ export default function NewMarketingOfferPage() {
         </Link>
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 flex items-center gap-2">
-             <Sparkles className="h-6 w-6 text-[#E86A70]" /> Create Promotional Offer
+             <Zap className="h-6 w-6 text-[#E86A70]" /> Create Promotional Offer
           </h1>
           <p className="text-gray-500 mt-1">Configure a new special offer or discount code to display to users.</p>
         </div>
@@ -247,7 +247,7 @@ export default function NewMarketingOfferPage() {
                 </>
               ) : (
                 <>
-                    <Sparkles className="mr-2 h-5 w-5" /> Publish Offer
+                    <Zap className="mr-2 h-5 w-5" /> Publish Offer
                 </>
               )}
             </Button>

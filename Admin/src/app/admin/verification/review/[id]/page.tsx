@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Client, Databases } from "appwrite";
 import { 
   CheckCircle2, XCircle, FileText, ZoomIn, ZoomOut, Download, 
   RotateCw, Clock, ArrowLeft, Mail, 
@@ -69,14 +70,55 @@ export default function VendorFullPageReviewScreen({ params }: { params: Promise
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailModal, setEmailModal] = useState<{ open: boolean; subject: string; body: string; to: string; type: string } | null>(null);
 
-  // Load Vendor verification state & documents from localStorage / cookies
+  // Load Vendor verification state & documents from Appwrite
   useEffect(() => {
-    function loadReviewData() {
-      try {
-        let rawDocs: ReviewDoc[] = [];
-        let profileObj: Record<string, any> | null = null;
+    let isMounted = true;
+    const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://sgp.cloud.appwrite.io/v1";
+    const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "6a3bce6900381359c3ce";
+    const dbId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || "6a3cec630035d63ea963";
+    const vendorColId = process.env.NEXT_PUBLIC_APPWRITE_VENDOR_COLLECTION_ID || "6a3e0fd9da7df0d38588";
+    const bucketId = process.env.NEXT_PUBLIC_APPWRITE_VENDOR_DOCUMENTS_BUCKET_ID || "6a3e398000280b2b3d20";
 
-        // 1. Check document cookies for cross-port uploaded files
+    const client = new Client().setEndpoint(endpoint).setProject(projectId);
+    const databases = new Databases(client);
+
+    async function loadReviewData() {
+      try {
+        const doc = await databases.getDocument(dbId, vendorColId, vendorId);
+
+        const ownerName = `${doc.firstName || ''} ${doc.lastName || ''}`.trim() || "Property Owner";
+        const vendorName = doc.businessName || ownerName || "Vendor Partner";
+        
+        let avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(vendorName)}&backgroundColor=1F2E4A`;
+        if (doc.profileImage) {
+           avatarUrl = `${endpoint}/storage/buckets/${bucketId}/files/${doc.profileImage}/view?project=${projectId}`;
+        }
+
+        let docStatus: "Pending" | "Approved" | "Rejected" | "Under Review" = "Pending";
+        if (doc.status) {
+          docStatus = (doc.status.charAt(0).toUpperCase() + doc.status.slice(1)) as any;
+          if (docStatus === "Approved" || docStatus === "Rejected" || docStatus === "Under Review" || docStatus === "Pending") {
+            // valid status
+          } else {
+            docStatus = "Pending";
+          }
+        }
+
+        if (isMounted) {
+          setVendorInfo(prev => ({
+            ...prev,
+            status: docStatus,
+            name: vendorName,
+            owner: ownerName,
+            email: doc.email || "No Email",
+            phone: doc.phone || "No Phone",
+            address: doc.address || "No Address",
+            avatar: avatarUrl
+          }));
+        }
+
+        // Load legacy mock documents from cookies/localStorage as fallback
+        let rawDocs: ReviewDoc[] = [];
         if (typeof document !== 'undefined' && document.cookie) {
           const cookiePairs = document.cookie.split('; ');
           const targetCookie = cookiePairs.find(p => p.startsWith(`racoonn_vendor_docs_${vendorId}=`));
@@ -85,12 +127,9 @@ export default function VendorFullPageReviewScreen({ params }: { params: Promise
               const parsed = JSON.parse(decodeURIComponent(targetCookie.split('=')[1]));
               if (Array.isArray(parsed)) rawDocs = parsed;
               else if (parsed.docs) rawDocs = parsed.docs;
-              profileObj = parsed;
             } catch {}
           }
         }
-
-        // 2. Check localStorage if empty
         if (rawDocs.length === 0 && typeof window !== 'undefined') {
           const savedDocsStr = localStorage.getItem(`racoonn_vendor_documents_${vendorId}`) || 
                                localStorage.getItem('racoonn_global_vendor_docs');
@@ -99,25 +138,46 @@ export default function VendorFullPageReviewScreen({ params }: { params: Promise
               const parsed = JSON.parse(savedDocsStr);
               if (Array.isArray(parsed)) rawDocs = parsed;
               else if (parsed.docs) rawDocs = parsed.docs;
-              if (!profileObj) profileObj = parsed;
             } catch {}
           }
         }
 
-        // 3. Map to standard COMPLIANCE_DOC_TYPES with zero fake filenames
+        // Map uploaded files to compliance doc types
+        const getFileUrl = (fileId: string) => {
+          if (!fileId || fileId.includes("temp_")) return null;
+          return `${endpoint}/storage/buckets/${bucketId}/files/${fileId}/view?project=${projectId}`;
+        };
+
         const finalDocs: ReviewDoc[] = COMPLIANCE_DOC_TYPES.map(template => {
-          const match = rawDocs.find((d: any) => d.id === template.id || d.title?.toLowerCase() === template.title.toLowerCase());
-          if (match && (match.fileName || match.fileUrl)) {
+          let fileId = null;
+          if (template.id === "pan_card") fileId = doc.idProofFront;
+          if (template.id === "aadhaar_card") fileId = doc.idProofBack;
+          if (template.id === "property_proof") fileId = doc.businessProof;
+          
+          let fileUrl = getFileUrl(fileId);
+          let fileName = fileUrl ? `Document_${template.title}` : null;
+
+          // Fallback to local storage if Appwrite file is invalid/missing (legacy mock data)
+          if (!fileUrl && rawDocs.length > 0) {
+            const fallbackDoc = rawDocs.find((d: any) => d.id === template.id || d.title?.toLowerCase() === template.title.toLowerCase());
+            if (fallbackDoc && (fallbackDoc.fileUrl || fallbackDoc.fileName)) {
+              fileUrl = fallbackDoc.fileUrl || null;
+              fileName = fallbackDoc.fileName || `Legacy_${template.title}`;
+            }
+          }
+          
+          if (fileUrl) {
             return {
               id: template.id,
               title: template.title,
               description: template.description,
-              status: match.status || "Pending",
-              fileName: match.fileName || null,
-              fileUrl: match.fileUrl || null,
-              updatedAt: match.updatedAt || null
+              status: docStatus === "Approved" ? "Verified" : (docStatus === "Rejected" ? "Rejected" : "Pending"),
+              fileName: fileName,
+              fileUrl: fileUrl,
+              updatedAt: new Date(doc.$updatedAt).toLocaleDateString()
             };
           }
+
           return {
             id: template.id,
             title: template.title,
@@ -129,59 +189,34 @@ export default function VendorFullPageReviewScreen({ params }: { params: Promise
           };
         });
 
-        setDocuments(finalDocs);
-        const uploadedDoc = finalDocs.find(d => d.fileName || d.fileUrl);
-        if (uploadedDoc) {
-          setSelectedDoc(uploadedDoc);
-        } else if (finalDocs.length > 0) {
-          setSelectedDoc(finalDocs[0]);
+        if (isMounted) {
+          setDocuments(finalDocs);
+          const uploadedDoc = finalDocs.find(d => d.fileName || d.fileUrl);
+          if (uploadedDoc) {
+            setSelectedDoc(uploadedDoc);
+          } else if (finalDocs.length > 0) {
+            setSelectedDoc(finalDocs[0]);
+          }
         }
 
-        // 4. Load vendor profile details
-        const verKey = `racoonn_vendor_verification_${vendorId}`;
-        const savedVerStr = typeof window !== 'undefined' ? localStorage.getItem(verKey) : null;
-        const verObj = savedVerStr ? JSON.parse(savedVerStr) : null;
-
-        if (profileObj || verObj) {
-          setVendorInfo(prev => ({
-            ...prev,
-            status: verObj?.status || prev.status,
-            name: profileObj?.vendorName || verObj?.vendorName || prev.name,
-            owner: profileObj?.ownerName || verObj?.ownerName || prev.owner,
-            email: profileObj?.email || verObj?.email || prev.email,
-            phone: profileObj?.phone || verObj?.phone || prev.phone,
-            address: profileObj?.address || verObj?.address || prev.address
-          }));
-          if (verObj?.reason) setRejectionReason(verObj.reason);
-        }
       } catch (err) {
-        console.warn("Could not load vendor documents:", err);
+        console.warn("Could not load vendor documents from Appwrite:", err);
       }
     }
 
     loadReviewData();
-    const interval = setInterval(loadReviewData, 1000);
-    window.addEventListener('storage', loadReviewData);
 
-    // Instant BroadcastChannel WebSocket-like Realtime Channel
-    let channel: BroadcastChannel | null = null;
-    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
-      try {
-        channel = new BroadcastChannel('racoonn_realtime_verification');
-        channel.onmessage = (event) => {
-          if (event.data?.type === 'VENDOR_DOC_UPLOADED' || event.data?.type === 'DOCUMENTS_UPDATED') {
-            loadReviewData();
-          }
-        };
-      } catch (err) {
-        console.warn("BroadcastChannel error:", err);
+    // Appwrite Realtime WebSocket subscription listener setup
+    const appwriteUnsubscribe = client.subscribe(
+      `databases.${dbId}.collections.${vendorColId}.documents.${vendorId}`,
+      () => {
+        loadReviewData();
       }
-    }
+    );
 
     return () => {
-      clearInterval(interval);
-      window.removeEventListener('storage', loadReviewData);
-      if (channel) channel.close();
+      isMounted = false;
+      appwriteUnsubscribe();
     };
   }, [vendorId]);
 

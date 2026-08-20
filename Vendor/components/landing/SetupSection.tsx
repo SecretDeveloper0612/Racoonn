@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, HeadphonesIcon, TrendingUp, Sparkles } from "lucide-react";
+import { Users, HeadphonesIcon, TrendingUp, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function SetupSection() {
@@ -70,7 +70,7 @@ export function SetupSection() {
                   <p className="text-3xl font-black text-white">+$1,240 <span className="text-sm font-medium text-emerald-400 ml-2">This week</span></p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-[#EA6A6E]/20 flex items-center justify-center border border-[#EA6A6E]/30">
-                  <Sparkles className="w-6 h-6 text-[#EA6A6E]" />
+                  <Zap className="w-6 h-6 text-[#EA6A6E]" />
                 </div>
              </div>
              <div className="flex items-end gap-3 h-32">

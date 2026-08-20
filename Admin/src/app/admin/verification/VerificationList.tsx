@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { FileText, ExternalLink, Mail, Phone, Loader2, Inbox } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { Client } from "appwrite"
+import { Client, Databases, Query } from "appwrite"
 
 export interface ReviewDoc {
   id: string;
@@ -41,139 +41,70 @@ export default function VerificationList({ type }: { type?: string }) {
 
   // Appwrite Realtime WebSockets & Storage Sync Loader
   useEffect(() => {
-    function loadRealtimeVendorDocs() {
+    let isMounted = true;
+    const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://sgp.cloud.appwrite.io/v1";
+    const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "6a3bce6900381359c3ce";
+    const dbId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || "6a3cec630035d63ea963";
+    const vendorColId = process.env.NEXT_PUBLIC_APPWRITE_VENDOR_COLLECTION_ID || "6a3e0fd9da7df0d38588";
+    const bucketId = process.env.NEXT_PUBLIC_APPWRITE_VENDOR_DOCUMENTS_BUCKET_ID || "6a3e398000280b2b3d20";
+
+    const client = new Client().setEndpoint(endpoint).setProject(projectId);
+    const databases = new Databases(client);
+
+    async function loadRealtimeVendorDocs() {
       try {
-        const detectedVendors = new Map<string, RealtimeVendorRequest>();
+        const response = await databases.listDocuments(dbId, vendorColId, [
+          Query.orderDesc("$updatedAt"),
+          Query.limit(100)
+        ]);
 
-        // 1. Scan document.cookie for cross-port uploaded vendor docs
-        if (typeof document !== 'undefined' && document.cookie) {
-          const cookiePairs = document.cookie.split('; ');
-          cookiePairs.forEach(pair => {
-            const [key, val] = pair.split('=');
-            if (key && key.startsWith('racoonn_vendor_docs_')) {
-              const vendorId = key.replace('racoonn_vendor_docs_', '');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const vendorList: RealtimeVendorRequest[] = response.documents.map((doc: any) => {
+          const ownerName = `${doc.firstName || ''} ${doc.lastName || ''}`.trim() || "Property Owner";
+          const vendorName = doc.businessName || ownerName || "Vendor Partner";
+          // Check Appwrite document fields
+          let uploadedCount = [doc.idProofFront, doc.idProofBack, doc.businessProof, doc.bankCheque].filter(Boolean).length;
+          
+          // Fallback to legacy/sync cookies if count is 0
+          if (uploadedCount === 0 && typeof document !== 'undefined') {
+            const cookiePairs = document.cookie.split('; ');
+            const targetCookie = cookiePairs.find(p => p.startsWith(`racoonn_vendor_docs_${doc.$id}=`));
+            if (targetCookie) {
               try {
-                const parsed = JSON.parse(decodeURIComponent(val));
-                const rawDocs: ReviewDoc[] = Array.isArray(parsed) ? parsed : parsed.docs || [];
-                const uploadedDocs = rawDocs.filter(d => d.fileName || d.status !== 'Missing');
-                
-                if (uploadedDocs.length > 0) {
-                  let vendorName = parsed.vendorName || "Registered Vendor Partner";
-                  let ownerName = parsed.ownerName || "Property Owner";
-                  let email = parsed.email || "vendor@racoonn.com";
-                  let phone = parsed.phone || "+91 98765 43210";
-                  const address = parsed.address || "Registered Business Address";
-                  let status: "pending" | "approved" | "rejected" | "under review" = "pending";
-
-                  const verCookie = cookiePairs.find(p => p.startsWith(`racoonn_vendor_verification_${vendorId}=`));
-                  if (verCookie) {
-                    try {
-                      const verObj = JSON.parse(decodeURIComponent(verCookie.split('=')[1]));
-                      if (verObj.status) status = verObj.status.toLowerCase() as "pending" | "approved" | "rejected" | "under review";
-                      if (verObj.vendorName) vendorName = verObj.vendorName;
-                      if (verObj.ownerName) ownerName = verObj.ownerName;
-                      if (verObj.email) email = verObj.email;
-                      if (verObj.phone) phone = verObj.phone;
-                    } catch {}
-                  }
-
-                  const primaryDoc = uploadedDocs[0]?.title || "GST & Business Registration";
-                  const submissionDate = uploadedDocs[0]?.updatedAt || new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-
-                  detectedVendors.set(vendorId, {
-                    id: vendorId,
-                    vendor: vendorName,
-                    owner: ownerName,
-                    email: email,
-                    phone: phone,
-                    address: address,
-                    type: primaryDoc,
-                    status,
-                    date: submissionDate,
-                    uploadedCount: uploadedDocs.length,
-                    avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(vendorName)}&backgroundColor=1F2E4A`,
-                    documents: rawDocs
-                  });
-                }
-              } catch {}
-            }
-          });
-        }
-
-        // 2. Scan localStorage for same-origin uploads
-        if (typeof window !== 'undefined') {
-          for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (!key) continue;
-
-            if (key.startsWith('racoonn_vendor_documents_')) {
-              const vendorId = key.replace('racoonn_vendor_documents_', '');
-              const docsStr = localStorage.getItem(key);
-              if (!docsStr) continue;
-
-              try {
-                const parsedDocs: ReviewDoc[] = JSON.parse(docsStr);
-                const uploadedDocs = parsedDocs.filter(d => d.fileName || d.status !== 'Missing');
-                if (uploadedDocs.length > 0 && !detectedVendors.has(vendorId)) {
-                  const profStr = localStorage.getItem(`racoonn_vendor_profile_${vendorId}`) || localStorage.getItem('racoonn_global_vendor_docs');
-                  let vendorName = "Registered Vendor Partner";
-                  let ownerName = "Property Owner";
-                  let email = "vendor@racoonn.com";
-                  let phone = "+91 98765 43210";
-                  let address = "Registered Address";
-
-                  if (profStr) {
-                    try {
-                      const profObj = JSON.parse(profStr);
-                      if (profObj.vendorName) vendorName = profObj.vendorName;
-                      if (profObj.ownerName) ownerName = profObj.ownerName;
-                      if (profObj.email) email = profObj.email;
-                      if (profObj.phone) phone = profObj.phone;
-                      if (profObj.address) address = profObj.address;
-                    } catch {}
-                  }
-
-                  const verKey = `racoonn_vendor_verification_${vendorId}`;
-                  const verStr = localStorage.getItem(verKey);
-                  let status: "pending" | "approved" | "rejected" | "under review" = "pending";
-                  if (verStr) {
-                    const verObj = JSON.parse(verStr);
-                    if (verObj.status) status = verObj.status.toLowerCase() as "pending" | "approved" | "rejected" | "under review";
-                  }
-
-                  const primaryDoc = uploadedDocs[0]?.title || "Compliance Documents";
-                  const submissionDate = uploadedDocs[0]?.updatedAt || new Date().toLocaleDateString();
-
-                  detectedVendors.set(vendorId, {
-                    id: vendorId,
-                    vendor: vendorName,
-                    owner: ownerName,
-                    email: email,
-                    phone: phone,
-                    address: address,
-                    type: primaryDoc,
-                    status,
-                    date: submissionDate,
-                    uploadedCount: uploadedDocs.length,
-                    avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(vendorName)}&backgroundColor=1F2E4A`,
-                    documents: parsedDocs
-                  });
-                }
+                const parsed = JSON.parse(decodeURIComponent(targetCookie.split('=')[1]));
+                const docsArr = Array.isArray(parsed) ? parsed : (parsed.docs || []);
+                uploadedCount = docsArr.filter((d: { fileUrl?: string; fileName?: string }) => d.fileUrl || d.fileName).length;
               } catch {}
             }
           }
-        }
-
-        // Deduplicate vendors by vendor name & email to prevent duplicate cards
-        const uniqueVendorsMap = new Map<string, RealtimeVendorRequest>();
-        detectedVendors.forEach((v) => {
-          const uniqueKey = `${v.vendor.toLowerCase().trim()}_${v.email.toLowerCase().trim()}`;
-          if (!uniqueVendorsMap.has(uniqueKey)) {
-            uniqueVendorsMap.set(uniqueKey, v);
+          
+          let avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(vendorName)}&backgroundColor=1F2E4A`;
+          if (doc.profileImage) {
+             avatarUrl = `${endpoint}/storage/buckets/${bucketId}/files/${doc.profileImage}/view?project=${projectId}`;
           }
+
+          let docStatus = "pending";
+          if (doc.status) {
+            docStatus = doc.status.toLowerCase();
+          }
+
+          return {
+            id: doc.$id,
+            vendor: vendorName,
+            owner: ownerName,
+            email: doc.email || "No Email",
+            phone: doc.phone || "No Phone",
+            address: doc.address || "No Address",
+            type: doc.bizType === "individual" ? "Individual/Proprietor" : "Company/Business",
+            status: docStatus as RealtimeVendorRequest["status"],
+            date: new Date(doc.$updatedAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
+            uploadedCount: uploadedCount,
+            avatar: avatarUrl,
+            documents: []
+          };
         });
 
-        const vendorList = Array.from(uniqueVendorsMap.values());
+        if (!isMounted) return;
 
         // Apply Tab Filtering
         let filtered = vendorList;
@@ -187,15 +118,13 @@ export default function VerificationList({ type }: { type?: string }) {
 
         setRequests(filtered);
       } catch (err) {
-        console.error("Failed to load realtime vendor documents:", err);
+        console.error("Failed to load vendors from Appwrite:", err);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     }
 
     loadRealtimeVendorDocs();
-    const interval = setInterval(loadRealtimeVendorDocs, 1000);
-    window.addEventListener('storage', loadRealtimeVendorDocs);
 
     // Instant BroadcastChannel WebSocket-like Realtime Channel
     let channel: BroadcastChannel | null = null;
@@ -214,10 +143,6 @@ export default function VerificationList({ type }: { type?: string }) {
 
     // Appwrite Realtime WebSocket subscription listener setup
     let appwriteUnsubscribe: (() => void) | undefined;
-    const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1";
-    const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "6a3bce6900381359c3ce";
-    const dbId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || "6a3cec630035d63ea963";
-    const vendorColId = process.env.NEXT_PUBLIC_APPWRITE_VENDOR_COLLECTION_ID || "6a3e0fd9da7df0d38588";
 
     if (projectId && dbId && vendorColId) {
       try {
@@ -234,8 +159,7 @@ export default function VerificationList({ type }: { type?: string }) {
     }
 
     return () => {
-      clearInterval(interval);
-      window.removeEventListener('storage', loadRealtimeVendorDocs);
+      isMounted = false;
       if (appwriteUnsubscribe) appwriteUnsubscribe();
       if (channel) channel.close();
     };

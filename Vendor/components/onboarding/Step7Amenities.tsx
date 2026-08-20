@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Wifi, Dumbbell, Car, Coffee, Wind, Tv, Snowflake, UtensilsCrossed, PawPrint, Wine, Clock, Sparkles, Plane, Shirt, Sun, Zap, Users, Accessibility } from "lucide-react";
+import { ArrowRight, ArrowLeft, Wifi, Dumbbell, Car, Coffee, Wind, Tv, Snowflake, UtensilsCrossed, PawPrint, Wine, Clock, Zap, Plane, Shirt, Sun, Users, Accessibility } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
@@ -20,7 +20,7 @@ const AMENITIES = [
   { id: "pets", name: "Pet Friendly", icon: PawPrint },
   { id: "bar", name: "Bar / Lounge", icon: Wine },
   { id: "front_desk", name: "24/7 Front Desk", icon: Clock },
-  { id: "spa", name: "Spa & Wellness", icon: Sparkles },
+  { id: "spa", name: "Spa & Wellness", icon: Zap },
   { id: "shuttle", name: "Airport Shuttle", icon: Plane },
   { id: "laundry", name: "Laundry Service", icon: Shirt },
   { id: "balcony", name: "Balcony / Terrace", icon: Sun },

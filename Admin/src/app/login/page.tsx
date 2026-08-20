@@ -21,11 +21,7 @@ function LoginContent() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (urlEmail) {
-      setEmail(urlEmail);
-    }
-  }, [urlEmail]);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +40,8 @@ function LoginContent() {
       } else {
         setError(res.error || "Failed to authenticate");
       }
-    } catch (err: any) {
+    } catch (err) {
+      console.error("Login error:", err);
       setError("Authentication failed. Please check your internet connection.");
     } finally {
       setIsLoading(false);
@@ -62,8 +59,8 @@ function LoginContent() {
         {/* Header */}
         <CardHeader className="text-center pt-8 pb-6 border-b border-slate-800/80">
           <div className="flex justify-center mb-3">
-            <div className="h-14 w-14 rounded-2xl bg-[#E86A70]/10 border border-[#E86A70]/30 flex items-center justify-center text-[#E86A70]">
-              <ShieldCheck className="w-8 h-8" />
+            <div className="h-14 w-14 rounded-2xl overflow-hidden flex items-center justify-center border border-[#E86A70]/30 shadow-lg">
+              <img src="/RacoonFavicon.jpg" alt="Racoonn" className="w-full h-full object-cover" />
             </div>
           </div>
           <CardTitle className="text-2xl font-black tracking-tight text-white">Racoonn Admin</CardTitle>
@@ -128,11 +125,6 @@ function LoginContent() {
               </div>
             </div>
 
-            {/* Default Quick Test Hint */}
-            <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-[11px] text-slate-400">
-              <span className="font-bold text-slate-300 block mb-0.5">Admin Demo Credentials:</span>
-              Super Admin: <code className="text-[#E86A70]">Admin@racoonn.com</code> | Pass: <code className="text-[#E86A70]">Racoonn@123</code>
-            </div>
 
             {/* Submit Button */}
             <Button

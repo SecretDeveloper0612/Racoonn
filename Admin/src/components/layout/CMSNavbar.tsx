@@ -48,11 +48,7 @@ export function CMSNavbar() {
             <span>Admin</span>
           </Button>
         </Link>
-        <Button variant="ghost" size="icon" className="relative rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50">
-          <Bell className="h-5 w-5" />
-          <span className="absolute top-2 right-2.5 h-2 w-2 rounded-full bg-primary border-2 border-background" />
-          <span className="sr-only">Toggle notifications</span>
-        </Button>
+
         <Avatar className="h-9 w-9 border-2 border-background shadow-sm hover:ring-2 hover:ring-primary/20 transition-all cursor-pointer">
           <AvatarImage src="/placeholder-user.jpg" alt="@admin" />
           <AvatarFallback className="bg-primary/10 text-primary font-bold">SA</AvatarFallback>

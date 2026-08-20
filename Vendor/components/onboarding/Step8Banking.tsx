@@ -7,6 +7,13 @@ import { ArrowRight, ArrowLeft, Building, ShieldCheck, UploadCloud } from "lucid
 import Image from "next/image";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+import { storage } from "@/lib/appwrite/client";
+import { ID } from "appwrite";
+import { useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/authStore";
+import { databases, appwriteConfig } from "@/lib/appwrite/client";
+
 const INDIAN_BANKS = [
   { name: "Axis Bank", domain: "axisbank.com" },
   { name: "Bandhan Bank", domain: "bandhanbank.com" },
@@ -40,10 +47,6 @@ const INDIAN_BANKS = [
   { name: "Yes Bank", domain: "yesbank.in" },
   { name: "Other Bank", domain: "other" }
 ];
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
-import { useAuthStore } from "@/store/authStore";
-import { databases, appwriteConfig } from "@/lib/appwrite/client";
 
 export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
   const { profile } = useAuthStore();
@@ -56,6 +59,9 @@ export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: (
   const [accountNumber, setAccountNumber] = useState("");
   const [ifsc, setIfsc] = useState("");
   const [upiId, setUpiId] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [fileName, setFileName] = useState("");
+  const [uploadedChequeInfo, setUploadedChequeInfo] = useState<{ fileId: string, fileUrl: string, fileName: string } | null>(null);
   
   useEffect(() => {
     if (profile) {
@@ -90,6 +96,46 @@ export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: (
           upiId: upiId || ""
         }
       );
+
+      // Save Cheque Document to Global Sync
+      if (uploadedChequeInfo) {
+        const vendorId = profile.$id;
+        const storageKey = `racoonn_vendor_documents_${vendorId}`;
+        const savedDocsStr = localStorage.getItem(storageKey);
+        let savedDocs: any[] = [];
+        if (savedDocsStr) {
+          try { savedDocs = JSON.parse(savedDocsStr); } catch {}
+        }
+        
+        const existingIndex = savedDocs.findIndex(d => d.id === "bank_cheque");
+        const chequeDoc = {
+          id: "bank_cheque",
+          title: "Bank Account Details & Cancelled Cheque",
+          description: "Bank passbook or cancelled cheque for settlement payouts.",
+          status: "Pending",
+          fileName: uploadedChequeInfo.fileName,
+          fileId: uploadedChequeInfo.fileId,
+          fileUrl: uploadedChequeInfo.fileUrl,
+          updatedAt: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+        };
+
+        if (existingIndex >= 0) savedDocs[existingIndex] = chequeDoc;
+        else savedDocs.push(chequeDoc);
+
+        localStorage.setItem(storageKey, JSON.stringify(savedDocs));
+        
+        // Also update cookie to ensure cross-port Admin visibility
+        let existingProfileObj: any = { vendorId, docs: savedDocs, updatedAt: new Date().toISOString() };
+        const profileStr = localStorage.getItem(`racoonn_vendor_profile_${vendorId}`);
+        if (profileStr) {
+          try {
+            existingProfileObj = JSON.parse(profileStr);
+            existingProfileObj.docs = savedDocs;
+          } catch {}
+        }
+        document.cookie = `racoonn_vendor_docs_${vendorId}=${encodeURIComponent(JSON.stringify(existingProfileObj))}; path=/; max-age=31536000; SameSite=Lax`;
+      }
+
       onNext();
     } catch (e) {
       console.error(e);
@@ -111,8 +157,51 @@ export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: (
   };
 
   const handleVerify = () => {
-    setVerified(true);
+    fileInputRef.current?.click();
   }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileName(file.name);
+      
+      try {
+        let uploadedFileId: string | null = null;
+        let uploadedFileUrl: string | null = null;
+
+        if (appwriteConfig.vendorDocumentsBucketId) {
+          try {
+            const res = await storage.createFile(
+              appwriteConfig.vendorDocumentsBucketId,
+              ID.unique(),
+              file
+            );
+            uploadedFileId = res.$id;
+            uploadedFileUrl = storage.getFileView(appwriteConfig.vendorDocumentsBucketId, res.$id).toString();
+          } catch (storageErr) {
+            console.warn("Storage upload failed, falling back to local base64", storageErr);
+          }
+        }
+
+        if (!uploadedFileUrl) {
+           const reader = new FileReader();
+           uploadedFileUrl = await new Promise((resolve) => {
+             reader.onloadend = () => resolve(reader.result as string);
+             reader.readAsDataURL(file);
+           });
+        }
+
+        setUploadedChequeInfo({
+          fileId: uploadedFileId || "temp_cheque_id",
+          fileUrl: uploadedFileUrl || "",
+          fileName: file.name
+        });
+        setVerified(true);
+      } catch (err) {
+        console.error("Failed to process cheque", err);
+      }
+    }
+  };
 
   return (
     <motion.div 
@@ -256,6 +345,13 @@ export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: (
                 Upload Cancelled Cheque
                 {verified && <span className="text-emerald-500 flex items-center gap-1"><ShieldCheck className="w-3 h-3"/> Verified</span>}
               </label>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleFileChange} 
+                className="hidden" 
+                accept=".jpg,.jpeg,.png,.pdf"
+              />
               <div className={cn(
                 "border-2 border-dashed rounded-2xl p-6 text-center transition-colors cursor-pointer flex items-center justify-center gap-4",
                 verified ? "border-emerald-500 bg-emerald-50" : "border-slate-300 hover:bg-slate-50"
@@ -265,7 +361,7 @@ export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: (
                 </div>
                 <div className="text-left">
                   <p className={cn("text-sm font-bold", verified ? "text-emerald-700" : "text-slate-700")}>
-                    {verified ? "Cheque_HDFC_Verified.pdf" : "Click to upload cheque"}
+                    {verified ? (fileName || "Cheque_HDFC_Verified.pdf") : "Click to upload cheque"}
                   </p>
                   {!verified && <p className="text-xs text-slate-500">JPG or PDF (Max 2MB)</p>}
                 </div>

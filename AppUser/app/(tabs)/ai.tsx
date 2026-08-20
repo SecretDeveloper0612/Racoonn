@@ -18,7 +18,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
-  Sparkles,
+  Zap,
   Send,
   MapPin,
   ArrowRight,
@@ -280,7 +280,7 @@ export default function AskAIScreen() {
       <View style={[styles.header, { paddingTop: Math.max(insets.top + 8, Platform.OS === 'ios' ? 48 : 18) }]}>
         <View style={styles.headerTitleContainer}>
           <View style={styles.conciergePill}>
-            <Sparkles color={Colors.brand.coral} size={11} />
+            <Zap color={Colors.brand.coral} size={11} />
             <Text style={styles.conciergePillText}>Realtime AppUser Concierge</Text>
           </View>
           <Text style={styles.headerMainTitle}>Where to next?</Text>
@@ -463,7 +463,7 @@ export default function AskAIScreen() {
                 <ActivityIndicator color={Colors.brand.coral} size="small" />
               </View>
               <View style={[styles.bubble, styles.bubbleAI, styles.analyzingBox]}>
-                <Sparkles color={Colors.brand.coral} size={14} style={{ marginRight: 6 }} />
+                <Zap color={Colors.brand.coral} size={14} style={{ marginRight: 6 }} />
                 <Text style={styles.analyzingText}>Racoonn AI searching real-time AppUser data...</Text>
               </View>
             </View>
@@ -474,7 +474,7 @@ export default function AskAIScreen() {
         <View style={[styles.inputArea, { paddingBottom: inputBottomPadding }]}>
           <View style={styles.inputCard}>
             <View style={styles.sparkleIconBg}>
-              <Sparkles color={Colors.brand.coral} size={16} />
+              <Zap color={Colors.brand.coral} size={16} />
             </View>
             <TextInput
               style={styles.textInput}

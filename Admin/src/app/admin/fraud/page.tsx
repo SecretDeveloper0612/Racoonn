@@ -27,7 +27,7 @@ import {
   Activity,
   FileSpreadsheet,
   RefreshCw,
-  Sparkles
+  Zap
 } from "lucide-react";
 import {
   getFraudMonitoringData,

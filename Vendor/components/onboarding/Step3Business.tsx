@@ -15,7 +15,7 @@ export function Step3Business({ onNext, onBack }: { onNext: () => void, onBack: 
   const { user, profile, refreshProfile } = useAuthStore();
   
   const [bizType, setBizType] = useState<"individual" | "company">((profile?.bizType as "individual" | "company") || "individual");
-  const [idType, setIdType] = useState<"pan" | "aadhar">((profile?.idType as "pan" | "aadhar") || "pan");
+  const [idType] = useState<"pan" | "aadhar">((profile?.idType as "pan" | "aadhar") || "pan");
   
   const [legalName, setLegalName] = useState(profile?.businessName || "");
   const [panNumber, setPanNumber] = useState(profile?.panNumber || "");
@@ -40,7 +40,7 @@ export function Step3Business({ onNext, onBack }: { onNext: () => void, onBack: 
   
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isVerifyingDoc, setIsVerifyingDoc] = useState(false);
+  const [isVerifyingDoc] = useState(false);
 
   const verifyDocumentOcr = async (
     imageSrc: string,

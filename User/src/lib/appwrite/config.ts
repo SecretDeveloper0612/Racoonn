@@ -10,6 +10,7 @@ export const appwriteConfig = {
     bookingCollectionId: process.env.NEXT_PUBLIC_APPWRITE_BOOKING_COLLECTION_ID || "bookings",
     reviewCollectionId: process.env.NEXT_PUBLIC_APPWRITE_REVIEW_COLLECTION_ID || "6a59c6f526bfcf71ddbf",
     activitiesCollectionId: process.env.NEXT_PUBLIC_APPWRITE_ACTIVITIES_COLLECTION_ID || "activities",
+    promotionsCollectionId: process.env.NEXT_PUBLIC_APPWRITE_PROMOTIONS_COLLECTION_ID || "promotions",
 };
 
 export const account = new Account(client);

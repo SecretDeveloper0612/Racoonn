@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
 import { Badge } from "@/components/ui/badge";
-import { databases, appwriteConfig, storage } from "@/lib/appwrite/client";
+import { databases, appwriteConfig, storage, client } from "@/lib/appwrite/client";
 import { Query } from "appwrite";
 
 interface NotificationItem {
@@ -48,17 +48,18 @@ export function TopNavbar() {
   const [hasUnread, setHasUnread] = useState(false);
 
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    let vendorPropertyIds: string[] = [];
+
     async function loadRealtimeNotifications() {
+      if (!profile?.$id) return;
       try {
-        const [bookingsRes, guestsRes] = await Promise.all([
-          databases.listDocuments(appwriteConfig.databaseId, 'bookings', [
-            Query.orderDesc('$createdAt'),
-            Query.limit(5)
-          ]),
-          databases.listDocuments(appwriteConfig.databaseId, 'booking_guests', [
-            Query.limit(10)
-          ])
-        ]);
+        const propertiesRes = await databases.listDocuments(
+          appwriteConfig.databaseId,
+          appwriteConfig.propertyCollectionId || "properties",
+          [Query.equal("vendorId", profile.$id)]
+        );
+        vendorPropertyIds = propertiesRes.documents.map((p: any) => p.$id);
 
         const notifs: NotificationItem[] = [];
 
@@ -85,23 +86,38 @@ export function TopNavbar() {
           }
         }
 
-        // 2. Real-time Bookings Notifications
-        bookingsRes.documents.forEach((b: any) => {
-          const guest = guestsRes.documents.find((g: any) => g.bookingId === b.$id);
-          const guestName = guest ? `${guest.firstName} ${guest.lastName}`.trim() : (b.guestName || 'Guest User');
-          const hotelName = b.hotelName || 'Racoonn Property';
-          const checkIn = new Date(b.checkIn).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-          const checkOut = new Date(b.checkOut).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        if (vendorPropertyIds.length > 0) {
+          const queries = [
+            Query.orderDesc('$createdAt'),
+            Query.limit(50),
+            Query.equal('hotelId', vendorPropertyIds)
+          ];
+          
+          const [bookingsRes, guestsRes] = await Promise.all([
+            databases.listDocuments(appwriteConfig.databaseId, 'bookings', queries),
+            databases.listDocuments(appwriteConfig.databaseId, 'booking_guests', [Query.limit(100)])
+          ]);
 
-          notifs.push({
-            id: `booking-${b.$id}`,
-            title: `New Booking (${b.status || 'Confirmed'})`,
-            message: `${guestName} booked ${hotelName} from ${checkIn} to ${checkOut}.`,
-            timeAgo: calculateTimeAgo(b.$createdAt),
-            unread: true,
-            type: 'booking'
+          const vendorBookings = bookingsRes.documents.slice(0, 5);
+
+          // 2. Real-time Bookings Notifications
+          vendorBookings.forEach((b: any) => {
+            const guest = guestsRes.documents.find((g: any) => g.bookingId === b.$id);
+            const guestName = guest ? `${guest.firstName} ${guest.lastName}`.trim() : (b.guestName || 'Guest User');
+            const hotelName = b.hotelName || 'Racoonn Property';
+            const checkIn = new Date(b.checkIn).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const checkOut = new Date(b.checkOut).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+            notifs.push({
+              id: `booking-${b.$id}`,
+              title: `New Booking (${b.status || 'Confirmed'})`,
+              message: `${guestName} booked ${hotelName} from ${checkIn} to ${checkOut}.`,
+              timeAgo: calculateTimeAgo(b.$createdAt),
+              unread: true,
+              type: 'booking'
+            });
           });
-        });
+        }
 
         setNotifications(notifs);
         setHasUnread(notifs.some(n => n.unread));
@@ -110,7 +126,25 @@ export function TopNavbar() {
       }
     }
 
-    loadRealtimeNotifications();
+    loadRealtimeNotifications().then(() => {
+      if (profile?.$id) {
+        unsubscribe = client.subscribe(
+          `databases.${appwriteConfig.databaseId}.collections.bookings.documents`,
+          (response) => {
+            if (response.events.some(e => e.includes(".create"))) {
+              const newBooking: any = response.payload;
+              if (vendorPropertyIds.includes(newBooking.hotelId)) {
+                loadRealtimeNotifications();
+              }
+            }
+          }
+        );
+      }
+    });
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, [profile]);
 
   const handleMarkAllRead = () => {

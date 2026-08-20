@@ -16,7 +16,7 @@ import {
   Star,
   Trash2,
   ArrowRight,
-  Sparkles,
+  Zap,
   Compass,
   Building2,
   ShieldCheck,

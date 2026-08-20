@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Clock, ShieldCheck, Home } from "lucide-react";
+import { Check, Clock, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -29,7 +29,7 @@ export function ProgressSidebar({ currentStep }: { currentStep: number }) {
       </Link>
 
       <div className="mb-8">
-        <h2 className="text-2xl font-black text-[#1F2E4A] mb-2 font-['Poppins',_sans-serif]">Registration</h2>
+        <h2 className="text-2xl font-black text-[#1F2E4A] mb-2 font-['Poppins',sans-serif]">Registration</h2>
         <p className="text-sm text-slate-500 font-medium">Get ready to welcome guests from around the globe.</p>
       </div>
 
@@ -41,7 +41,7 @@ export function ProgressSidebar({ currentStep }: { currentStep: number }) {
         </div>
         <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden mb-4">
           <motion.div 
-            className="h-full bg-gradient-to-r from-[#E86A70] to-[#f48a8e]" 
+            className="h-full bg-linear-to-r from-[#E86A70] to-[#f48a8e]" 
             initial={{ width: 0 }}
             animate={{ width: `${progressPercent}%` }}
             transition={{ ease: "easeOut", duration: 0.8 }}
@@ -55,7 +55,7 @@ export function ProgressSidebar({ currentStep }: { currentStep: number }) {
 
       {/* Step List */}
       <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
-        <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[15px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
+        <div className="space-y-6 relative before:absolute before:inset-0 before:ml-3.75 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-slate-200 before:to-transparent">
           
           {STEPS.map((step) => {
             const isCompleted = step.id < currentStep;

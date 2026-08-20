@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Edit2, Trash2, MapPin, Eye, EyeOff, Sparkles, AlertTriangle, Check, Search, Building } from "lucide-react";
+import { Plus, Edit2, Trash2, MapPin, Eye, EyeOff, Zap, AlertTriangle, Check, Search, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -201,7 +201,7 @@ export default function PopularStaysCMSPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-            <Sparkles className="text-rose-500" size={28} /> Popular Stays CMS
+            <Zap className="text-rose-500" size={28} /> Popular Stays CMS
           </h1>
           <p className="text-gray-500 mt-1">
             Manage, create, edit, or remove Popular Stays sections displayed on the homepage.
@@ -291,7 +291,7 @@ export default function PopularStaysCMSPage() {
 
         {sections.length === 0 && (
           <div className="col-span-full border-2 border-dashed border-gray-200 rounded-3xl p-12 text-center bg-gray-50">
-            <Sparkles className="mx-auto text-gray-400 mb-3" size={36} />
+            <Zap className="mx-auto text-gray-400 mb-3" size={36} />
             <h3 className="text-lg font-bold text-gray-700">No Popular Stays Sections Uploaded</h3>
             <p className="text-sm text-gray-500 mt-1 mb-4">
               Click "Add New Section" above to upload custom popular stay sections for your website homepage.
