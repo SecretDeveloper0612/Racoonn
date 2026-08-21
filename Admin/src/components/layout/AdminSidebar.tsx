@@ -24,7 +24,8 @@ import {
   AlertTriangle, 
   Shield, 
   Settings,
-  Tent
+  Tent,
+  Car
 } from "lucide-react"
 
 import {
@@ -50,6 +51,7 @@ const navItems: NavItem[] = [
   { title: "Vendor Management", url: "/admin/vendors", icon: Users, key: "Vendors" },
   { title: "Verification Center", url: "/admin/verification", icon: ShieldCheck, key: "Verification" },
   { title: "Properties", url: "/admin/properties", icon: Building2, key: "Properties" },
+  { title: "Cab Details", url: "/admin/cabs", icon: Car, key: "Cabs" },
   { title: "Bookings", url: "/admin/bookings", icon: CalendarDays, key: "Bookings" },
   { title: "Customers", url: "/admin/customers", icon: UserCircle, key: "Customers" },
 ]
@@ -78,28 +80,34 @@ const systemItems: NavItem[] = [
 
 export function AdminSidebar() {
   const pathname = usePathname()
-  const [session, setSession] = useState<{ email?: string; name?: string; allowedTabs?: string[] } | null>(null)
+  const [session, setSession] = useState<{ email?: string; name?: string; allowedTabs?: string[] } | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    try {
-      const cookies = document.cookie.split("; ");
-      const sessionCookie = cookies.find(row => row.startsWith("racoonn_admin_session="));
-      if (sessionCookie) {
-        const val = decodeURIComponent(sessionCookie.split("=")[1]);
-        const parsedSession = JSON.parse(val);
-        // Only set session if it changed to prevent cascading renders
-        if (JSON.stringify(session) !== JSON.stringify(parsedSession)) {
-          setSession(parsedSession);
+    setIsMounted(true);
+    const loadSession = async () => {
+      await Promise.resolve(); // Defers execution to avoid sync setState warning
+      try {
+        const cookies = document.cookie.split("; ");
+        const sessionCookie = cookies.find(row => row.startsWith("racoonn_admin_session="));
+        if (sessionCookie) {
+          const val = decodeURIComponent(sessionCookie.split("=")[1]);
+          setSession(JSON.parse(val));
         }
+      } catch (e) {
+        console.error("Failed to parse session cookie:", e);
       }
-    } catch (e) {
-      console.error("Failed to parse session cookie:", e);
-    }
-  }, [pathname]);
+    };
+    loadSession();
+  }, []);
 
   const allowedTabs: string[] = session?.allowedTabs || [];
   const isRootAdmin = session?.email === "admin@racoonn.com" || session?.email === "admin" || !session;
   const isSuperAdmin = isRootAdmin || allowedTabs.includes("all");
+
+  const displayName = isMounted && session?.name ? session.name : "Super Admin";
+  const displayEmail = isMounted && session?.email ? session.email : "admin@racoonn.com";
+  const avatarInitials = displayName.substring(0, 2).toUpperCase();
 
   const isTabAllowed = (key: string) => {
     if (isSuperAdmin) return true;
@@ -199,11 +207,11 @@ export function AdminSidebar() {
         <div className="p-4 group-data-[collapsible=icon]:hidden">
           <div className="flex items-center gap-3 rounded-xl p-3 hover:bg-muted/50 transition-colors cursor-pointer -mx-3">
             <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">
-              {session?.name ? session.name.substring(0, 2).toUpperCase() : "SA"}
+              {avatarInitials}
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-semibold leading-none text-foreground">{session?.name || "Super Admin"}</span>
-              <span className="text-xs text-muted-foreground mt-1 font-medium">{session?.email || "admin@racoonn.com"}</span>
+              <span className="text-sm font-semibold leading-none text-foreground">{displayName}</span>
+              <span className="text-xs text-muted-foreground mt-1 font-medium">{displayEmail}</span>
             </div>
           </div>
         </div>

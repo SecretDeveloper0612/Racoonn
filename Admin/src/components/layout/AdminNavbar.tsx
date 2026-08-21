@@ -1,8 +1,7 @@
 "use client"
 
-import * as React from "react"
-import { useState, useEffect } from "react"
-import { Bell, Search, FileText, LogOut, User, ShieldCheck } from "lucide-react"
+import React, { useState } from "react"
+import { Search, FileText, LogOut, User, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import { logoutAdmin } from "@/lib/auth"
 
@@ -21,20 +20,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function AdminNavbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [session, setSession] = useState<any>(null);
-
-  useEffect(() => {
-    try {
-      const cookies = document.cookie.split("; ");
-      const sessionCookie = cookies.find(row => row.startsWith("racoonn_admin_session="));
-      if (sessionCookie) {
-        const val = decodeURIComponent(sessionCookie.split("=")[1]);
-        setSession(JSON.parse(val));
+  const [session, setSession] = useState<{ email?: string; name?: string; role?: string } | null>(() => {
+    if (typeof document !== "undefined") {
+      try {
+        const cookies = document.cookie.split("; ");
+        const sessionCookie = cookies.find(row => row.startsWith("racoonn_admin_session="));
+        if (sessionCookie) {
+          const val = decodeURIComponent(sessionCookie.split("=")[1]);
+          return JSON.parse(val);
+        }
+      } catch (e) {
+        console.error("Failed to parse session cookie:", e);
       }
-    } catch (e) {
-      console.error("Failed to parse session cookie:", e);
     }
-  }, []);
+    return null;
+  });
 
   const handleLogout = async () => {
     await logoutAdmin();

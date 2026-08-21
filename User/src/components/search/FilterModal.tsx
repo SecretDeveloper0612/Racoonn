@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Minus, Plus, Wifi, Utensils, Zap, Key, PawPrint, ChevronDown, Home, Building2, Warehouse, X, IndianRupee } from 'lucide-react';
+import { Minus, Plus, Wifi, Utensils, Zap, Key, PawPrint, ChevronDown, Home, Building, Building2, Warehouse, X, IndianRupee, Tent, Castle, TreePine, Caravan, Ship, Tractor, Trees, Coffee, Mountain, Wind, Landmark } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface FilterState {
@@ -237,7 +237,7 @@ export default function FilterModal({ isOpen, onClose, onApply, initialFilters, 
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 16 }}
               transition={{ type: "spring", stiffness: 380, damping: 28 }}
-              className="pointer-events-auto max-w-3xl w-full bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col h-[85vh] max-h-[850px]"
+              className="pointer-events-auto max-w-3xl w-full bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col h-[85vh] max-h-212.5"
             >
               {/* Header */}
               <div className="p-4 px-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50 shrink-0">
@@ -561,6 +561,23 @@ export default function FilterModal({ isOpen, onClose, onApply, initialFilters, 
                             { id: 'House', icon: <Home size={18} />, label: 'House' },
                             { id: 'Guest house', icon: <Warehouse size={18} />, label: 'Guest house' },
                             { id: 'Hotel', icon: <Building2 size={18} />, label: 'Hotel' },
+                            { id: 'Apartment', icon: <Building size={18} />, label: 'Apartment' },
+                            { id: 'Villa', icon: <Castle size={18} />, label: 'Villa' },
+                            { id: 'Resort', icon: <TreePine size={18} />, label: 'Resort' },
+                            { id: 'Tent', icon: <Tent size={18} />, label: 'Tent' },
+                            { id: 'Cabin', icon: <Trees size={18} />, label: 'Cabin' },
+                            { id: 'Farm stay', icon: <Tractor size={18} />, label: 'Farm stay' },
+                            { id: 'Boat', icon: <Ship size={18} />, label: 'Boat' },
+                            { id: 'Camper/RV', icon: <Caravan size={18} />, label: 'Camper/RV' },
+                            { id: 'Tiny home', icon: <Home size={18} />, label: 'Tiny home' },
+                            { id: 'Mansion', icon: <Landmark size={18} />, label: 'Mansion' },
+                            { id: 'Castle', icon: <Castle size={18} />, label: 'Castle' },
+                            { id: 'Chalet', icon: <Trees size={18} />, label: 'Chalet' },
+                            { id: 'Barn', icon: <Warehouse size={18} />, label: 'Barn' },
+                            { id: 'Cave', icon: <Mountain size={18} />, label: 'Cave' },
+                            { id: 'Windmill', icon: <Wind size={18} />, label: 'Windmill' },
+                            { id: 'Hostel', icon: <Building2 size={18} />, label: 'Hostel' },
+                            { id: 'Bed & breakfast', icon: <Coffee size={18} />, label: 'Bed & breakfast' },
                           ].map((type) => (
                             <button 
                               key={type.id}
@@ -581,38 +598,7 @@ export default function FilterModal({ isOpen, onClose, onApply, initialFilters, 
                     )}
                   </AnimatePresence>
 
-                  <hr className="border-gray-100 my-2" />
 
-                  <button 
-                    type="button"
-                    onClick={() => setShowAccessibility(!showAccessibility)}
-                    className="py-4 flex items-center justify-between w-full hover:bg-gray-50 transition-colors rounded-xl px-2"
-                  >
-                    <span className="text-lg font-bold text-gray-900">Accessibility features</span>
-                    <ChevronDown size={20} className={`text-gray-500 transition-transform ${showAccessibility ? 'rotate-180' : ''}`} />
-                  </button>
-                  <AnimatePresence>
-                    {showAccessibility && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="overflow-hidden"
-                      >
-                        <div className="flex flex-col gap-3 pb-4 pt-1 px-4">
-                          <label className="flex items-center gap-3 cursor-pointer text-sm font-medium text-gray-800">
-                            <input type="checkbox" className="w-5 h-5 rounded border-gray-300 accent-gray-900 cursor-pointer" />
-                            <span>Step-free guest entrance</span>
-                          </label>
-                          <label className="flex items-center gap-3 cursor-pointer text-sm font-medium text-gray-800">
-                            <input type="checkbox" className="w-5 h-5 rounded border-gray-300 accent-gray-900 cursor-pointer" />
-                            <span>Guest entrance wider than 32 inches</span>
-                          </label>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
 
               </div>

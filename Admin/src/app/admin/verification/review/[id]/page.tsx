@@ -96,7 +96,7 @@ export default function VendorFullPageReviewScreen({ params }: { params: Promise
 
         let docStatus: "Pending" | "Approved" | "Rejected" | "Under Review" = "Pending";
         if (doc.status) {
-          docStatus = (doc.status.charAt(0).toUpperCase() + doc.status.slice(1)) as any;
+          docStatus = (doc.status.charAt(0).toUpperCase() + doc.status.slice(1)) as "Pending" | "Approved" | "Rejected" | "Under Review";
           if (docStatus === "Approved" || docStatus === "Rejected" || docStatus === "Under Review" || docStatus === "Pending") {
             // valid status
           } else {
@@ -159,7 +159,7 @@ export default function VendorFullPageReviewScreen({ params }: { params: Promise
 
           // Fallback to local storage if Appwrite file is invalid/missing (legacy mock data)
           if (!fileUrl && rawDocs.length > 0) {
-            const fallbackDoc = rawDocs.find((d: any) => d.id === template.id || d.title?.toLowerCase() === template.title.toLowerCase());
+            const fallbackDoc = rawDocs.find((d: ReviewDoc) => d.id === template.id || d.title?.toLowerCase() === template.title.toLowerCase());
             if (fallbackDoc && (fallbackDoc.fileUrl || fallbackDoc.fileName)) {
               fileUrl = fallbackDoc.fileUrl || null;
               fileName = fallbackDoc.fileName || `Legacy_${template.title}`;
@@ -313,11 +313,7 @@ export default function VendorFullPageReviewScreen({ params }: { params: Promise
     setIsSubmitting(false);
   };
 
-  const handleSendMailto = () => {
-    if (!emailModal) return;
-    const mailtoUrl = `mailto:${emailModal.to}?subject=${encodeURIComponent(emailModal.subject)}&body=${encodeURIComponent(emailModal.body)}`;
-    window.open(mailtoUrl, '_blank');
-  };
+
 
   const handleOpenNewTab = () => {
     if (selectedDoc?.fileUrl) {

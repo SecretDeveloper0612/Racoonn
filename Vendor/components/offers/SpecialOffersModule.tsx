@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { 
-  Sparkles, Percent, Tag, Calendar, Clock, 
+  Percent, Tag, Calendar, Clock, 
   Search, Plus, Copy, MoreVertical, Edit3, Trash2, PauseCircle, 
   PlayCircle, Layers, TrendingUp, IndianRupee, 
   Gift, Zap, Sun, Award, ChevronRight

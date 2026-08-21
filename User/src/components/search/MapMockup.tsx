@@ -401,7 +401,6 @@ export default function MapMockup({
 
       const el = document.createElement('div');
       el.className = 'custom-realtime-marker';
-      el.style.position = 'relative';
       el.style.zIndex = isSelected ? '50' : '10';
       el.innerHTML = `
         <button
@@ -543,12 +542,7 @@ export default function MapMockup({
           >🛰️ Satellite</button>
         </div>
 
-        <div className="flex items-center gap-2 pointer-events-auto">
-          <button
-            onClick={handleUseMyLocation}
-            className="bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg border border-gray-200 text-[12px] font-bold text-gray-800 hover:bg-gray-900 hover:text-white transition-all cursor-pointer flex items-center gap-1"
-          >📍 My Location</button>
-
+        <div className="flex flex-col items-end gap-2 pointer-events-auto">
           <div className="bg-white/95 backdrop-blur-md rounded-full shadow-lg px-3.5 py-1.5 flex items-center gap-2.5 border border-gray-200">
             <span className="text-[12px] font-semibold text-gray-800 whitespace-nowrap hidden sm:inline">Search as I move</span>
             <button
@@ -560,6 +554,11 @@ export default function MapMockup({
               <div className="w-3.5 h-3.5 bg-white rounded-full shadow-sm" />
             </button>
           </div>
+
+          <button
+            onClick={handleUseMyLocation}
+            className="bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg border border-gray-200 text-[12px] font-bold text-gray-800 hover:bg-gray-900 hover:text-white transition-all cursor-pointer flex items-center gap-1"
+          >📍 My Location</button>
         </div>
       </div>
     </div>

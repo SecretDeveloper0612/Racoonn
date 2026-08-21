@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, Eye, EyeOff, Loader2, Lock, Mail, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock, Mail, AlertCircle, CheckCircle2 } from "lucide-react";
 import { loginAdmin } from "@/lib/auth";
 
 function LoginContent() {
@@ -59,8 +60,8 @@ function LoginContent() {
         {/* Header */}
         <CardHeader className="text-center pt-8 pb-6 border-b border-slate-800/80">
           <div className="flex justify-center mb-3">
-            <div className="h-14 w-14 rounded-2xl overflow-hidden flex items-center justify-center border border-[#E86A70]/30 shadow-lg">
-              <img src="/RacoonFavicon.jpg" alt="Racoonn" className="w-full h-full object-cover" />
+            <div className="h-14 w-14 relative rounded-2xl overflow-hidden flex items-center justify-center border border-[#E86A70]/30 shadow-lg">
+              <Image src="/RacoonFavicon.jpg" alt="Racoonn" fill className="object-cover" />
             </div>
           </div>
           <CardTitle className="text-2xl font-black tracking-tight text-white">Racoonn Admin</CardTitle>

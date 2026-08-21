@@ -9,8 +9,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog"
 import {
   Search,
@@ -30,9 +28,7 @@ import {
   Building2,
   Receipt,
   Printer,
-  Zap,
-  CreditCard,
-  CheckCircle2
+  Zap
 } from "lucide-react"
 import { getAllBookings } from "./actions"
 

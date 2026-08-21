@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Bell, Search, LayoutDashboard } from "lucide-react"
+import { Search, LayoutDashboard } from "lucide-react"
 import Link from "next/link"
 
 import {

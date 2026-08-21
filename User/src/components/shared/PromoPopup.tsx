@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Gift, Copy, Check, Clock, Sparkles } from "lucide-react";
+import { X, Copy, Check, Clock, Sparkles } from "lucide-react";
 import { databases, appwriteConfig } from "@/lib/appwrite/config";
 import { Query } from "appwrite";
 import { usePathname } from "next/navigation";
@@ -17,6 +17,7 @@ interface Promotion {
   status: string;
   validUntil: string;
   image?: string;
+  campaignName?: string;
 }
 
 export default function PromoPopup() {

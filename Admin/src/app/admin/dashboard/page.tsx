@@ -217,13 +217,9 @@ export default async function DashboardPage({ searchParams }: { searchParams?: P
       else if (date >= previousPeriodStart && date <= previousPeriodEnd) previousPeriodBookings++;
     });
 
-    let currentPeriodProps = 0;
-    let previousPeriodProps = 0;
     properties.documents.forEach(p => {
       if (p.status?.toLowerCase() !== 'approved' && p.status?.toLowerCase() !== 'active') return;
       const date = new Date(p.$createdAt);
-      if (isLifetime || date >= currentPeriodStart) currentPeriodProps++;
-      else if (date >= previousPeriodStart && date <= previousPeriodEnd) previousPeriodProps++;
     });
 
     kpiData = [

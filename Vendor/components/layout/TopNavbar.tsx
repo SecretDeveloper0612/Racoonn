@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Search, Bell, ChevronDown, Calendar, CheckCircle2, Clock } from "lucide-react";
+import { Search, Bell, ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import {

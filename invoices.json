@@ -45,10 +45,11 @@
     "taxAmount": 20,
     "discount": 0,
     "totalAmount": 103,
-    "status": "Sent",
+    "status": "Paid",
     "notes": "Please process this payout invoice to the specified bank account / UPI ID. Thank you!",
     "createdAt": "2026-08-15T05:43:00.566Z",
-    "updatedAt": "2026-08-15T05:43:11.548Z"
+    "updatedAt": "2026-08-21T11:11:21.801Z",
+    "adminRemarks": "Payout Processed via Bank Transfer (NEFT/RTGS) (UTR: UTR1787310653481)"
   },
   {
     "id": "inv-wd-1785502166958",
@@ -96,10 +97,11 @@
     "taxAmount": 0,
     "discount": 0,
     "totalAmount": 20674,
-    "status": "Sent",
+    "status": "Approved",
     "notes": "Please process this payout invoice to the specified bank account / UPI ID. Thank you!",
     "createdAt": "2026-07-31T12:49:26.958Z",
-    "updatedAt": "2026-08-09T15:22:15.807Z"
+    "updatedAt": "2026-08-21T11:11:10.467Z",
+    "adminRemarks": "Approved by Super Admin: All booking data & bank details verified cleanly."
   },
   {
     "id": "inv-admin-1785321801509",
@@ -191,7 +193,8 @@
     "taxAmount": 4540.5599999999995,
     "totalAmount": 23459.559999999998,
     "status": "Sent",
-    "createdAt": "2026-07-29T10:31:02.737Z"
+    "createdAt": "2026-07-29T10:31:02.737Z",
+    "updatedAt": "2026-08-21T11:42:18.250Z"
   },
   {
     "id": "inv-admin-1785320818660",

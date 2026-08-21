@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
-import { ThemeProvider } from "@/providers/theme-provider";
+
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const poppins = Poppins({
@@ -24,20 +24,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} antialiased`}
+      className={`${poppins.variable} antialiased light`}
       suppressHydrationWarning
     >
       <body className="min-h-screen font-sans bg-background text-foreground" suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          forcedTheme="light"
-          disableTransitionOnChange
-        >
-          <TooltipProvider delay={300}>
-            {children}
-          </TooltipProvider>
-        </ThemeProvider>
+        <TooltipProvider delay={300}>
+          {children}
+        </TooltipProvider>
       </body>
     </html>
   );

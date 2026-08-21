@@ -5,7 +5,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function isActiveProperty(property: { status?: string }) {
+export function isActiveProperty(property: { status?: string; name?: string; title?: string; propertyName?: string }) {
+  const name = String(property.name || property.title || property.propertyName || '').toLowerCase();
+  if (name.startsWith('cms ')) {
+    return false;
+  }
+
   // If no status is explicitly set, default to showing it to maintain backwards compatibility
   if (!property.status) return true;
   const status = property.status.toLowerCase();

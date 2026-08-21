@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
+import { storage } from "@/lib/appwrite/client";
+import { ID } from "appwrite";
 import {
   Dialog,
   DialogContent,
@@ -35,6 +37,7 @@ export default function PopularDestinationsPage() {
   const [newDesc, setNewDesc] = useState("");
   const [newPrice, setNewPrice] = useState("");
   const [newImage, setNewImage] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   // Load destinations from DB / API
   useEffect(() => {
@@ -88,6 +91,25 @@ export default function PopularDestinationsPage() {
       return trimmed;
     }
     return "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80";
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const BUCKET_ID = "6a3e398000280b2b3d20";
+      const PROJECT_ID = "6a3bce6900381359c3ce";
+      const uploadedFile = await storage.createFile(BUCKET_ID, ID.unique(), file);
+      const url = `https://sgp.cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${uploadedFile.$id}/view?project=${PROJECT_ID}`;
+      setNewImage(url);
+    } catch (error) {
+      console.error("Image upload failed", error);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleAddDestination = (e: React.FormEvent) => {
@@ -183,15 +205,22 @@ export default function PopularDestinationsPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="image" className="text-xs font-semibold uppercase text-gray-500">Image URL *</Label>
-                    <Input 
-                      id="image" 
-                      placeholder="https://images.unsplash.com/..." 
-                      value={newImage} 
-                      onChange={(e) => setNewImage(e.target.value)} 
-                      required 
-                      className="rounded-xl border-gray-200"
-                    />
+                    <Label htmlFor="image" className="text-xs font-semibold uppercase text-gray-500">Destination Image *</Label>
+                    <div className="flex items-center gap-3">
+                      <Input 
+                        id="image" 
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={isUploading}
+                        required={!newImage}
+                        className="rounded-xl border-gray-200 file:bg-rose-50 file:text-rose-600 file:border-0 file:mr-4 file:py-1 file:px-3 file:rounded-full file:text-xs file:font-semibold hover:file:bg-rose-100 transition-all cursor-pointer h-10"
+                      />
+                      {isUploading && <Loader2 className="w-5 h-5 animate-spin text-rose-600 shrink-0" />}
+                    </div>
+                    {newImage && !isUploading && (
+                      <p className="text-xs text-emerald-600 font-medium mt-1">Image uploaded successfully!</p>
+                    )}
                   </div>
                 </div>
 
@@ -199,7 +228,7 @@ export default function PopularDestinationsPage() {
                   <Button type="button" variant="ghost" onClick={() => setIsAddDialogOpen(false)} className="rounded-xl">
                     Cancel
                   </Button>
-                  <Button type="submit" className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-semibold px-6">
+                  <Button type="submit" disabled={isUploading} className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-semibold px-6">
                     Add Destination
                   </Button>
                 </DialogFooter>
@@ -208,7 +237,7 @@ export default function PopularDestinationsPage() {
               {/* Right Column: Live Card Preview */}
               <div className="w-full md:w-80 bg-slate-900 p-6 md:p-8 flex flex-col justify-center items-center text-white border-t md:border-t-0 md:border-l border-slate-800">
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">Live Preview</p>
-                <div className="relative w-full h-[320px] rounded-3xl overflow-hidden shadow-xl border border-slate-700/50 group">
+                <div className="relative w-full h-80 rounded-3xl overflow-hidden shadow-xl border border-slate-700/50 group">
                   <Image 
                     src={getValidImageSrc(newImage)} 
                     alt="Preview" 
@@ -216,7 +245,7 @@ export default function PopularDestinationsPage() {
                     unoptimized
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-black/30" />
                   
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
@@ -241,7 +270,7 @@ export default function PopularDestinationsPage() {
       {/* Destinations List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {destinations.map((dest) => (
-          <div key={dest.id} className="relative h-[380px] rounded-3xl overflow-hidden group shadow-lg transition-transform duration-300 hover:-translate-y-1">
+          <div key={dest.id} className="relative h-95 rounded-3xl overflow-hidden group shadow-lg transition-transform duration-300 hover:-translate-y-1">
             <Image 
               src={getValidImageSrc(dest.image)} 
               alt={dest.city} 
@@ -249,7 +278,7 @@ export default function PopularDestinationsPage() {
               unoptimized
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/25 to-black/30" />
 
             {/* Remove Button Overlay */}
             <button 

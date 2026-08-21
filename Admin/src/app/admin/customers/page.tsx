@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Search, MoreHorizontal, Ban, Mail, Users, CreditCard, CalendarDays, TrendingUp, Filter, UserPlus } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getAllCustomers } from "./actions"
@@ -302,20 +302,22 @@ export default function CustomersPage() {
                           <MoreHorizontal className="h-4 w-4" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-40 rounded-xl border-muted/50">
-                          <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">Actions</DropdownMenuLabel>
-                          <DropdownMenuItem className="cursor-pointer rounded-md">
-                            <Mail className="mr-2 h-4 w-4" /> Email Customer
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          {customer.status === 'active' ? (
-                            <DropdownMenuItem className="text-orange-600 focus:text-orange-600 cursor-pointer rounded-md">
-                              <Ban className="mr-2 h-4 w-4" /> Suspend User
+                          <DropdownMenuGroup>
+                            <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">Actions</DropdownMenuLabel>
+                            <DropdownMenuItem className="cursor-pointer rounded-md">
+                              <Mail className="mr-2 h-4 w-4" /> Email Customer
                             </DropdownMenuItem>
-                          ) : (
-                            <DropdownMenuItem className="text-emerald-600 focus:text-emerald-600 cursor-pointer rounded-md">
-                              <Ban className="mr-2 h-4 w-4" /> Reactivate User
-                            </DropdownMenuItem>
-                          )}
+                            <DropdownMenuSeparator />
+                            {customer.status === 'active' ? (
+                              <DropdownMenuItem className="text-orange-600 focus:text-orange-600 cursor-pointer rounded-md">
+                                <Ban className="mr-2 h-4 w-4" /> Suspend User
+                              </DropdownMenuItem>
+                            ) : (
+                              <DropdownMenuItem className="text-emerald-600 focus:text-emerald-600 cursor-pointer rounded-md">
+                                <Ban className="mr-2 h-4 w-4" /> Reactivate User
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuGroup>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

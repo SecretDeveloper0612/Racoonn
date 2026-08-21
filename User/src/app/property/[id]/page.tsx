@@ -9,18 +9,16 @@ import {
   Waves,
   ChevronDown,
   Info,
-  ShieldCheck,
-  BedDouble,
-  Zap
+  BedDouble
 } from 'lucide-react';
-import RoomImageSlider from '@/components/property/RoomImageSlider';
+
 import PropertyDescription from '@/components/property/PropertyDescription';
 import PropertyFilterBar from '@/components/property/PropertyFilterBar';
 import PropertyPhotoGallery from '@/components/property/PropertyPhotoGallery';
 import PropertyReviews from '@/components/property/PropertyReviews';
 import PropertyAmenities from '@/components/property/PropertyAmenities';
 import PropertyHeaderActions from '@/components/property/PropertyHeaderActions';
-import ReserveButton from '@/components/property/ReserveButton';
+
 import RoomListWithAvailability from '@/components/property/RoomListWithAvailability';
 import VendorPromoPopup from '@/components/property/VendorPromoPopup';
 import { notFound } from 'next/navigation';

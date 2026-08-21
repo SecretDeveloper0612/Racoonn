@@ -51,7 +51,6 @@ const INDIAN_BANKS = [
 export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
   const { profile } = useAuthStore();
   const [verified, setVerified] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [payoutMethod, setPayoutMethod] = useState<"bank" | "upi">("bank");
   const [bankName, setBankName] = useState("HDFC Bank");
   const [bankSearch, setBankSearch] = useState("");
@@ -82,7 +81,6 @@ export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: (
       return;
     }
     
-    setIsLoading(true);
     try {
       await databases.updateDocument(
         appwriteConfig.databaseId,
@@ -140,8 +138,6 @@ export function Step8Banking({ onNext, onBack }: { onNext: () => void, onBack: (
     } catch (e) {
       console.error(e);
       onNext();
-    } finally {
-      setIsLoading(false);
     }
   };
 

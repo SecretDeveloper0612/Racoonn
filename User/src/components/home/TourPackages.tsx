@@ -48,7 +48,12 @@ export default function TourPackages() {
       const res = await fetch("/api/cms/packages");
       const json = await res.json();
       if (json.success && Array.isArray(json.packages)) {
-        const publishedOnly = json.packages.filter((p: Record<string, unknown>) => p.status === 'published');
+        const publishedOnly = json.packages.filter((p: Record<string, unknown>) => {
+          if (p.status !== 'published') return false;
+          const title = String(p.title || p.metaTitle || '').toLowerCase();
+          if (title.startsWith('cms ')) return false;
+          return true;
+        });
         const mapped: MappedPackage[] = publishedOnly.map((cmsPkg: Record<string, unknown>) => {
           const pricing = Array.isArray(cmsPkg.pricing) ? cmsPkg.pricing : [];
           const itinerary = Array.isArray(cmsPkg.itinerary) ? cmsPkg.itinerary : [];

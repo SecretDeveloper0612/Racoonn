@@ -78,7 +78,7 @@ export async function getAdminSession() {
     const sessionCookie = cookieStore.get(ADMIN_SESSION_COOKIE);
     if (!sessionCookie || !sessionCookie.value) return null;
     return JSON.parse(sessionCookie.value);
-  } catch (e) {
+  } catch {
     return null;
   }
 }

@@ -55,7 +55,6 @@ export function Step3Business({ onNext, onBack }: { onNext: () => void, onBack: 
     const cleanAlphanumeric = normText.replace(/[^A-Z0-9]/g, '');
     const rawAlphanumeric = upperText.replace(/[^A-Z0-9]/g, '');
     const cleanDigits = normText.replace(/[^0-9]/g, '');
-    const rawDigits = upperText.replace(/[^0-9]/g, '');
 
     // Strict PAN card detection (standalone 10-char PAN token or specific PAN keywords)
     const hasPanFormat = /\b[A-Z]{5}[0-9]{4}[A-Z]\b/.test(upperText) || /\b[A-Z]{5}[0-9]{4}[A-Z]\b/.test(normText);

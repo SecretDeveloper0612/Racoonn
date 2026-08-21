@@ -359,7 +359,7 @@ function SearchContent() {
       </div>
 
       {/* Main Split Layout */}
-      <div className="flex-1 overflow-hidden lg:overflow-visible relative flex flex-col lg:flex-row w-full lg:px-6 lg:pb-6 lg:pt-4 lg:gap-6">
+      <div className="flex-1 overflow-hidden relative flex flex-col lg:flex-row w-full lg:px-6 lg:pb-6 lg:pt-4 lg:gap-6">
         
         {/* Map Panel — fills full area on mobile (behind sheet), flex item on desktop */}
         <div
@@ -377,7 +377,7 @@ function SearchContent() {
         {/* Property List — absolute bottom sheet on mobile, flex item on desktop */}
         <div
           className="absolute left-0 right-0 flex flex-col bg-slate-50 rounded-t-[32px]
-            lg:static lg:h-full lg:w-[55%] xl:w-[60%]
+            lg:static lg:h-full lg:min-h-0 lg:w-[55%] xl:w-[60%]
             lg:rounded-2xl lg:border border-gray-200 lg:order-1
             lg:shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
           style={{
